@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", function (){
     dateMask.mask(document.querySelector('.date'))
 });
 
+document.addEventListener("DOMContentLoaded", function (){
+    var fiscalMask = new Inputmask("999.999.999");
+    fiscalMask.mask(document.querySelector('#fiscal'))
+});
+
 window.PerfectScrollbar = PerfectScrollbar
 
 document.addEventListener('alpine:init', () => {

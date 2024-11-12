@@ -22,7 +22,6 @@ class DiagnosticController extends Controller
      */
     public function create()
     {
-        // $categories = Diagnostic::all();
         return view('diagnostic.create');
     }
 

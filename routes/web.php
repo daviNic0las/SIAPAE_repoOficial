@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DiagnosticController;
+use App\Http\Controllers\RecordController;
+use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckAdmin;
@@ -39,7 +42,8 @@ Route::middleware('auth')->group(function () {
     // User Access:
     Route::resources([
         'student' => StudentController::class,
-        'diagnostic' => DiagnosticController::class
+        'diagnostic' => DiagnosticController::class,
+        'record' => RecordController::class
     ]);
 
     // Admin Access:
@@ -47,6 +51,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin', function() {
             return view('forbidden');
         })->name('adminsla');
+
+        Route::resources([
+            'donation' => DonationController::class,
+            'expense' => ExpenseController::class
+        ]);
     });
 
     // Not Found:

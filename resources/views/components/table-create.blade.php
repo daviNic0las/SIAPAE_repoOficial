@@ -2,10 +2,11 @@
 $title: string que define o título da tabela.
 
 $labelsVariablesTypes: Um array de arrays que contém respectivamente o label, nome na tabela e o tipo do input de um determinado item
-ex: [['Nome do Aluno', 'name', 'text'], ['..','..','....'], ..]
+ex: [['Nome do Aluno', 'name', 'text', 'Ex: João'], ['..','..','....', '...'], ..]
 $itens[0] -> Label para o campo
 $itens[1] -> Nome do campo na Database
 $itens[2] -> Type do input
+$itens[3] -> Nome no placeholder (opcional, caso o label para o campo seja estranho) 
 
 $actionRoute: Contém a URL ou rota para onde o botão "Adicionar" deve redirecionar. ex:
 route('dashboard')
@@ -16,7 +17,7 @@ route('dashboard')
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-2xl font-bold leading-tight">Adicionar novo {{ $title }}</h1>
+                    <h1 class="text-2xl font-bold leading-tight">Adicionar novo(a) {{ $title }}</h1>
 
                     <x-button onclick="goToUrl('{{ route($actionRoute . '.index') }}')" variant="warning">
                         <p class="text-gray-900">
@@ -35,6 +36,8 @@ route('dashboard')
                 <form action="{{ route($actionRoute . '.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
+                    @if($onlyHead == "false")
+
                     @foreach ($labelsVariablesTypes as $itens)
                         <div class="mb-3">
                             <label for="{{ $itens[1] }}"
@@ -46,8 +49,8 @@ route('dashboard')
 
                                 <x-form.input type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
                                     value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400                                    
-                                            {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}" placeholder="{{ $itens[0] }}"
-                                    required />
+                                            {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}" 
+                                    placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
                             @elseif($itens[2] == "select")
 
@@ -65,9 +68,10 @@ route('dashboard')
                                 <div class="flex items-center">
                                     <x-form.button-image />
 
-                                    <input id="file-upload" type="file" name="{{ $itens[1] }}" value="{{ old($itens[1]) }}" accept="image/*" class="hidden" onchange="updateImageLabel(event)">
+                                    <input id="file-upload" type="file" name="{{ $itens[1] }}" value="{{ old($itens[1]) }}" class="hidden" onchange="updateImageLabel(event)">
+                                    
                                     <p id="label-image" class="ml-2 text-gray-700 dark:text-gray-500">
-                                        Nenhuma Imagem selecionada (*opcional)
+                                        Nenhuma {{$itens[1] == "image" ? 'Imagem' : $title}} Selecionada (*opcional)
                                     </p>
                                 </div>
                             @else
@@ -79,6 +83,10 @@ route('dashboard')
                             @enderror
                         </div>
                     @endforeach
+
+                    @elseif($onlyHead == "true")
+                        {{$slot}}
+                    @endif
                     
                     <div>
                         <x-button type="submit" variant="blue" class="w-full mt-2">

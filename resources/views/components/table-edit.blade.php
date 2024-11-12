@@ -35,10 +35,12 @@ route('dashboard')
                     </div>
                 @endif
 
-                <form action="{{ route($actionRoute . '.update', [$actionRoute = $elementEdit->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route($actionRoute . '.update', [$actionRoute => $elementEdit->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
+                    @if ($onlyHead == "false")
+                    
                     @foreach ($labelsVariablesTypes as $itens)
                     
                         <div class="mb-3">
@@ -51,8 +53,8 @@ route('dashboard')
 
                                 <x-form.input type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
                                     value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" class="w-full dark:text-gray-400                                    
-                                    {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}" placeholder="{{ $itens[0] }}"
-                                    required />
+                                    {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}" 
+                                    placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
                             @elseif($itens[2] == "select")
                                 
@@ -71,13 +73,16 @@ route('dashboard')
                                     <x-form.button-image />
 
                                     <input id="file-upload" type="file" name="{{ $itens[1] }}" value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" 
-                                    accept="image/*" class="hidden" onchange="updateImageLabel(event)">
-                                    <p id="label-image" class="ml-2 text-gray-700 dark:text-gray-500" value>
-                                        Nenhuma Imagem selecionada (*opcional)
+                                    class="hidden" onchange="updateImagePreview(event); updateImageLabel(event)">
+                                    
+                                    <p id="label-image" class="ml-2 text-gray-700 dark:text-gray-500">
+                                        Nenhuma Nova {{$itens[1] == "image" ? 'Imagem' : 'Ata de Reunião'}} Selecionada (*opcional)
                                     </p>
                                 </div>
+
+                                <img id="image-preview" class="rounded-full w-32 h-32 imagemfulera" src="{{ asset('img/' . $actionRoute . '/' . $elementEdit->{$itens[1]}) }}" alt=".">
                             @else
-                                <p value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}">O campo escolhido não existe no componente</p>
+                                <p> O campo escolhido não existe no componente </p>
                             @endif
 
                             @error($itens[1])
@@ -85,10 +90,14 @@ route('dashboard')
                             @enderror
                         </div>
                     @endforeach
+
+                    @elseif($onlyHead == "true")
+                        {{$slot}}
+                    @endif   
                     
                     <div>
                         <x-button type="submit" variant="blue" class="w-full mt-2">
-                            <p class="text-center w-full">Adicionar</p>
+                            <p class="text-center w-full"> Atualizar </p>
                         </x-button>
                     </div>
 

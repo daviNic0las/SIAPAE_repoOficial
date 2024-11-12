@@ -29,7 +29,7 @@
                         <x-form.input
                             withicon
                             id="email"
-                            class="block w-full"
+                            class="block w-full text-gray-800 dark:text-gray-300"
                             type="email"
                             name="email"
                             :value="old('email')"
@@ -41,7 +41,7 @@
                 </div>
 
                 <div>
-                    <x-button class="justify-center w-full">
+                    <x-button class="justify-center w-full dark:text-gray-300">
                         {{ __('Email Password Reset Link') }}
                     </x-button>
                 </div>

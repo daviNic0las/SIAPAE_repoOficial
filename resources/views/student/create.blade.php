@@ -3,8 +3,8 @@
     <x-table-create
         title="Aluno"
         :labelsVariablesTypes="[
-            ['Nome do Aluno', 'name', 'text'],
-            ['Data de Nascimento', 'date_of_birth', 'date'],
+            ['Nome do Aluno', 'name', 'text', 'Ex: João'],
+            ['Data de Nascimento', 'date_of_birth', 'date', 'Ex: 01/01/2001'],
             ['Turma', 'class', 'text'],
             ['ID do Estudante', 'student_id', 'number'],
             ['Escola', 'school', 'text'],
@@ -12,6 +12,7 @@
             ['Imagem do Estudante', 'image', 'file']
         ]"
         :selects="$diagnostics"
+        onlyHead="false"
         actionRoute="student">
     </x-table-create>
     

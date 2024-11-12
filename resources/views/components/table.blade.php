@@ -18,11 +18,26 @@ route('dashboard')
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }}</h1>
+                    <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }} </h1>
                     @if($actionRoute)
                         <x-button onclick="goToUrl( '{{route($actionRoute . '.create')}}' )" variant="blue">
                             <div class="dark:text-gray-100">
-                                Adicionar {{ rtrim($title, 's') }}
+
+                                @php
+                                $ultimaPalavra = last(explode(' ', $title)); // Pega a última palavra da frase
+
+                                // Se a última palavra terminar com "ões", substitui por "ão"
+                                if (preg_match('/ões$/', $ultimaPalavra)) {
+                                $frase = preg_replace('/ões$/', 'ão', $title);
+                                }
+                                // Se a última palavra terminar com "s", remove o "s"
+                                elseif (preg_match('/s$/', $ultimaPalavra)) {
+                                $frase = rtrim($title, 's');
+                                } 
+                                @endphp
+
+                                Adicionar {{$frase}}
+
                             </div>
                         </x-button>
                     @endif
@@ -60,11 +75,10 @@ route('dashboard')
                                 @endif
 
                                 @foreach ($variablesDB as $variable)
-
                                     <td
                                         class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                                        @if ($variable == "date_of_birth")
-                                            {{ \Carbon\Carbon::parse($row->date_of_birth)->format('d/m/Y') }}
+                                        @if ($variable == "date_of_birth" || $variable == "date_of_emission")
+                                            {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
                                         @elseif ($variable == "image")
                                             <div class="flex justify-center items-center">
@@ -74,11 +88,16 @@ route('dashboard')
 
                                             </div>
 
+                                        @elseif ($variable == "price")
+                                            <div class="price" class="flex justify-center items-center">
+                                                {{ $row->{$variable} }}
+                                            </div>
+
                                         @elseif ($variable == "diagnostic->name")
                                             {{ $row->diagnostic->name }}
 
                                         @else
-                                            {{ $row->$variable }} <!-- Exibe o valor de forma normal (string) -->
+                                            {{ $row->$variable ?? '------' }} <!-- Exibe o valor de forma normal (string) -->
                                         @endif
                                     </td>
 
@@ -86,7 +105,8 @@ route('dashboard')
 
                                 @if($actionRoute)
                                     <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
-                                        <x-button onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}' )"
+                                        <x-button
+                                            onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}' )"
                                             variant="warning">
                                             <p class="text-gray-900">
                                                 {{ __('Editar') }}
@@ -110,7 +130,8 @@ route('dashboard')
                             </tr>
                         @empty
                             <tr class="text-center ">
-                                <td class="p-3 font-bold" colspan="{{ count($headers) + ($actionRoute ? 2 : 0) }}">
+                                <td class="p-3 font-normal dark:text-gray-300"
+                                    colspan="{{ count($headers) + ($actionRoute ? 2 : 0) }}">
                                     Nenhum registro encontrado.
                                 </td>
                             </tr>

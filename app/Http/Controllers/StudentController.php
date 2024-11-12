@@ -15,8 +15,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::with('diagnostic')->orderBy('id', 'asc')->get();
-        $total = Student::count();
-        return view('student.home', compact(['students', 'total']));
+        return view('student.home', compact('students'));
     }
     public function create()
     {
@@ -39,8 +38,7 @@ class StudentController extends Controller
 
         } else {
             $data['image'] = "Foto_Desconhecido.jpg";
-        }
-        ;
+        };
 
         $input = Student::create($data);
         if ($input) {
