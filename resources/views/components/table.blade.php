@@ -77,7 +77,7 @@ route('dashboard')
                                 @foreach ($variablesDB as $variable)
                                     <td
                                         class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                                        @if ($variable == "date_of_birth" || $variable == "date_of_emission")
+                                        @if ($variable == "date_of_birth" || $variable == "date_of_emission" ||$variable == "date" )
                                             {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
                                         @elseif ($variable == "image")
