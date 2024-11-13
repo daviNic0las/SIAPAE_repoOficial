@@ -54,6 +54,16 @@
         </x-slot>
     </x-sidebar.link>
 
+    <x-sidebar.link
+        title="{{__('Anamnesis')}}"
+        href="{{route('example.link')}}"
+        :isActive="request()->routeIs('teste')"
+    >
+        <x-slot name="icon">
+            <x-icons.anamnesis class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+    </x-sidebar.link>
+
     <!-- Transition - REUNIÕES -->
 
     <div

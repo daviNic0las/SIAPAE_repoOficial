@@ -19,8 +19,8 @@ route('dashboard')
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }} </h1>
-                    @if($actionRoute)
-                        <x-button onclick="goToUrl( '{{route($actionRoute . '.create')}}' )" variant="blue">
+                    @if(isset($actionRoute))
+                        <x-button onclick="show( '{{route($actionRoute . '.create')}}' )" variant="blue">
                             <div class="dark:text-gray-100">
 
                                 @php
@@ -58,7 +58,7 @@ route('dashboard')
                                 </th>
                             @endforeach
 
-                            @if($actionRoute)
+                            @if(isset($actionRoute))
                                 <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
                                     Ações </th>
                             @endif
@@ -66,7 +66,8 @@ route('dashboard')
                     </thead>
                     <tbody>
                         @forelse ($rows as $row)
-                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-300">
+                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 {{ isset($withShow) ? 'cursor-pointer' : ''}} transition duration-300"
+                                @if(isset($withShow)) onclick="goToUrl('{{route($actionRoute ?? '' . '.show', [$actionRoute => $row->id])}}')" @endif>
 
                                 @if($iteration == "true")
                                     <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
@@ -77,7 +78,7 @@ route('dashboard')
                                 @foreach ($variablesDB as $variable)
                                     <td
                                         class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                                        @if ($variable == "date_of_birth" || $variable == "date_of_emission")
+                                        @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date")
                                             {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
                                         @elseif ($variable == "image")
@@ -89,21 +90,22 @@ route('dashboard')
                                             </div>
 
                                         @elseif ($variable == "price")
-                                            <div class="price" class="flex justify-center items-center">
-                                                {{ $row->{$variable} }}
+                                            <div class="flex justify-center items-center">
+                                                {{ 'R$ ' . number_format($row->{$variable}, 2, ',', '.') }}
                                             </div>
 
                                         @elseif ($variable == "diagnostic->name")
                                             {{ $row->diagnostic->name }}
 
                                         @else
-                                            {{ $row->$variable ?? '------' }} <!-- Exibe o valor de forma normal (string) -->
+                                            {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 15) }} 
+                                            <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
                                         @endif
                                     </td>
 
                                 @endforeach
 
-                                @if($actionRoute)
+                                @if(isset($actionRoute))
                                     <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
                                         <x-button
                                             onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}' )"
@@ -131,7 +133,7 @@ route('dashboard')
                         @empty
                             <tr class="text-center ">
                                 <td class="p-3 font-normal dark:text-gray-300"
-                                    colspan="{{ count($headers) + ($actionRoute ? 2 : 0) }}">
+                                    colspan="{{ count($headers) + (isset($actionRoute) ? 2 : 0) }}">
                                     Nenhum registro encontrado.
                                 </td>
                             </tr>

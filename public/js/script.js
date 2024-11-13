@@ -1,7 +1,13 @@
-function goToUrl(route) {
+function show(route) {
     window.location.href = route;
 }
 
+function goToUrl(route) {
+    event.stopPropagation();
+    window.location.href = route;
+}
+
+//Atualiza o nome a direita do input tipo file com o nome do arquivo
 function updateImageLabel(event) {
 
     const fileInput = event.target;
@@ -49,33 +55,25 @@ const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
         currency
     }).format(valor)
 }
-// Pega o valor do preço
-const preco = document.getElementById('price').getAttribute('data-preco');
-        
-// Converte o valor para número e formata como moeda
-const precoFormatado = maskCurrency(parseFloat(preco));
 
-// Exibe o preço formatado no elemento com id "preco"
-document.getElementById('price').textContent = precoFormatado;
-
-
+//Para algumas views do expense para ocultar alguns campos de acordo com o seu id
 document.addEventListener('DOMContentLoaded', function() {
-    // Pega o valor do tipo de gasto selecionado
+    
     var tipoGasto = document.getElementById('tipo_gasto').value;
 
     // Função para ocultar todos os campos
     function ocultarCampos() {
         document.getElementById('campo_recibo').style.display = 'none';
-        document.getElementById('campo_fiscal').style.display = 'none';
+        document.getElementById('campo_nota_fiscal').style.display = 'none';
     }
 
     // Mostrar o campo correto baseado no tipo de gasto
     function mostrarCampos(tipoGasto) {
         ocultarCampos(); // Primeiro, esconder todos os campos
 
-        if (tipoGasto === 'nota_fiscal') {
-            document.getElementById('campo_fiscal').style.display = 'block';
-        } else if (tipoGasto === 'recibo') {
+        if (tipoGasto === 'Nota Fiscal') {
+            document.getElementById('campo_nota_fiscal').style.display = 'block';
+        } else if (tipoGasto === 'Recibo') {
             document.getElementById('campo_recibo').style.display = 'block';
         } 
     }
@@ -88,24 +86,3 @@ document.addEventListener('DOMContentLoaded', function() {
         mostrarCampos(this.value);
     });
 });
-
-
-// $(document).ready(function() {
-//     // Quando o tipo de gasto for alterado
-//     $('#tipo_gasto').change(function() {
-//         var tipoGasto = $(this).val(); // Valor selecionado no select
-        
-//         // Escondendo todos os campos
-//         $('#campo_fiscal').hide();
-//         $('#campo_recibo').hide();
-//         console.log(tipoGasto)
-        
-//         // Mostrando os campos correspondentes ao tipo selecionado
-//         if (tipoGasto == 'nota_fiscal') {
-//             $('#campo_fiscal').show();
-
-//         } else if (tipoGasto == 'recibo') {
-//             $('#campo_recibo').show();
-//         }
-//     });
-// });

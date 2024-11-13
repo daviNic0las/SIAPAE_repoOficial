@@ -6,6 +6,7 @@
         :rows="$expenses" 
         :variables_DB="['date_of_emission', 'type', 'fiscal_number', 'enterprise', 'description', 'price']"
         iteration="false"
+        withShow
         actionRoute="expense">
     </x-table>
 

@@ -2,7 +2,7 @@
 
     <x-table-create 
         title="Gasto" 
-        onlyHead="true" 
+        onlyHead
         actionRoute="expense">
 
         <!-- Select para escolher o tipo de gasto -->
@@ -12,11 +12,11 @@
             </label>
 
             <x-form.select idSelect="tipo_gasto" valueName="type">
-                <option value="nota_fiscal" {{ old('tipo_gasto', 'nota_fiscal') == 'nota_fiscal' ? 'selected' : '' }}>
+                <option value="Nota Fiscal" {{ old('tipo_gasto', 'Nota Fiscal') == 'Nota Fiscal' ? 'selected' : '' }}>
                     Nota Fiscal
                 </option>
 
-                <option value="recibo" {{ old('tipo_gasto') == 'recibo' ? 'selected' : '' }}>
+                <option value="Recibo" {{ old('tipo_gasto') == 'Recibo' ? 'selected' : '' }}>
                     Recibo
                 </option>
             </x-form.select>
@@ -38,7 +38,7 @@
             @enderror
         </div>
 
-        <div id="campo_fiscal">
+        <div id="campo_nota_fiscal">
             <div class="mb-3">
                 <label for="fiscal" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
                     Número da Nota:

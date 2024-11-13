@@ -5,8 +5,7 @@
         :headers="['Nome', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']" 
         :rows="$donations" 
         :variables_DB="['name']"
-        iteration="true"
-        actionRoute="donation">
+        iteration="true">
     </x-table>
 
 </x-app-layout>

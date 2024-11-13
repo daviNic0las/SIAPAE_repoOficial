@@ -39,7 +39,7 @@ route('dashboard')
                     @csrf
                     @method('PUT')
 
-                    @if ($onlyHead == "false")
+                    @if (isset($onlyHead) == 0)
                     
                     @foreach ($labelsVariablesTypes as $itens)
                     
@@ -74,9 +74,9 @@ route('dashboard')
 
                                     <input id="file-upload" type="file" name="{{ $itens[1] }}" value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" 
                                     class="hidden" onchange="updateImagePreview(event); updateImageLabel(event)">
-                                    
+
                                     <p id="label-image" class="ml-2 text-gray-700 dark:text-gray-500">
-                                        Nenhuma Nova {{$itens[1] == "image" ? 'Imagem' : 'Ata de Reunião'}} Selecionada (*opcional)
+                                        {{ old($itens[1], $elementEdit->{$itens[1]}) }}
                                     </p>
                                 </div>
 
@@ -91,7 +91,7 @@ route('dashboard')
                         </div>
                     @endforeach
 
-                    @elseif($onlyHead == "true")
+                    @else
                         {{$slot}}
                     @endif   
                     

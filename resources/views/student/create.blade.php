@@ -12,7 +12,6 @@
             ['Imagem do Estudante', 'image', 'file']
         ]"
         :selects="$diagnostics"
-        onlyHead="false"
         actionRoute="student">
     </x-table-create>
     

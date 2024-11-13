@@ -29,7 +29,7 @@ class RecordRequest extends FormRequest
                 'max:255',
             ],
             'date' => 'required|min:1',
-            'file' => 'required|mimes:pdf,docx,doc|max:10800',
+            'file' => 'nullable|mimes:pdf,docx,doc|max:10800',
         ];
         
         return $rules;

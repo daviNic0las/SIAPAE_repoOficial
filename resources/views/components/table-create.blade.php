@@ -36,7 +36,7 @@ route('dashboard')
                 <form action="{{ route($actionRoute . '.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    @if($onlyHead == "false")
+                    @if(isset($onlyHead) == 0)
 
                     @foreach ($labelsVariablesTypes as $itens)
                         <div class="mb-3">
@@ -84,7 +84,7 @@ route('dashboard')
                         </div>
                     @endforeach
 
-                    @elseif($onlyHead == "true")
+                    @else
                         {{$slot}}
                     @endif
                     

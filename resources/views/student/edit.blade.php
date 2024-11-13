@@ -12,8 +12,7 @@
             ['Diagnóstico', 'diagnostic_id', 'select'],
             ['Imagem do Estudante', 'image', 'file']
         ]" 
-        :selects="$diagnostics" 
-        onlyHead="false"
+        :selects="$diagnostics"
         actionRoute="student">
     </x-table-edit>
 

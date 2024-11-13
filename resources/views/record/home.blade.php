@@ -6,7 +6,6 @@
         :rows="$records" 
         :variables_DB="['name', 'date', 'file']"
         iteration="false"
-        onlyHead="false"
         actionRoute="record">
     </x-table>
  

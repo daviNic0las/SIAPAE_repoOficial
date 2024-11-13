@@ -9,7 +9,6 @@
             ['Arquivo da Ata', 'file', 'file']
         ]" 
         :selects="$record" 
-        onlyHead="false"
         actionRoute="record">
     </x-table-edit>
 

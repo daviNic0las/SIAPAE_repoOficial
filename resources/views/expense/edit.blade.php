@@ -3,7 +3,7 @@
     <x-table-edit 
         title="Gasto"
         :elementEdit="$expense" 
-        onlyHead="true"
+        onlyHead
         actionRoute="expense">
     
         <!-- Select para escolher o tipo de gasto -->
@@ -13,11 +13,11 @@
             </label>
 
             <x-form.select idSelect="tipo_gasto" valueName="type">
-                <option value="nota_fiscal" {{ old('tipo_gasto', $expense->type) == 'nota_fiscal' ? 'selected' : '' }}>
+                <option value="Nota Fiscal" {{ old('tipo_gasto', $expense->type) == 'Nota Fiscal' ? 'selected' : '' }}>
                     Nota Fiscal
                 </option>
 
-                <option value="recibo" {{ old('tipo_gasto', $expense->type) == 'recibo' ? 'selected' : '' }}>
+                <option value="Recibo" {{ old('tipo_gasto', $expense->type) == 'Recibo' ? 'selected' : '' }}>
                     Recibo
                 </option>
             </x-form.select>
@@ -39,7 +39,7 @@
             @enderror
         </div>
 
-        <div id="campo_fiscal">
+        <div id="campo_nota_fiscal">
             <div class="mb-3">
                 <label for="fiscal" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
                     Número da Nota:
@@ -83,7 +83,7 @@
             <label for="price" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
                 Valor:
             </label>
-            <x-form.input type="text" id="price" name="price" value="{{ old('price', $expense->price) }}" class="w-full dark:text-gray-400"
+            <x-form.input type="text" id="price" name="price" value="{{ old('price', 'R$ ' . number_format($expense->price, 2, ',', '.') ) }}" class="w-full dark:text-gray-400"
                 required placeholder="Ex: 49,99"  oninput="mascaraMoeda(event)"/>
 
             @error("price")

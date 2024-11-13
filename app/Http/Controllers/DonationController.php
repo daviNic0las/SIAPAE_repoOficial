@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Donation;
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class DonationController extends Controller
@@ -13,7 +14,11 @@ class DonationController extends Controller
      */
     public function index()
     {
-        $donations = Donation::orderBy('id', 'asc')->get();
+        $donations = Donation::with('student')
+            ->join('students', 'donations.student_id', '=', 'students.id')  // Realizando o join com a tabela de partners
+            ->orderBy('students.name', 'asc')  // Ordenando pelo nome do parceiro
+            ->get();
+        dd($donations);
         return view('donation.home', compact('donations'));
     }
 

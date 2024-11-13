@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->default('nota-fiscal');
+            $table->string('type');
             $table->decimal('price', total: 7, places: 2);
             $table->date('date_of_emission');
             $table->string('fiscal_number')->nullable();

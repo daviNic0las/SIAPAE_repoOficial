@@ -35,18 +35,19 @@ class RecordController extends Controller
 
             $file = $request->file('file');
             $fileName = $request->file->getClientOriginalName();
-            
+
             $file->move(public_path('file/record/'), $fileName);
             $data['file'] = $fileName;
 
-        };
+        }
+        ;
 
         $input = Record::create($data);
         if ($input) {
-            session()->flash('success','Ata adicionada com sucesso');
+            session()->flash('success', 'Ata adicionada com sucesso');
             return redirect()->route('record.index');
         } else {
-            session()->flash('error','Falha na criação');
+            session()->flash('error', 'Falha na criação');
             return redirect()->route('record.create');
         }
     }
@@ -86,20 +87,22 @@ class RecordController extends Controller
             //Remove old images
             \File::delete(public_path($destination));
 
-        };
-        $file = $request->file('file');
-        $fileName = $request->file->getClientOriginalName();
-            
-        $file->move(public_path('file/record/'), $fileName);
-        $data['file'] = $fileName;
+            $file = $request->file('file');
+            $fileName = $request->file->getClientOriginalName();
 
+            $file->move(public_path('file/record/'), $fileName);
+            $data['file'] = $fileName;
+
+        } else {
+            $data['file'] = $record['file'];
+        }
 
         $input = $record->update($data);
         if ($input) {
             session()->flash('success', 'Ata atualizada com sucesso!');
             return redirect()->route('record.index');
         } else {
-            session()->flash('error','Falha na edição');
+            session()->flash('error', 'Falha na edição');
             return redirect()->route('record.edit');
         }
     }
@@ -113,7 +116,8 @@ class RecordController extends Controller
         if ($data->file) {
             $destination = public_path('file/record/' . $data->file);
             unlink($destination);
-        };
+        }
+        ;
 
 
         $input = Record::findOrFail($id)->delete();

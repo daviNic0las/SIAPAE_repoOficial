@@ -6,7 +6,6 @@
         :labelsVariablesTypes="[
             ['Nome do Diagnóstico', 'name', 'text', 'Ex: Autismo']
         ]" 
-        onlyHead="false"
         actionRoute="diagnostic"
     />
 
