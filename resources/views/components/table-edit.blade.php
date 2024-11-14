@@ -35,7 +35,7 @@ route('dashboard')
                     </div>
                 @endif
 
-                <form id="dateForm" action="{{ route($actionRoute . '.update', [$actionRoute => $elementEdit->id]) }}" method="POST" enctype="multipart/form-data">
+                <form id="dateEditForm" action="{{ route($actionRoute . '.update', [$actionRoute => $elementEdit->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -51,13 +51,13 @@ route('dashboard')
 
                             @if($itens[2] != "select" && $itens[2] != "file")
 
-                                <x-form.input id="{{ $itens[2] == 'date' ? 'dateInput' : '' }}" type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
+                                <x-form.input id="{{ $itens[2] == 'date' ? 'dateEditInput' : '' }}" type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
                                     value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" class="w-full dark:text-gray-400                                    
                                     {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}" 
                                     placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
                                 @if($itens[2] == 'date')
-                                    <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre 1960 e 2200.</span>
+                                    <span id="errorEditMessage" style="color: red; display: none;">Data inválida. Insira uma data entre 1960 e 2200.</span>
                                 @endif
 
                             @elseif($itens[2] == "select")
@@ -111,23 +111,32 @@ route('dashboard')
     </div>
 </div>
 
-<script>
-    document.getElementById('dateForm').addEventListener('submit', function(event) {
-        event.preventDefault();
 
-        const dateInput = document.getElementById('dateInput');
-        const errorMessage = document.getElementById('errorMessage');
+<script>
+    document.getElementById('dateEditForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const dateInput = document.getElementById('dateEditInput');
+    const errorMessage = document.getElementById('errorEditMessage');
+
+    // Verifica se o campo de data está presente
+    if (dateInput) {
         const dateValue = new Date(dateInput.value);
         const minDate = new Date('1960-01-01');
         const maxDate = new Date('2200-12-31');
 
         if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
             errorMessage.style.display = 'inline';
+            return; // Previne o envio do formulário se a data for inválida
         } else {
             errorMessage.style.display = 'none';
-            this.submit();
         }
-    });
+    }
+
+    // Se não houver campo de data ou a data for válida, envie o formulário
+    this.submit();
+});
+
 </script>
 
 
