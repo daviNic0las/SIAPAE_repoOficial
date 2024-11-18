@@ -115,8 +115,9 @@ route('dashboard')
             event.preventDefault();
 
             const dateInput = document.getElementById('dateInput');
+            const dateFormated = \Carbon\Carbon::createFromFormat('d/m/Y', dateInput)->format('Y-m-d');
             const errorMessage = document.getElementById('errorMessage');
-            const dateValue = new Date(dateInput.value);
+            const dateValue = new Date(dateFormated.value);
             const minDate = new Date('1960-01-01');
             const maxDate = new Date('2200-12-31');
 

@@ -2,9 +2,9 @@
 
 °Atenção!!! Este documento não irá tratar de nenhum detalhe sobre o site feito em WordPress, o mesmo possui sua própria documentação à parte.
 
-----------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
 Sumário:
-1. Introdução:
+1.0 Introdução:
 
 1.1 Regras.
 
@@ -20,9 +20,13 @@ Sumário:
 
 2.2 Passos detalhados para a instalação.
 
-2.3 Configuração inicial e setup.
+3.0 Uso:
 
-----------------------------------------------------------------------------------------------------
+3.1 Instruções de uso.
+
+3. 2 Funcionalidades principais. 
+
+------------------------------------------------------------------------------------------------
 1.0 Introdução
 
 1.1: Regras:
@@ -51,9 +55,15 @@ O propósito do SIAPAE é simplificar e digitalizar processos na APAE (ex. Anamn
 2.0 Instalação
 
 2.1 Requisitos de sistema:
-A pasta que possui o sistema completo é leve (menos de 300MB), e pode ser facilmente instalada nas máquinas da instituição, porém programas como o VSCode são muito pesados para suportarem, ou seja se possível traga um notebook pessoal para trabalhar com esse sistema. Caso isso não seja possível, você pode tentar usar os computadores da APAE ou conversar com seu orientador sobre outra possibilidade. Além disso é necessário que você tenha previamente instlado os programas: PHP, Composer, Node JS e que tenha feito as devidas modificações para o pleno funcionamento do Laravel em seu PC.
+A pasta que possui o sistema completo é leve (menos de 300MB), e pode ser facilmente instalada nas máquinas da instituição, porém programas como o VSCode são muito pesados para suportarem, ou seja se possível traga um notebook pessoal para trabalhar com esse sistema. Caso isso não seja possível, você pode tentar usar os computadores da APAE ou conversar com seu orientador sobre outra possibilidade. Além disso é necessário que você tenha previamente instalado os programas: PHP, Composer, Node JS e que tenha feito as devidas modificações para o pleno funcionamento do Laravel em seu PC.
 
 2.2 Passos detalhados para a instalação:
-Instalação via GitHub, clique em Code, Download zip e após a instalação extraia o arquivo para a pasta com seus projetos de laravel (sugestão de nomes para a pasta: siapae,projApae,etc). Lembre-se que há mais de um método de instalação fornecido pelo próprio GitHub, caso saiba algum mais conveniente, aplique.
+Instalação via GitHub, clique em Code, Download zip e após a instalação extraia o arquivo para a pasta com seus projetos de laravel (sugestão de nomes para a pasta: siapae,projApae,etc). Lembre-se que há mais de um método de instalação fornecido pelo próprio GitHub, caso saiba algum mais conveniente (como o gitclone), aplique.
 
-2.3 Configuração inicial e setup:
+3.0 Uso:
+
+3.1 Instruções de uso:
+Para que o sistema funcione plenamente é necessário dois terminais em seu VSCode um para que você possa acionar o comando “php artisan serve” e o outro para o comando “npm run dev”. Caso ocorra algum problema ao tentar migrar as tabelas, o correto é checar o limite máximo do nome de uma tabela em app->Providers->AppServiceProvider.php, se mesmo assim o erro persistir busque na internet ou pergunte a uma inteligência artificial como prosseguir. Lembre-se de usar os comandos “composer install” e “npm install” para que os demais comandos funcionem corretamente. Também é importante que você gere uma chave no arquivo .env para que o sistema funcione normalmente o comando para utilizar é: “php artisan key:generate”, aliás no mesmo arquivo você deverá apagar os comentários (#) no trecho relacionado com o banco de dados e não esqueça de renomear o arquivo de “.env.example” para “.env” somente.
+
+3. 2 Funcionalidades principais:
+INACABADO
