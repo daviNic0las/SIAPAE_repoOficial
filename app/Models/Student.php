@@ -23,7 +23,9 @@ class Student extends Model
     
     public function diagnostic(): BelongsTo
     {
-        return $this->belongsTo(Diagnostic::class, 'diagnostic_id'); 
+        return $this->belongsTo(Diagnostic::class, 'diagnostic_id')->withDefault([ 
+        'name' => 'Diagnóstico não encontrado'
+    ]); // Permitir valor default caso null
     }
     public function donation(): HasMany
     {
