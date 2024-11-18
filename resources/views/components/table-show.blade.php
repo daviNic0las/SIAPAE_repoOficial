@@ -18,7 +18,7 @@ route('dashboard')
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-xl font-bold leading-tight">Informações de {{ $title }} </h1>
+                    <h1 class="text-xl font-bold leading-tight">Informações do(a) {{ $title }} </h1>
 
                     @if(isset($actionRoute))
                         <x-button onclick="goToUrl( '{{route($actionRoute . '.index')}}' )" variant="warning">

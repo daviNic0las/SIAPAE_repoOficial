@@ -3,7 +3,6 @@ function show(route) {
 }
 
 function goToUrl(route) {
-    event.stopPropagation();
     window.location.href = route;
 }
 

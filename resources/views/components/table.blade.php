@@ -19,28 +19,30 @@ route('dashboard')
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }} </h1>
+
                     @if(isset($actionRoute))
-                        <x-button onclick="show( '{{route($actionRoute . '.create')}}' )" variant="blue">
-                            <div class="dark:text-gray-100">
+                    <x-button onclick="goToUrl( '{{route($actionRoute . '.create')}}' )" variant="blue">
+                    <div class="dark:text-gray-100">
 
-                                @php
-                                $ultimaPalavra = last(explode(' ', $title)); // Pega a última palavra da frase
+                        @php
+                            $ultimaPalavra = last(explode(' ', $title)); // Pega a última palavra da frase
 
-                                // Se a última palavra terminar com "ões", substitui por "ão"
-                                if (preg_match('/ões$/', $ultimaPalavra)) {
-                                $frase = preg_replace('/ões$/', 'ão', $title);
-                                }
-                                // Se a última palavra terminar com "s", remove o "s"
-                                elseif (preg_match('/s$/', $ultimaPalavra)) {
+                            // Se a última palavra terminar com "ões", substitui por "ão"
+                            if (preg_match('/ões$/', $ultimaPalavra)) {
+                                 $frase = preg_replace('/ões$/', 'ão', $title);
+                            }
+                             // Se a última palavra terminar com "s", remove o "s"
+                            elseif (preg_match('/s$/', $ultimaPalavra)) {
                                 $frase = rtrim($title, 's');
-                                } 
-                                @endphp
+                            } 
+                        @endphp
 
-                                Adicionar {{$frase}}
+                        Adicionar {{$frase}}
 
-                            </div>
-                        </x-button>
+                    </div>
+                    </x-button>
                     @endif
+
                 </div>
                 <hr class="border-gray-300 dark:border-gray-500" />
 
@@ -64,80 +66,88 @@ route('dashboard')
                             @endif
                         </tr>
                     </thead>
+
                     <tbody>
-                        @forelse ($rows as $row)
-                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 {{ isset($withShow) ? 'cursor-pointer' : ''}} transition duration-300"
-                                @if(isset($withShow)) onclick="goToUrl('{{route($actionRoute ?? '' . '.show', [$actionRoute => $row->id])}}')" @endif>
 
-                                @if($iteration == "true")
-                                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                @endif
+                        @if (!isset($onlyHead))
+                            @forelse ($rows as $row)
+                                <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 {{ isset($withShow) ? 'cursor-pointer' : ''}} transition duration-300"
+                                    @if(isset($withShow))
+                                    onclick="goToUrl('{{route($actionRoute . '.show', [$actionRoute => $row->id])}}')" @endif>
 
-                                @foreach ($variablesDB as $variable)
-                                    <td
-                                        class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                                        @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date")
-                                            {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
+                                    @if($iteration == "true")
+                                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
+                                            {{ $loop->iteration }}
+                                        </td>
+                                    @endif
 
-                                        @elseif ($variable == "image")
-                                            <div class="flex justify-center items-center">
-                                                <img class="rounded-full w-12 h-12"
-                                                    src="{{ asset('img/' . $actionRoute . '/' . $row->image) }}"
-                                                    alt="Image not loaded">
+                                    @foreach ($variablesDB as $variable)
+                                        <td
+                                            class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
+                                            @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date")
+                                                {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
-                                            </div>
+                                            @elseif ($variable == "image")
+                                                <div class="flex justify-center items-center">
+                                                    <img class="rounded-full w-12 h-12"
+                                                        src="{{ asset('img/' . $actionRoute . '/' . $row->image) }}"
+                                                        alt="Image not loaded">
 
-                                        @elseif ($variable == "price")
-                                            <div class="flex justify-center items-center">
-                                                {{ 'R$ ' . number_format($row->{$variable}, 2, ',', '.') }}
-                                            </div>
-
-                                        @elseif ($variable == "diagnostic->name")
-                                            {{ $row->diagnostic->name }}
-
-                                        @else
-                                            {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 15) }} 
-                                            <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
-                                        @endif
-                                    </td>
-
-                                @endforeach
-
-                                @if(isset($actionRoute))
-                                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
-                                        <x-button
-                                            onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}' )"
-                                            variant="warning">
-                                            <p class="text-gray-900">
-                                                {{ __('Editar') }}
-                                            </p>
-                                        </x-button>
-
-                                        <form method="POST"
-                                            action="{{ route($actionRoute . '.destroy', [$actionRoute => $row->id]) }}"
-                                            accept-charset="UTF-8" style="display:inline">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-
-                                            <x-button type="submit" variant="danger" title="Deletar diagnóstico">
-                                                <div class="text-gray-100 dark:text-gray-200">
-                                                    {{ __('Deletar') }}
                                                 </div>
+
+                                            @elseif ($variable == "price")
+                                                <div class="flex justify-center items-center">
+                                                    {{ 'R$ ' . number_format($row->{$variable}, 2, ',', '.') }}
+                                                </div>
+
+                                            @elseif ($variable == "diagnostic->name")
+                                                {{ $row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name}}
+
+                                            @else
+                                                {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 15) }}
+                                                <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
+                                            @endif
+                                        </td>
+
+                                    @endforeach
+
+                                    @if(isset($actionRoute))
+                                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center" onclick="event.stopPropagation();">
+                                            <x-button
+                                                onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}' )"
+                                                variant="warning">
+                                                <p class="text-gray-900">
+                                                    {{ __('Editar') }}
+                                                </p>
                                             </x-button>
-                                        </form>
+
+                                            <form method="POST"
+                                                action="{{ route($actionRoute . '.destroy', [$actionRoute => $row->id]) }}"
+                                                accept-charset="UTF-8" style="display:inline">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+
+                                                <x-button type="submit" variant="danger" title="Deletar diagnóstico">
+                                                    <div class="text-gray-100 dark:text-gray-200">
+                                                        {{ __('Deletar') }}
+                                                    </div>
+                                                </x-button>
+                                            </form>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @empty
+                                <tr class="text-center ">
+                                    <td class="p-3 font-normal dark:text-gray-300"
+                                        colspan="{{ count($headers) + (isset($actionRoute) ? 2 : 0) }}">
+                                        Nenhum registro encontrado.
                                     </td>
-                                @endif
-                            </tr>
-                        @empty
-                            <tr class="text-center ">
-                                <td class="p-3 font-normal dark:text-gray-300"
-                                    colspan="{{ count($headers) + (isset($actionRoute) ? 2 : 0) }}">
-                                    Nenhum registro encontrado.
-                                </td>
-                            </tr>
-                        @endforelse
+                                </tr>
+                            @endforelse
+
+                        @else
+                            {{ $slot }}
+                        @endif
 
                     </tbody>
                 </table>

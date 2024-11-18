@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
-use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class DonationController extends Controller
@@ -16,9 +16,9 @@ class DonationController extends Controller
     {
         $donations = Donation::with('student')
             ->join('students', 'donations.student_id', '=', 'students.id')  // Realizando o join com a tabela de partners
+            ->select('donations.*','students.name')
             ->orderBy('students.name', 'asc')  // Ordenando pelo nome do parceiro
             ->get();
-        dd($donations);
         return view('donation.home', compact('donations'));
     }
 
@@ -41,9 +41,8 @@ class DonationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Donation $donation)
+    public function show(Request $request, $id)
     {
-        //
     }
 
     /**
@@ -57,9 +56,34 @@ class DonationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Donation $donation)
+    public function update(Request $request, $id)
     {
-        //
+        // $validated = $request->validate([
+        //     'preco' => 'nullable|numeric|max:6',
+        //     'field' => 'required|string|max:6',
+        // ]);
+
+        $donation = Donation::findOrFail($id);
+
+        if (!$donation) {
+            return response()->json(['message' => 'Doação não encontrada.'], 404);
+        }
+
+        //Convert 'price'
+        $preco = (float) $request->value;
+        $precoFormated = str_replace(',', '.', $preco);
+        $precoDecimal = number_format($preco, 2, '.', ',');
+        // Atualizar o campo específico
+        $donation->{$request->field} = (float) $precoFormated;
+
+        $input = $donation->save();
+        if ($input) {
+            session()->flash('success', 'Gasto atualizado com sucesso!');
+            return redirect()->route('donation.index');
+        } else {
+            session()->flash('error','Falha na edição');
+            return redirect()->route('donation.index');
+        }
     }
 
     /**

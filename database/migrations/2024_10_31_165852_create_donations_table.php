@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('student_id')->references('id')->on('students');
             $table->decimal('Jan', total: 7, places: 2)->nullable();
             $table->decimal('Fev', total: 7, places: 2)->nullable();
             $table->decimal('Mar', total: 7, places: 2)->nullable();

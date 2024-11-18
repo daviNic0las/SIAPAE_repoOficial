@@ -1,9 +1,6 @@
 <x-app-layout>
 
-    <x-table-create 
-        title="Gasto" 
-        onlyHead
-        actionRoute="expense">
+    <x-table-create title="Gasto" onlyHead actionRoute="expense">
 
         <!-- Select para escolher o tipo de gasto -->
         <div class="mb-3">
@@ -27,12 +24,14 @@
         </div>
 
         <div class="mb-3">
-            <label for="emission" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
+            <label for="dateInput" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
                 Data de emissão:
             </label>
-            <x-form.input id="emission" type="text" name="date_of_emission" value="{{ old('date_of_emission') }}"
+            <x-form.input id="dateInput" type="text" name="date_of_emission" value="{{ old('date_of_emission') }}"
                 class="w-full dark:text-gray-400 date" required placeholder="Ex: 01/01/2001" />
-            
+
+            <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre
+                1960 e 2200.</span>
             @error("date_of_emission")
                 <span class="text-red-600">{{$message}}</span>
             @enderror
@@ -48,7 +47,7 @@
 
                 @error("fiscal_number")
                     <span class="text-red-600">{{$message}}</span>
-                @enderror                    
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -82,9 +81,9 @@
             <label for="price" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
                 Valor:
             </label>
-            <x-form.input type="text" id="price" name="price" value="{{ old('price') }}" class="w-full dark:text-gray-400"
-                required oninput="mascaraMoeda(event)" placeholder="Ex: 49,99" />
-                
+            <x-form.input type="text" id="price" name="price" value="{{ old('price') }}"
+                class="w-full dark:text-gray-400" required oninput="mascaraMoeda(event)" placeholder="Ex: 49,99" />
+
             @error("price")
                 <span class="text-red-600">{{$message}}</span>
             @enderror

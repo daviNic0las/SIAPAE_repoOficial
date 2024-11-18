@@ -24,7 +24,7 @@ class ExpenseRequest extends FormRequest
         $rules = [
             'date_of_emission' => 'required|min:1',
             'type' => 'required|string|min:1|max:15',
-            'price' => 'required|min:1|max:10',
+            'price' => 'required|min:1|max:11',
             'fiscal_number' => 'nullable|min:1|max:30',
             'enterprise' => 'nullable|string|min:1|max:50',
             'description' => 'nullable|string|min:1|max:255',
