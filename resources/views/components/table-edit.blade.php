@@ -113,30 +113,27 @@ route('dashboard')
 
 
 <script>
-    document.getElementById('dateEditForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    if (document.getElementById('dateInput')) {
+        document.getElementById('dateForm').addEventListener('submit', function (event) {
+            event.preventDefault();
 
-    const dateInput = document.getElementById('dateEditInput');
-    const errorMessage = document.getElementById('errorEditMessage');
+            const dateInput = document.getElementById('dateInput');
+            const errorMessage = document.getElementById('errorMessage');
+            const dateValue = new Date(dateInput.value);
+            const minDate = new Date('1960-01-01');
+            const maxDate = new Date('2200-12-31');
 
-    // Verifica se o campo de data está presente
-    if (dateInput) {
-        const dateValue = new Date(dateInput.value);
-        const minDate = new Date('1960-01-01');
-        const maxDate = new Date('2200-12-31');
-
-        if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
-            errorMessage.style.display = 'inline';
-            return; // Previne o envio do formulário se a data for inválida
-        } else {
-            errorMessage.style.display = 'none';
-        }
-    }
-
-    // Se não houver campo de data ou a data for válida, envie o formulário
-    this.submit();
-});
-
+            if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
+                errorMessage.style.display = 'inline';
+                return; // Previne o envio do formulário se a data for inválida
+            } else {
+                errorMessage.style.display = 'none';
+                this.submit();
+            }
+            // Se não houver campo de data ou a data for válida, envie o formulário
+            this.submit();
+        })
+    };
 </script>
 
 

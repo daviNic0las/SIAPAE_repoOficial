@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\StudentCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,10 @@ class Student extends Model
         'image',
     ];
     
+    protected $dispatchesEvents = [ 
+        'created' => StudentCreated::class, 
+    ];
+
     public function diagnostic(): BelongsTo
     {
         return $this->belongsTo(Diagnostic::class, 'diagnostic_id')->withDefault([ 

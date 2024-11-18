@@ -22,7 +22,7 @@
                         <x-form.input
                             withicon
                             id="name"
-                            class="block w-full"
+                            class="block w-full text-gray-800 dark:text-gray-300"
                             type="text"
                             name="name"
                             :value="old('name')"
@@ -48,7 +48,7 @@
                         <x-form.input
                             withicon
                             id="email"
-                            class="block w-full"
+                            class="block w-full text-gray-800 dark:text-gray-300"
                             type="email"
                             name="email"
                             :value="old('email')"
@@ -73,7 +73,7 @@
                         <x-form.input
                             withicon
                             id="password"
-                            class="block w-full"
+                            class="block w-full text-gray-800 dark:text-gray-300"
                             type="password"
                             name="password"
                             required
@@ -98,7 +98,7 @@
                         <x-form.input
                             withicon
                             id="password_confirmation"
-                            class="block w-full"
+                            class="block w-full text-gray-800 dark:text-gray-300"
                             type="password"
                             name="password_confirmation"
                             required

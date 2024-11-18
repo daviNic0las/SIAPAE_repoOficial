@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-table-show 
-        title="Gastos" 
+        title="{{$expense->type . $expense->fiscal_number }}" 
         :elementShow="$expense" 
         onlyHead 
         actionRoute="expense">
