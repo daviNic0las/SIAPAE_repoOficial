@@ -26,6 +26,28 @@ Sumário:
 
 3. 2 Funcionalidades principais. 
 
+4.0 Arquitetura:
+
+4.1 Estrutura do projeto.
+
+4.2 Diagrama de arquitetura (se aplicável).
+
+4.3 Descrição dos componentes principais.
+
+5.0 Testes:
+
+5.1 Como executar testes.
+
+5.2 Procedimentos para adicionar novos testes.
+
+6.0 Referências:
+
+6.1 Referências bibliográficas ou de pesquisa.
+
+7.0 Contato:
+
+7.1 Informações de contato para suporte.
+
 ------------------------------------------------------------------------------------------------
 1.0 Introdução
 
@@ -67,3 +89,36 @@ Para que o sistema funcione plenamente é necessário dois terminais em seu VSCo
 
 3. 2 Funcionalidades principais:
 INACABADO
+
+4.0 Arquitetura
+
+4.1 Estrutura do projeto:
+INACABADO
+4.2 Diagrama de arquitetura (se aplicável):
+INACABADO
+4.3 Descrição dos componentes principais:
+INACABADO
+
+5.0 Testes:
+
+5.1 Como executar testes:
+Todos os testes realizados até agora foram manuais, utilizamos tentativas e erros para descobrir bugs e consertá-los. Também fizemos testes com as funcionárias com o objetivo de receber feedback. É de suma importância mostrar o projeto de forma regular para a supervisora, pois ela é quem decide como se deve proceder. Além disso, optamos por não utilizar testes por software, pelo motivo de não ser viável para aquela realidade que estávamos.
+
+5.2 Procedimentos para adicionar novos testes:
+Você possui à sua disposição alguns softwares que podem realizar testes automaticamente. Se quiser aprofundar seus conhecimentos nesses softwares eu deixo aqui algumas opções: o gerenciador de teste de software Qase e o framework de testes frontend Cypress; para além destes existem também Selenium, Ranorex Studio e o TestComplete como alternativas
+(Obs: Infelizmente aqui não haverá nenhuma instrução de como utilizar nenhuma dessas ferramentas, pois não utilizamos elas. Se alguém porventura for explorar esses programas, deixe aqui como você fez para usá-los).
+
+6.0 Referências:
+
+6.1 Referências bibliográficas ou de pesquisa:
+INACABADO
+
+7.0 Contato:
+
+7.1 Informações de contato para suporte:
+Aqui ficam as informações para contato com outros estagiários de outros anos caso seja necessário.
+
+Estágio 2024
+Davi Nicolas de Azevedo Oliveira: (88)99454-5444 davi.oliveira102@aluno.ce.gov.br
+Leo Messy Matoso Guedes: (88)99367-6510
+leo.guedes@aluno.ce.gov.br
