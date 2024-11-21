@@ -2,11 +2,7 @@ function show(route) {
     window.location.href = route;
 }
 
-function goToUrl(route) {
-    window.location.href = route;
-}
-
-//Atualiza o nome a direita do input tipo file com o nome do arquivo
+//VIEW Student - Atualiza o nome a direita do input tipo file com o nome do arquivo
 function updateImageLabel(event) {
 
     const fileInput = event.target;
@@ -38,6 +34,7 @@ function updateImagePreview(event) {
     // if (fileInput.files.length > 0) { };
 }
 
+// VIEW Expense - p/ mascara de moeda com o R$
 const mascaraMoeda = (event) => {
     const onlyDigits = event.target.value
         .split("")
@@ -47,7 +44,6 @@ const mascaraMoeda = (event) => {
     const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
     event.target.value = maskCurrency(digitsFloat)
 }
-
 const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
     return new Intl.NumberFormat(locale, {
         style: 'currency',
@@ -55,7 +51,55 @@ const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
     }).format(valor)
 }
 
-//Para algumas views do expense para ocultar alguns campos de acordo com o seu id
+// VIEW Donation - p/ mascara de moeda sem o R$
+const maskMoedaSemRS = (event) => {
+    // Retira qualquer caractere que não seja número ou vírgula (permitindo que o usuário digite a vírgula)
+    const onlyDigits = event.target.value.replace(/\D/g, '');
+
+    // Se o valor for maior que 2 dígitos, formatamos ele para ter 2 casas decimais
+    let formattedValue = onlyDigits;
+
+    // Se o número tiver mais que dois dígitos, insere a vírgula
+    if (formattedValue.length > 2) {
+        formattedValue = formattedValue.slice(0, -2) + ',' + formattedValue.slice(-2);
+    }
+
+    // Atualiza o valor no campo
+    event.target.value = formattedValue;
+}
+
+const currency = (valor, currency = 'BRL') => {
+    // Formata o número como moeda
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 2, // Garante que tenha 2 casas decimais
+        maximumFractionDigits: 2,
+    }).format(valor);
+}
+
+//Delete Confirm
+window.deleteConfirm = function (e) {
+    e.preventDefault();
+    var form = e.target.closest('form');
+    
+    Swal.fire({
+        title: "Você tem Certeza?",
+        text: "Essa ação é irreversível!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Deletar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        }
+    });
+};
+
+//VIEW Expense -  p/ ocultar alguns campos de acordo com o seu id
 document.addEventListener('DOMContentLoaded', function() {
     
     var tipoGasto = document.getElementById('tipo_gasto').value;

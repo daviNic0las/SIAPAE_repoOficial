@@ -14,8 +14,21 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('diagnostic')->orderBy('id', 'asc')->get();
-        return view('student.home', compact('students'));
+        $search = request('search');
+        
+        if ($search) {
+            $students = Student::where([
+                ['name', 'like', '%' . $search . '%']
+            ])->with('diagnostic')
+            ->orderBy('name', 'asc')
+            ->paginate(10);
+        } else {
+            $students = Student::with('diagnostic')
+            ->orderBy('name', 'asc')
+            ->paginate(10);
+        }
+
+        return view('student.home', compact('students', 'search'));
     }
     public function create()
     {
@@ -50,7 +63,11 @@ class StudentController extends Controller
         }
 
     }
-
+    public function show($id)
+    {
+        $student = Student::with('diagnostic')->findOrFail($id);
+        return view('student.show', compact('student'));
+    }
     public function edit($id)
     {
         $student = Student::findOrFail($id);

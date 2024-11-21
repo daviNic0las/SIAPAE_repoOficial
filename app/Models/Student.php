@@ -32,7 +32,7 @@ class Student extends Model
         'name' => 'Diagnóstico não encontrado'
     ]); // Permitir valor default caso null
     }
-    public function donation(): HasMany
+    public function donations(): HasMany
     {
         return $this->hasMany(Donation::class, 'student_id');
     }

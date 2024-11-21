@@ -20,7 +20,7 @@ route('dashboard')
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-2xl font-bold leading-tight">Adicionar novo(a) {{ $title }}</h1>
 
-                    <x-button onclick="goToUrl('{{ route($actionRoute . '.index') }}')" variant="warning">
+                    <x-button href="{{ route($actionRoute . '.index') }}" variant="warning">
                         <p class="text-gray-900">
                             Voltar
                         </p>
@@ -80,7 +80,7 @@ route('dashboard')
                                             class="hidden" onchange="updateImageLabel(event)">
 
                                         <p id="label-image" class="ml-2 text-gray-700 dark:text-gray-500">
-                                            Nenhuma {{$itens[1] == "image" ? 'Imagem' : $title}} Selecionada (*opcional)
+                                            Nenhuma {{$itens[1] == "image" ? 'Imagem' : $title}} Selecionada {{$itens[1] == "image" ? '(*opcional)' : ''}}
                                         </p>
                                     </div>
                                 @else
