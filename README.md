@@ -102,7 +102,7 @@ INACABADO
 5.0 Testes:
 
 5.1 Como executar testes:
-Todos os testes realizados até agora foram manuais, utilizamos tentativas e erros para descobrir bugs e consertá-los. Também fizemos testes com as funcionárias com o objetivo de receber feedback. É de suma importância mostrar o projeto de forma regular para a supervisora, pois ela é quem decide como se deve proceder. Além disso, optamos por não utilizar testes por software, pelo motivo de não ser viável para aquela realidade que estávamos.
+Alguns dos testes realizados até agora foram manuais, utilizamos tentativas e erros para descobrir bugs e consertá-los, enquanto outros foram utilizando os recursos de seed e factory do laravel 11 . Também fizemos testes com as funcionárias com o objetivo de receber feedback. É de suma importância mostrar o projeto de forma regular para a supervisora, pois ela é quem decide como se deve proceder. Além disso, optamos por não utilizar testes por software, pelo motivo de não ser viável para aquela realidade que estávamos.
 
 5.2 Procedimentos para adicionar novos testes:
 Você possui à sua disposição alguns softwares que podem realizar testes automaticamente. Se quiser aprofundar seus conhecimentos nesses softwares eu deixo aqui algumas opções: o gerenciador de teste de software Qase e o framework de testes frontend Cypress; para além destes existem também Selenium, Ranorex Studio e o TestComplete como alternativas
