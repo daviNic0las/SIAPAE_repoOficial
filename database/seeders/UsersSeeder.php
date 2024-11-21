@@ -11,9 +11,38 @@ class UsersSeeder extends Seeder
     public function run(): void
     {
          User::create([
-            'name' =>  'Kelvia',
+            'name' =>  'Admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345678'),
+            'access_level' => 'admin',
+         ]);
+
+         User::create([
+            'name' =>  'Kelvia',
+            'email' => 'kelvia@gmail.com',
+            'password' => bcrypt('12345678'),
+            'access_level' => 'admin',
+         ]);
+
+         User::create([
+            'name' =>  'Sâmia',
+            'email' => 'samia@gmail.com',
+            'password' => bcrypt('12345678'),
+            'access_level' => 'user',
+         ]);
+
+         User::create([
+            'name' =>  'Isadélia',
+            'email' => 'tica@gmail.com',
+            'password' => bcrypt('12345678'),
+            'access_level' => 'user',
+         ]);
+
+         User::create([
+            'name' =>  'Glaúcia',
+            'email' => 'glaucia@gmail.com',
+            'password' => bcrypt('12345678'),
+            'access_level' => 'user',
          ]);
     }
 }
