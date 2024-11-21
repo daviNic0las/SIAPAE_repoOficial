@@ -10,8 +10,28 @@ class RecordController extends Controller
 {
     public function index()
     {
-        $records = Record::orderBy('id', 'asc')->get();
-        return view('record.home', compact(['records']));
+        // Pega o ano passado como parâmetro na requisição
+        $year = request('year');
+
+        // Se o ano for fornecido, filtra os gastos por year
+        if ($year) {
+            $records = Record::whereYear('date', $year)
+            ->orderBy('date', 'asc')
+            ->paginate(10);
+        } else {
+            // Caso contrário, pega todos os gastos com o ano atual
+            $year = \Carbon\Carbon::now()->year;
+            $records = Record::whereYear('date', $year)
+            ->orderBy('date', 'asc')
+            ->paginate(10);
+        }
+
+        // Obtém os anos disponíveis para o select
+        $years = Record::selectRaw('YEAR(date) as year')
+            ->distinct()
+            ->orderByDesc('year')->pluck('year', 'year');
+
+        return view('record.home', compact('records', 'years', 'year'));
     }
 
     /**
@@ -30,6 +50,9 @@ class RecordController extends Controller
         $data = $request->validated();
         // dd($data);
         $data['date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $data['date'])->format('Y-m-d');
+        //Para a data criada seja aquela que vai aparecer no .index
+        $carbonDate = \Carbon\Carbon::parse($data['date']);
+        $year = $carbonDate->year;
 
         if ($request->hasfile('file') && $request->file('file')->isValid()) {
 
@@ -39,13 +62,12 @@ class RecordController extends Controller
             $file->move(public_path('file/record/'), $fileName);
             $data['file'] = $fileName;
 
-        }
-        ;
+        };
 
         $input = Record::create($data);
         if ($input) {
             session()->flash('success', 'Ata adicionada com sucesso');
-            return redirect()->route('record.index');
+            return redirect()->route('record.index', compact('year'));
         } else {
             session()->flash('error', 'Falha na criação');
             return redirect()->route('record.create');
@@ -57,7 +79,7 @@ class RecordController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('errors.404');
     }
 
     /**
@@ -79,6 +101,9 @@ class RecordController extends Controller
 
         $record = Record::findOrFail($id);
         $data['date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $data['date'])->format('Y-m-d');
+        //Para a data criada seja aquela que vai aparecer no .index
+        $carbonDate = \Carbon\Carbon::parse($data['date']);
+        $year = $carbonDate->year;
 
         if ($request->has('file')) {
             //Check old image
@@ -100,7 +125,7 @@ class RecordController extends Controller
         $input = $record->update($data);
         if ($input) {
             session()->flash('success', 'Ata atualizada com sucesso!');
-            return redirect()->route('record.index');
+            return redirect()->route('record.index', compact('year'));
         } else {
             session()->flash('error', 'Falha na edição');
             return redirect()->route('record.edit');
@@ -116,8 +141,7 @@ class RecordController extends Controller
         if ($data->file) {
             $destination = public_path('file/record/' . $data->file);
             unlink($destination);
-        }
-        ;
+        };
 
 
         $input = Record::findOrFail($id)->delete();

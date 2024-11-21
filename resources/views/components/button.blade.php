@@ -6,7 +6,7 @@
     'size' => 'base',
     'disabled' => false,
     'pill' => false,
-    'squared' => false
+    'squared' => false,
 ])
 
 @php

@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DonationController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DiagnosticController;
-use App\Http\Controllers\RecordController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\MedHistoryController;
+use App\Http\Controllers\RecordController;
+use App\Http\Controllers\StudentController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckAdmin;
@@ -43,7 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'student' => StudentController::class,
         'diagnostic' => DiagnosticController::class,
-        'record' => RecordController::class
+        'record' => RecordController::class,
+        'anamnesis' => MedHistoryController::class,
+        'attendance' => AttendanceController::class
     ]);
 
     // Admin Access:

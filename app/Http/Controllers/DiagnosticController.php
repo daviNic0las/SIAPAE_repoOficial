@@ -13,8 +13,17 @@ class DiagnosticController extends Controller
      */
     public function index()
     {
-        $diagnostics = Diagnostic::orderBy('id', 'asc')->get();
-        return view('diagnostic.home', compact('diagnostics'));
+        $search = request('search');
+        
+        if ($search) {
+            $diagnostics = Diagnostic::where([
+                ['name', 'like', '%' . $search . '%']
+            ])->orderBy('name', 'asc')->paginate(10);
+        } else {
+            $diagnostics = Diagnostic::orderBy('name', 'asc')->paginate(10);
+        }
+
+        return view('diagnostic.home', compact('diagnostics', 'search'));
     }
 
     /**
@@ -39,7 +48,10 @@ class DiagnosticController extends Controller
             return redirect()->route('diagnostic.create');
         }
     }
-
+    public function show($id)
+    {
+        return view('errors.404');
+    }
     public function edit($id)
     {
         $diagnostic = Diagnostic::findOrFail($id);

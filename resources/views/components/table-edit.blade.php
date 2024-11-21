@@ -21,7 +21,7 @@ route('dashboard')
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-2xl font-bold leading-tight">Editar {{ $title }}</h1>
 
-                    <x-button onclick="goToUrl('{{ route($actionRoute . '.index') }}')" variant="warning">
+                    <x-button href="{{ route($actionRoute . '.index') }}" variant="warning">
                         <p class="text-gray-900">
                             Voltar
                         </p>
@@ -118,8 +118,9 @@ route('dashboard')
             event.preventDefault();
 
             const dateInput = document.getElementById('dateInput');
+            const dateFormated = \Carbon\Carbon::createFromFormat('d/m/Y', dateInput)->format('Y-m-d');
             const errorMessage = document.getElementById('errorMessage');
-            const dateValue = new Date(dateInput.value);
+            const dateValue = new Date(dateFormated.value);
             const minDate = new Date('1960-01-01');
             const maxDate = new Date('2200-12-31');
 

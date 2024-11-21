@@ -30,7 +30,7 @@ class Student extends Model
     {
         return $this->belongsTo(Diagnostic::class, 'diagnostic_id'); 
     }
-    public function donation(): HasMany
+    public function donations(): HasMany
     {
         return $this->hasMany(Donation::class, 'student_id');
     }

@@ -18,32 +18,64 @@ route('dashboard')
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }} </h1>
+                    {{-- <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }} </h1> --}}
 
-                    @if(isset($actionRoute))
-                    <x-button onclick="goToUrl( '{{route($actionRoute . '.create')}}' )" variant="blue">
-                    <div class="dark:text-gray-100">
+                    @php
+                        $ultimaPalavra = last(explode(' ', $title)); // Pega a última palavra da frase
+                        // Se a última palavra terminar com "ões", substitui por "ão"
+                        if (preg_match('/ões$/', $ultimaPalavra)) {
+                            $frase = preg_replace('/ões$/', 'ão', $title);
+                        }
+                        // Se a última palavra terminar com "s", remove o "s"
+                        elseif (preg_match('/s$/', $ultimaPalavra)) {
+                            $frase = rtrim($title, 's');
+                        }
 
-                        @php
-                            $ultimaPalavra = last(explode(' ', $title)); // Pega a última palavra da frase
+                        if (isset($search)) {
+                            $search = 'Resultados para: ' . '"' . $search . '"';
+                        } else {
+                            $search = 'Nome do ' . $frase;
+                        }
+                    @endphp
 
-                            // Se a última palavra terminar com "ões", substitui por "ão"
-                            if (preg_match('/ões$/', $ultimaPalavra)) {
-                                 $frase = preg_replace('/ões$/', 'ão', $title);
-                            }
-                             // Se a última palavra terminar com "s", remove o "s"
-                            elseif (preg_match('/s$/', $ultimaPalavra)) {
-                                $frase = rtrim($title, 's');
-                            } 
-                        @endphp
+                    @if (isset($withSearchInput))
+                        <div id="search-container" class="flex items-center border border-gray-400 rounded-lg focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
+                            dark:focus:ring-offset-dark-eval-1 overflow-hidden">
+                            <form action="{{ route($actionRoute . '.index') }}" method="GET">
+                                <x-form.input type="text" id="search" name="search"
+                                    class="form-control w-64 dark:text-gray-300" placeholder="{{$search}}" />
 
-                        Adicionar {{$frase}}
-
-                    </div>
-                    </x-button>
+                                <button id="icone-search"
+                                    class="px-2 bg-gray-500 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none -ml-3 transition duration-300">
+                                    <x-icons.search />
+                                </button>
+                            </form>
+                        </div>
                     @endif
 
+                    @if (isset($withSearchSelect))
+                        <form method="GET" action="{{ route(isset($actionRoute) == 1 ? $actionRoute . '.index' : 'donation.index') }}">
+                            <div class="form-group">
+                                <x-form.select valueName="year" function="this.form.submit()">
+                                    <option value="">Selecione o ano:</option>
+                                    @foreach ($years as $yearItem)
+                                        <option value="{{ $yearItem }}" {{ $year == $yearItem ? 'selected' : '' }}>{{ $yearItem }}
+                                        </option>
+                                    @endforeach
+                                </x-form.select>
+                            </div>
+                        </form>
+                    @endif
+
+                    @if(isset($actionRoute))
+                        <x-button href="{{route($actionRoute . '.create')}}" variant="blue">
+                            <div class="dark:text-gray-100">
+                                Adicionar {{$frase}}
+                            </div>
+                        </x-button>
+                    @endif
                 </div>
+
                 <hr class="border-gray-300 dark:border-gray-500" />
 
                 <table class="min-w-full mt-4 border-collapse border border-gray-300 dark:border-gray-600">
@@ -73,11 +105,11 @@ route('dashboard')
                             @forelse ($rows as $row)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 {{ isset($withShow) ? 'cursor-pointer' : ''}} transition duration-300"
                                     @if(isset($withShow))
-                                    onclick="goToUrl('{{route($actionRoute . '.show', [$actionRoute => $row->id])}}')" @endif>
+                                    onclick="show('{{route($actionRoute . '.show', [$actionRoute => $row->id])}}')" @endif>
 
                                     @if($iteration == "true")
                                         <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
-                                            {{ $loop->iteration }}
+                                            {{ ($rows->currentPage() - 1) * $rows->perPage() + $loop->iteration }}
                                         </td>
                                     @endif
 
@@ -103,6 +135,13 @@ route('dashboard')
                                             @elseif ($variable == "diagnostic->name")
                                                 {{ $row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name}}
 
+                                            @elseif ($variable == "file")
+                                                @if ($actionRoute == 'record')
+                                                    <a href="{{ asset('file/record/' . $row->file) }}" target="_blank" class="text-blue-500 underline">{{$row->file}}</a>
+                                                @else
+                                                    {{ $row->file }}
+                                                @endif
+
                                             @else
                                                 {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 15) }}
                                                 <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
@@ -112,9 +151,9 @@ route('dashboard')
                                     @endforeach
 
                                     @if(isset($actionRoute))
-                                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center" onclick="event.stopPropagation();">
-                                            <x-button
-                                                onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}' )"
+                                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center"
+                                            onclick="event.stopPropagation();">
+                                            <x-button href="{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}"
                                                 variant="warning">
                                                 <p class="text-gray-900">
                                                     {{ __('Editar') }}
@@ -127,7 +166,8 @@ route('dashboard')
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
 
-                                                <x-button type="submit" variant="danger" title="Deletar diagnóstico">
+                                                <x-button variant="danger" title="Deletar diagnóstico"
+                                                    onclick="deleteConfirm(event)">
                                                     <div class="text-gray-100 dark:text-gray-200">
                                                         {{ __('Deletar') }}
                                                     </div>
@@ -151,7 +191,16 @@ route('dashboard')
 
                     </tbody>
                 </table>
+
+                @if ($rows->count() > 10)
+                    <hr class="border-gray-300 dark:border-gray-500 mt-4" />
+                @endif
+                <div class="pagination mt-4">
+                    {{ $rows->links() }}
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
