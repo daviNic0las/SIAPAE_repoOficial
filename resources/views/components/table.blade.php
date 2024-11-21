@@ -82,15 +82,19 @@ route('dashboard')
                     <thead class="bg-blue-100 dark:bg-gray-700 dark:text-gray-200">
                         <tr>
                             @if($iteration == "true")
-                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">#</th>
+                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
+                                    # </th>
                             @endif
 
                             @foreach($headers as $header)
-                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">{{ $header }}</th>
+                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
+                                    {{ $header }}
+                                </th>
                             @endforeach
 
                             @if(isset($actionRoute))
-                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">Ações</th>
+                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
+                                    Ações </th>
                             @endif
                         </tr>
                     </thead>
@@ -110,13 +114,17 @@ route('dashboard')
                                     @endif
 
                                     @foreach ($variablesDB as $variable)
-                                        <td class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
+                                        <td
+                                            class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
                                             @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date")
                                                 {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
                                             @elseif ($variable == "image")
                                                 <div class="flex justify-center items-center">
-                                                    <img class="rounded-full w-12 h-12" src="{{ asset('img/' . $actionRoute . '/' . $row->image) }}" alt="Image not loaded">
+                                                    <img class="rounded-full w-12 h-12"
+                                                        src="{{ asset('img/' . $actionRoute . '/' . $row->image) }}"
+                                                        alt="Image not loaded">
+
                                                 </div>
 
                                             @elseif ($variable == "price")
@@ -125,21 +133,7 @@ route('dashboard')
                                                 </div>
 
                                             @elseif ($variable == "diagnostic->name")
-                                                {{ $row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name }}
-
-                                            @elseif ($variable == "file")
-                                                @if ($actionRoute == 'record')
-                                                    <a href="{{ asset('file/record/' . $row->file) }}" target="_blank" class="text-blue-500 underline">Visualizar</a>
-                                                @else
-                                                    {{ $row->file }}
-                                                @endif
-
-                                            @elseif ($variable == "file")
-                                                @if ($actionRoute == 'record')
-                                                    <a href="{{ asset('file/record/' . $row->file) }}" target="_blank" class="text-blue-500 underline">{{$row->file}}</a>
-                                                @else
-                                                    {{ $row->file }}
-                                                @endif
+                                                {{ $row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name}}
 
                                             @elseif ($variable == "file")
                                                 @if ($actionRoute == 'record')
@@ -150,8 +144,10 @@ route('dashboard')
 
                                             @else
                                                 {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 15) }}
+                                                <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
                                             @endif
                                         </td>
+
                                     @endforeach
 
                                     @if(isset($actionRoute))
@@ -164,7 +160,9 @@ route('dashboard')
                                                 </p>
                                             </x-button>
 
-                                            <form method="POST" action="{{ route($actionRoute . '.destroy', [$actionRoute => $row->id]) }}" accept-charset="UTF-8" style="display:inline">
+                                            <form method="POST"
+                                                action="{{ route($actionRoute . '.destroy', [$actionRoute => $row->id]) }}"
+                                                accept-charset="UTF-8" style="display:inline">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
 
@@ -179,8 +177,11 @@ route('dashboard')
                                     @endif
                                 </tr>
                             @empty
-                                <tr class="text-center">
-                                    <td class="p-3 font-normal dark:text-gray-300" colspan="{{ count($headers) + (isset($actionRoute) ? 2 : 0) }}">Nenhum registro encontrado.</td>
+                                <tr class="text-center ">
+                                    <td class="p-3 font-normal dark:text-gray-300"
+                                        colspan="{{ count($headers) + (isset($actionRoute) ? 2 : 0) }}">
+                                        Nenhum registro encontrado.
+                                    </td>
                                 </tr>
                             @endforelse
 
@@ -202,4 +203,3 @@ route('dashboard')
         </div>
     </div>
 </div>
-
