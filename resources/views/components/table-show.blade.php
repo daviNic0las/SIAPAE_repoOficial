@@ -18,10 +18,10 @@ route('dashboard')
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-xl font-bold leading-tight">Informações de {{ $title }} </h1>
+                    <h1 class="text-xl font-bold leading-tight">Informações do(a) {{ $title }} </h1>
 
                     @if(isset($actionRoute))
-                        <x-button onclick="goToUrl( '{{route($actionRoute . '.index')}}' )" variant="warning">
+                        <x-button href="{{route($actionRoute . '.index')}}" variant="warning">
                             <p class="text-gray-900">
                                 Voltar
                             </p>
@@ -32,37 +32,102 @@ route('dashboard')
 
                 <div class="min-w-full mt-4">
                     <div id="body">
-
                         @if (isset($onlyHead) == 0)
 
-                        @foreach ($labelsVariables as $item)
-                            <p class="py-2 dark:text-gray-400 text-gray-700">
-                                {{ $item[0] }}:
-                            </p>
+                            @if (isset($divisionLateral))
+                                @php        
+                                    $chunkedItems = array_chunk($labelsVariables, $quantLateral); // Divide a coleção em pedaços de 3 itens cada 
+                                @endphp
 
-                            <p class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
-                                        font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
-                                @if ($item[1] == "price")
-                                    {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
+                                <div class="flex">
+                                    <!-- Div esquerda -->
+                                    <div class="flex-1 pr-4">
+                                        @foreach ($chunkedItems[0] as $item)
+                                            <p class="py-2 dark:text-gray-400 text-gray-700">
+                                                {{ $item[0] }}:
+                                            </p>
 
-                                @else
-                                    {{ $elementShow->{$item[1]} }}  
-                                @endif
+                                            <p
+                                                class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
+                                                                                                    font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
+                                                @if ($item[1] == "price")
+                                                    {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
+                                                @elseif ($item[1] == "date_of_birth")
+                                                    {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
+                                                @elseif ($item[1] == "diagnostic_id")    
+                                                    {{$elementShow->diagnostic->name}}
+                                                @else
+                                                    {{ $elementShow->{$item[1]} }}
+                                                @endif
+                                            </p>
+                                        @endforeach
+                                    </div>
 
-                            </p>
-                        @endforeach
+                                    <!-- Linha divisória -->
+                                    <div class="self-stretch border-l border-gray-300 border-1"></div>
+
+                                    <!-- Div direita -->
+                                    <div class="flex-1 pl-4">
+                                        @foreach ($chunkedItems[1] as $item)
+                                            <p class="py-2 dark:text-gray-400 text-gray-700">
+                                                {{ $item[0] }}:
+                                            </p>
+
+                                            <p
+                                                class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
+                                                                                                    font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
+                                                @if ($item[1] == "price")
+                                                    {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
+                                                @elseif ($item[1] == "date_of_birth")
+                                                    {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
+                                                @elseif ($item[1] == "diagnostic_id")    
+                                                    {{$elementShow->diagnostic->name}}
+                                                @else
+                                                    {{ $elementShow->{$item[1]} }}
+                                                @endif
+                                            </p>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+
+                                @foreach ($labelsVariables as $item)
+                                    <p class="py-2 dark:text-gray-400 text-gray-700">
+                                        {{ $item[0] }}:
+                                    </p>
+
+                                    <p
+                                        class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
+                                                                                                font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
+                                        @if ($item[1] == "price")
+                                            {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
+                                        @elseif ($item[1] == "date_of_birth")
+                                            {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
+                                        @elseif ($item[1] == "diagnostic_id")    
+                                            {{$elementShow->diagnostic->name}}
+                                        @else
+                                            {{ $elementShow->{$item[1]} }}
+                                        @endif
+                                    </p>
+                                @endforeach
+
+                            @endif
 
                         @else
                             {{$slot}}
                         @endif
-                        
+
+                        @if(isset($additional))
+                            {{$slot}}
+                        @endif
+
                     </div>
 
                     <div>
                         @if(isset($actionRoute))
                             <div class="py-2 flex items-center justify-between mt-4">
                                 <x-button
-                                    onclick="goToUrl( '{{route($actionRoute . '.edit', [$actionRoute => $elementShow->id])}}' )"
+                                    href="{{route($actionRoute . '.edit', [$actionRoute => $elementShow->id])}}"
                                     variant="warning">
                                     <p class="text-gray-900 px-2">
                                         {{ __('Editar') }}
@@ -75,7 +140,8 @@ route('dashboard')
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
 
-                                    <x-button type="submit" variant="danger" title="Deletar diagnóstico">
+                                    <x-button type="submit" variant="danger" title="Deletar diagnóstico"
+                                        onclick="deleteConfirm(event)">
                                         <div class="text-gray-100 dark:text-gray-200 px-2">
                                             {{ __('Deletar') }}
                                         </div>

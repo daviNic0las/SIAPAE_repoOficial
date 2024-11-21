@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Donation;
 use App\Http\Controllers\Controller;
-use App\Models\Student;
 use Illuminate\Http\Request;
 
 class DonationController extends Controller
@@ -14,12 +13,34 @@ class DonationController extends Controller
      */
     public function index()
     {
-        $donations = Donation::with('student')
+        // Pega o ano passado como parâmetro na requisição
+        $year = request('year');
+
+        // Se o ano for fornecido, filtra os gastos por year
+        if ($year) {
+            $donations = Donation::where('year_of_donation', $year)
+            ->with('student')
             ->join('students', 'donations.student_id', '=', 'students.id')  // Realizando o join com a tabela de partners
+            ->select('donations.*','students.name')
             ->orderBy('students.name', 'asc')  // Ordenando pelo nome do parceiro
-            ->get();
-        dd($donations);
-        return view('donation.home', compact('donations'));
+            ->paginate(10);
+        } else {
+            // Caso contrário, pega todos os gastos com o ano atual
+            $year = \Carbon\Carbon::now()->year;
+            $donations = Donation::where('year_of_donation', $year)
+            ->with('student')
+            ->join('students', 'donations.student_id', '=', 'students.id')  // Realizando o join com a tabela de partners
+            ->select('donations.*','students.name')
+            ->orderBy('students.name', 'asc')  // Ordenando pelo nome do parceiro
+            ->paginate(10);
+        }
+
+        // Obtém os anos disponíveis para o select
+        $years = Donation::selectRaw('year_of_donation as year')
+            ->distinct()
+            ->orderByDesc('year')->pluck('year', 'year');
+
+        return view('donation.home', compact('donations', 'years', 'year'));
     }
 
     /**
@@ -27,7 +48,7 @@ class DonationController extends Controller
      */
     public function create()
     {
-        //
+        return view('errors.404');
     }
 
     /**
@@ -41,9 +62,9 @@ class DonationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Donation $donation)
+    public function show(Request $request, $id)
     {
-        //
+        return view('errors.404');
     }
 
     /**
@@ -51,15 +72,40 @@ class DonationController extends Controller
      */
     public function edit(Donation $donation)
     {
-        //
+        return view('errors.404');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Donation $donation)
+    public function update(Request $request, $id)
     {
-        //
+        // $validated = $request->validate([
+        //     'preco' => 'nullable|numeric|max:6',
+        //     'field' => 'required|string|max:6',
+        // ]);
+
+        $donation = Donation::findOrFail($id);
+
+        if (!$donation) {
+            return response()->json(['message' => 'Doação não encontrada.'], 404);
+        }
+
+        //Convert 'price'
+        $preco = $request->value;
+        // $precoFormated = str_replace(',', '.', $preco);
+        // $precoDecimal = number_format($preco, 2, '.', ',');
+        // Atualizar o campo específico
+        $donation->{$request->field} = (float) $preco;
+
+        $input = $donation->update();
+        if ($input) {
+            session()->flash('success', 'Gasto atualizado com sucesso!');
+            return redirect()->route('donation.index');
+        } else {
+            session()->flash('error','Falha na edição');
+            return redirect()->route('donation.index');
+        }
     }
 
     /**
