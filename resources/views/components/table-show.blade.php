@@ -64,7 +64,7 @@ route('dashboard')
                                     </div>
 
                                     <!-- Linha divisória -->
-                                    <div class="self-stretch border-l border-gray-300 border-1"></div>
+                                    <div class="self-stretch border-l border-gray-300 dark:border-gray-600 border-1"></div>
 
                                     <!-- Div direita -->
                                     <div class="flex-1 pl-4">
@@ -73,9 +73,8 @@ route('dashboard')
                                                 {{ $item[0] }}:
                                             </p>
 
-                                            <p
-                                                class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
-                                                                                                    font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
+                                            <p class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
+                                                font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
                                                 @if ($item[1] == "price")
                                                     {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                                 @elseif ($item[1] == "date_of_birth")
@@ -96,9 +95,8 @@ route('dashboard')
                                         {{ $item[0] }}:
                                     </p>
 
-                                    <p
-                                        class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
-                                                                                                font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
+                                    <p class="border border-gray-400 dark:border-gray-600 bg-white dark:bg-dark-eval-1 
+                                            font-normal dark:text-gray-300 py-2 px-3 rounded-lg">
                                         @if ($item[1] == "price")
                                             {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                         @elseif ($item[1] == "date_of_birth")

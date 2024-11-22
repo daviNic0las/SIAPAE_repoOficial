@@ -30,7 +30,7 @@ route('dashboard')
                 <hr class="border-gray-300 dark:border-gray-500" />
 
                 @if (session()->has('error'))
-                    <div class="text-red-600">
+                    <div class="text-red-600 dark:text-red-400">
                         {{session('error')}}
                     </div>
                 @endif
@@ -51,9 +51,9 @@ route('dashboard')
 
                             @if($itens[2] != "select" && $itens[2] != "file")
 
-                                <x-form.input id="{{ $itens[2] == 'date' ? 'dateInput' : '' }}" type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
+                                <x-form.input id="{{ $itens[1] }}" type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
                                     value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" class="w-full dark:text-gray-400                                    
-                                    {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}" 
+                                    {{ ($itens[2] ?? '') === 'date' ? 'date dateInput' : '' }}" 
                                     placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
                                 @if($itens[2] == 'date')
@@ -90,7 +90,7 @@ route('dashboard')
                             @endif
 
                             @error($itens[1])
-                                <span class="text-red-600">{{$message}}</span>
+                                <span class="text-red-600 dark:text-red-400">{{$message}}</span>
                             @enderror
                         </div>
                     @endforeach

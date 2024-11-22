@@ -12,8 +12,8 @@
         {{__('Students')}}
     </div>
 
-    <x-sidebar.link title="{{__('Anamnesis')}}" href="{{route('example.link')}}"
-        :isActive="request()->routeIs('teste')">
+    <x-sidebar.link title="{{__('Anamnesis')}}" href="{{route('anamnesis.index')}}"
+        :isActive="request()->routeIs('anamnesis.index', 'anamnesis.create', 'anamnesis.edit')">
         <x-slot name="icon">
             <x-icons.anamnesis class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
