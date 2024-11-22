@@ -10,6 +10,12 @@ $variablesDB: Um array com o nomes da colunas que existem no banco de dados
 
 $actionRoute (opcional): Contém a URL ou rota para onde o botão "Adicionar" deve redirecionar. ex:
 route('dashboard')
+
+Tutorial de como resetar as senhas dos usuários:
+passo 1: execute o comando "php artisan db:seed --class=TruncateUsersTableSeeder",
+passo 2: execute o comando "php artisan db:seed",
+passo 3: faça login em sua conta ,
+passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pessoal.
 --}}
 
 
