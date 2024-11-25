@@ -23,8 +23,7 @@ document.addEventListener('alpine:init', () => {
         let lastScrollTop = 0
         const init = function () {
             window.addEventListener('scroll', () => {
-                let st =
-                    window.pageYOffset || document.documentElement.scrollTop
+                let st = window.pageYOffset || document.documentElement.scrollTop
                 if (st > lastScrollTop) {
                     // downscroll
                     this.scrollingDown = true
@@ -33,14 +32,23 @@ document.addEventListener('alpine:init', () => {
                     // upscroll
                     this.scrollingDown = false
                     this.scrollingUp = true
-                    if (st == 0) {
+                    if (st === 0) {
                         //  reset
                         this.scrollingDown = false
                         this.scrollingUp = false
                     }
                 }
-                lastScrollTop = st <= 0 ? 0 : st // For Mobile or negative scrolling
+                lastScrollTop = st <= 0 ? 0 : st
             })
+
+            // Restore sidebar state from localStorage
+            const storedSidebarState = window.localStorage.getItem('isSidebarOpen');
+            this.isSidebarOpen = storedSidebarState !== null ? JSON.parse(storedSidebarState) : (window.innerWidth > 1024);
+            
+            // Adjust sidebar visibility based on initial window size
+            if (window.innerWidth <= 1024) {
+                this.isSidebarOpen = false;
+            }
         }
 
         const getTheme = () => {
@@ -62,7 +70,7 @@ document.addEventListener('alpine:init', () => {
                 this.isDarkMode = !this.isDarkMode
                 setTheme(this.isDarkMode)
             },
-            isSidebarOpen: window.innerWidth > 1024,
+            isSidebarOpen: JSON.parse(window.localStorage.getItem('isSidebarOpen')) ?? (window.innerWidth > 1024),
             isSidebarHovered: false,
             handleSidebarHover(value) {
                 if (window.innerWidth < 1024) {
@@ -76,6 +84,11 @@ document.addEventListener('alpine:init', () => {
                 } else {
                     this.isSidebarOpen = true
                 }
+                window.localStorage.setItem('isSidebarOpen', JSON.stringify(this.isSidebarOpen))
+            },
+            toggleSidebar() {
+                this.isSidebarOpen = !this.isSidebarOpen
+                window.localStorage.setItem('isSidebarOpen', JSON.stringify(this.isSidebarOpen))
             },
             scrollingDown: false,
             scrollingUp: false,

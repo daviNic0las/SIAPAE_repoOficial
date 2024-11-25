@@ -38,7 +38,6 @@ class StudentController extends Controller
 
     public function store(StudentRequest $request)
     {
-
         $data = $request->validated();
         // Convert string to data
         $data['date_of_birth'] = \Carbon\Carbon::createFromFormat('d/m/Y', $data['date_of_birth'])->format('Y-m-d');

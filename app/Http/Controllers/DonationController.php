@@ -40,7 +40,7 @@ class DonationController extends Controller
             ->distinct()
             ->orderByDesc('year')->pluck('year', 'year');
 
-        return view('donation.home', compact('donations', 'years', 'year'));
+        return view('donationD.home', compact('donations', 'years', 'year'));
     }
 
     /**
@@ -93,18 +93,16 @@ class DonationController extends Controller
 
         //Convert 'price'
         $preco = $request->value;
-        // $precoFormated = str_replace(',', '.', $preco);
-        // $precoDecimal = number_format($preco, 2, '.', ',');
         // Atualizar o campo específico
         $donation->{$request->field} = (float) $preco;
 
         $input = $donation->update();
         if ($input) {
             session()->flash('success', 'Gasto atualizado com sucesso!');
-            return redirect()->route('donation.index');
+            return redirect()->route('donationD.index');
         } else {
             session()->flash('error','Falha na edição');
-            return redirect()->route('donation.index');
+            return redirect()->route('donationD.index');
         }
     }
 

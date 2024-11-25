@@ -31,12 +31,12 @@
         @forelse ($donations as $donation)
             <tr data-id="{{$donation->id}}" id="tabela-gastos">
 
-                <td class="border border-gray-300 dark:border-gray-600 px-4 py-3 text-center">
+                <td class="border border-gray-300 dark:border-gray-600 px-4 py-3 text-center text-gray-800 dark:text-gray-300">
                     {{ $loop->iteration }}
                 </td>
 
-                <td class="border border-gray-300 dark:border-gray-600 px-4 py-3 text-center">
-                    {{$donation->student ? $donation->student->name : 'Estudante não encontrado'}}
+                <td class="border border-gray-300 dark:border-gray-600 px-4 py-3 text-center text-gray-800 dark:text-gray-300">
+                    {{$donation->student ? \Illuminate\Support\Str::words($donation->student->name, 2, ' ...') : 'Estudante não encontrado'}}
                 </td>
 
                 <td class="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-gray-800 dark:text-gray-300

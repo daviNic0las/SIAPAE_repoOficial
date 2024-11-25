@@ -21,15 +21,15 @@ function updateImagePreview(event) {
     const file = fileInput.files[0];
     const reader = new FileReader();
 
-    if (fileInput.files.length > 0) { 
+    if (fileInput.files.length > 0) {
         reader.onload = function (e) {
             imagePreview.src = e.target.result; // Atualiza a imagem prévia com a nova imagem
         }
-        
-        reader.readAsDataURL(file); 
+
+        reader.readAsDataURL(file);
     }
-    
-// Lê o arquivo como uma URL de dados
+
+    // Lê o arquivo como uma URL de dados
 
     // if (fileInput.files.length > 0) { };
 }
@@ -82,7 +82,7 @@ const currency = (valor, currency = 'BRL') => {
 window.deleteConfirm = function (e) {
     e.preventDefault();
     var form = e.target.closest('form');
-    
+
     Swal.fire({
         title: "Você tem Certeza?",
         text: "Essa ação é irreversível!",
@@ -94,14 +94,73 @@ window.deleteConfirm = function (e) {
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-          form.submit();
+            form.submit();
         }
     });
 };
 
-//VIEW Expense -  p/ ocultar alguns campos de acordo com o seu id
-document.addEventListener('DOMContentLoaded', function() {
+//Validação da Data
+if (document.querySelector('.dateInput')) {
+    document.getElementById('dateForm').addEventListener('submit', function (event) {
+        event.preventDefault();
     
+        const dateInputs = document.querySelectorAll('.dateInput');  // Seleciona todos os campos com a classe "dateInput"
+        const errorMessage = document.getElementById('errorMessage'); // A mensagem de erro geral
+    
+        let isValid = true; // Flag para rastrear se todos os campos são válidos
+    
+        // Iterar sobre cada campo de data
+        dateInputs.forEach(function (dateInput) {
+            const dateFormated = moment(dateInput.value, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    
+            const dateValue = new Date(dateFormated); // Criando a data com o formato adequado
+            const minDate = new Date('1960-01-01');
+            const maxDate = new Date('2200-12-31');
+    
+            // Verificando a validade da data
+            if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
+                errorMessage.style.display = 'inline';
+                isValid = false;  // Marca como inválido
+            } else {
+                errorMessage.style.display = 'none';
+                dateInput.style.borderColor = '';  // Remove a borda vermelha
+            }
+        });
+    
+        // Se algum campo for inválido, o formulário não será enviado
+        if (isValid) {
+            this.submit();  // Envia o formulário se todos os campos forem válidos
+        }
+    });
+}    
+
+// View Anamnese - Função para habilitar/desabilitar inputs dependendo da checkbox
+function toggleInput(checkbox) {
+    // Obtém o ID do target (input que será habilitado/desabilitado)
+    const targetId = checkbox.getAttribute('data-target');
+    const targetInput = document.getElementById(targetId);
+
+    // Se a checkbox estiver marcada, habilita o input. Caso contrário, desabilita.
+    if (checkbox.checked) {
+        targetInput.disabled = false;
+    } else {
+        targetInput.disabled = true;
+    }
+}
+
+// Para garantir que os inputs sejam desabilitados ao carregar a página (caso as checkboxes não estejam marcadas)
+document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][data-target]');
+
+    checkboxes.forEach(function(checkbox) {
+        toggleInput(checkbox);  // Inicializa o estado do input conforme o estado da checkbox
+    });
+});
+
+
+//VIEW Expense -  p/ ocultar alguns campos de acordo com o seu id
+document.addEventListener('DOMContentLoaded', function () {
+
     var tipoGasto = document.getElementById('tipo_gasto').value;
 
     // Função para ocultar todos os campos
@@ -118,14 +177,14 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('campo_nota_fiscal').style.display = 'block';
         } else if (tipoGasto === 'Recibo') {
             document.getElementById('campo_recibo').style.display = 'block';
-        } 
+        }
     }
 
     // Chamar a função para mostrar o campo correto ao carregar a página
     mostrarCampos(tipoGasto);
 
     // Ouvir mudanças no select
-    document.getElementById('tipo_gasto').addEventListener('change', function() {
+    document.getElementById('tipo_gasto').addEventListener('change', function () {
         mostrarCampos(this.value);
     });
 });

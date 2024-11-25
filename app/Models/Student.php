@@ -16,9 +16,13 @@ class Student extends Model
         'name',
         'date_of_birth',
         'diagnostic_id',
-        'class',
         'student_id',
         'school',
+        'class_school',
+        'turn_school',
+        'grade_school',
+        'class_apae',
+        'turn_apae',
         'image',
     ];
     
@@ -35,5 +39,9 @@ class Student extends Model
     public function donations(): HasMany
     {
         return $this->hasMany(Donation::class, 'student_id');
+    }
+    public function MedHistory(): BelongsTo
+    {
+        return $this->belongsTo(MedHistory::class, 'student_id');
     }
 }

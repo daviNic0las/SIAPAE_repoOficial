@@ -19,7 +19,7 @@
             </x-form.select>
 
             @error("type")
-                <span class="text-red-600">{{$message}}</span>
+                <span class="text-red-600 dark:text-red-400">{{$message}}</span>
             @enderror
         </div>
 
@@ -28,13 +28,13 @@
                 Data de emissão:
             </label>
             <x-form.input id="dateInput" type="text" name="date_of_emission"
-                value="{{ old('date_of_emission', $expense->date_of_emission) }}" class="w-full dark:text-gray-400 date"
+                value="{{ old('date_of_emission', $expense->date_of_emission) }}" class="w-full dark:text-gray-400 date dateInput"
                 required placeholder="Ex: 01/01/2001" />
 
             <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre
                 1960 e 2200.</span>
             @error("date_of_emission")
-                <span class="text-red-600">{{$message}}</span>
+                <span class="text-red-600 dark:text-red-400">{{$message}}</span>
             @enderror
         </div>
 
@@ -48,7 +48,7 @@
                     placeholder="Ex: 392.047.028" />
 
                 @error("fiscal_number")
-                    <span class="text-red-600">{{$message}}</span>
+                    <span class="text-red-600 dark:text-red-400">{{$message}}</span>
                 @enderror
             </div>
 
@@ -61,7 +61,7 @@
                     placeholder="Ex: Nome da Empresa" />
 
                 @error("enterprise")
-                    <span class="text-red-600">{{$message}}</span>
+                    <span class="text-red-600 dark:text-red-400">{{$message}}</span>
                 @enderror
             </div>
         </div>
@@ -76,7 +76,7 @@
                     placeholder="Ex: Descrição do Recibo" />
 
                 @error("description")
-                    <span class="text-red-600">{{$message}}</span>
+                    <span class="text-red-600 dark:text-red-400">{{$message}}</span>
                 @enderror
             </div>
         </div>
@@ -90,7 +90,7 @@
                 class="w-full dark:text-gray-400" required placeholder="Ex: 49,99" oninput="mascaraMoeda(event)" />
 
             @error("price")
-                <span class="text-red-600">{{$message}}</span>
+                <span class="text-red-600 dark:text-red-400">{{$message}}</span>
             @enderror
         </div>
 

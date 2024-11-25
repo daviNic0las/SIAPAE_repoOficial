@@ -26,7 +26,7 @@
         sr-text="Toggle sidebar"
         variant="secondary"
         x-show="isSidebarOpen || isSidebarHovered"
-        x-on:click="isSidebarOpen = !isSidebarOpen"
+        x-on:click="toggleSidebar"
     >
         <x-icons.menu-fold-right
             x-show="!isSidebarOpen"

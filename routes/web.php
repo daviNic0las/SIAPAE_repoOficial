@@ -44,11 +44,11 @@ Route::middleware('auth')->group(function () {
 
     // User Access:
     Route::resources([
-        'student' => StudentController::class,
+        'anamnesis' => MedHistoryController::class,
+        'attendance' => AttendanceController::class,
         'diagnostic' => DiagnosticController::class,
         'record' => RecordController::class,
-        'anamnesis' => MedHistoryController::class,
-        'attendance' => AttendanceController::class
+        'student' => StudentController::class,
     ]);
 
     // Admin Access:

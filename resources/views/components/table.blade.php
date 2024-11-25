@@ -40,13 +40,13 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                         if (isset($search)) {
                             $search = 'Resultados para: ' . '"' . $search . '"';
                         } else {
-                            $search = 'Nome do ' . $frase;
+                            $search = $frase == 'Anamnese' ? 'Nome do Aluno' : 'Nome do ' . $frase;
                         }
                     @endphp
 
                     @if (isset($withSearchInput))
                         <div id="search-container" class="flex items-center border border-gray-400 rounded-lg focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
-                            dark:focus:ring-offset-dark-eval-1 overflow-hidden">
+                                    dark:focus:ring-offset-dark-eval-1 overflow-hidden">
                             <form action="{{ route($actionRoute . '.index') }}" method="GET">
                                 <x-form.input type="text" id="search" name="search"
                                     class="form-control w-64 dark:text-gray-300" placeholder="{{$search}}" />
@@ -60,7 +60,8 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                     @endif
 
                     @if (isset($withSearchSelect))
-                        <form method="GET" action="{{ route(isset($actionRoute) == 1 ? $actionRoute . '.index' : 'donation.index') }}">
+                        <form method="GET"
+                            action="{{ route(isset($actionRoute) == 1 ? $actionRoute . '.index' : 'donation.index') }}">
                             <div class="form-group">
                                 <x-form.select valueName="year" function="this.form.submit()">
                                     <option value="">Selecione o ano:</option>
@@ -84,7 +85,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
 
                 <hr class="border-gray-300 dark:border-gray-500" />
 
-                <table class="min-w-full mt-4 border-collapse border border-gray-300 dark:border-gray-600">
+                <table class="min-w-full mt-4 border-collapse border border-gray-300 dark:border-gray-800">
                     <thead class="bg-blue-100 dark:bg-gray-700 dark:text-gray-200">
                         <tr>
                             @if($iteration == "true")
@@ -138,18 +139,21 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                                     {{ 'R$ ' . number_format($row->{$variable}, 2, ',', '.') }}
                                                 </div>
 
-                                            @elseif ($variable == "diagnostic->name")
-                                                {{ $row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name}}
-
                                             @elseif ($variable == "file")
                                                 @if ($actionRoute == 'record')
-                                                    <a href="{{ asset('file/record/' . $row->file) }}" target="_blank" class="text-blue-500 underline">{{$row->file}}</a>
+                                                    <a href="{{ asset('file/record/' . $row->file) }}" target="_blank"
+                                                        class="text-blue-500 underline">{{$row->file}}</a>
                                                 @else
                                                     {{ $row->file }}
                                                 @endif
 
+                                            @elseif ($variable == "diagnostic->name")
+                                                {{ \Illuminate\Support\Str::limit($row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name, 15) }}
+
+                                            @elseif ($variable == "student->diagnostic->name")
+                                                {{ \Illuminate\Support\Str::limit($row->student->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->student->diagnostic->name, 15) }}
                                             @else
-                                                {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 15) }}
+                                                {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 12) }}
                                                 <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
                                             @endif
                                         </td>
@@ -184,7 +188,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                 </tr>
                             @empty
                                 <tr class="text-center ">
-                                    <td class="p-3 font-normal dark:text-gray-300"
+                                    <td class="p-3 font-normal dark:text-gray-300 border border-gray-300 dark:border-gray-600"
                                         colspan="{{ count($headers) + (isset($actionRoute) ? 2 : 0) }}">
                                         Nenhum registro encontrado.
                                     </td>

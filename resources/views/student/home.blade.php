@@ -10,9 +10,9 @@
 
     <x-table 
         title="Alunos" 
-        :headers="['Nome', 'Data Nasc.', 'Turma', 'ID do Aluno', 'Escola', 'Diagnóstico', 'Foto']" 
+        :headers="['Nome', 'Data Nasc.', 'ID do Aluno', 'Escola', 'Turma', 'Diagnóstico', 'Foto']" 
         :rows="$students" 
-        :variablesDB="['name', 'date_of_birth', 'class', 'student_id', 'school', 'diagnostic->name', 'image']"
+        :variablesDB="['name', 'date_of_birth', 'student_id', 'school', 'class_school', 'diagnostic->name', 'image']"
         iteration="false"
         withSearchInput
         :search="$search"

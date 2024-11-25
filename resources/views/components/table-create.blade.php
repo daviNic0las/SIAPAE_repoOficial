@@ -29,7 +29,7 @@ route('dashboard')
                 <hr class="border-gray-300 dark:border-gray-500" />
 
                 @if (session()->has('error'))
-                    <div class="text-red-600">
+                    <div class="text-red-600 dark:text-red-400">
                         {{session('error')}}
                     </div>
                 @endif
@@ -49,10 +49,10 @@ route('dashboard')
 
                                 @if($itens[2] != "select" && $itens[2] != "file")
 
-                                    <x-form.input id="{{ $itens[2] == 'date' ? 'dateInput' : '' }}"
+                                    <x-form.input id="{{ $itens[1] }}"
                                         type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
                                         value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400                                    
-                                                    {{ ($itens[2] ?? '') === 'date' ? 'date' : '' }}"
+                                                    {{ ($itens[2] ?? '') === 'date' ? 'date dateInput' : '' }}"
                                         placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
                                     @if($itens[2] == 'date')
@@ -88,7 +88,7 @@ route('dashboard')
                                 @endif
 
                                 @error($itens[1])
-                                    <span class="text-red-600">{{$message}}</span>
+                                    <span class="text-red-600 dark:text-red-400">{{$message}}</span>
                                 @enderror
                             </div>
                         @endforeach
@@ -108,31 +108,6 @@ route('dashboard')
         </div>
     </div>
 </div>
-
-<script>
-    if (document.getElementById('dateInput')) {
-        document.getElementById('dateForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const dateInput = document.getElementById('dateInput');
-            const dateFormated = \Carbon\Carbon::createFromFormat('d/m/Y', dateInput)->format('Y-m-d');
-            const errorMessage = document.getElementById('errorMessage');
-            const dateValue = new Date(dateFormated.value);
-            const minDate = new Date('1960-01-01');
-            const maxDate = new Date('2200-12-31');
-
-            if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
-                errorMessage.style.display = 'inline';
-                return; // Previne o envio do formulário se a data for inválida
-            } else {
-                errorMessage.style.display = 'none';
-                this.submit();
-            }
-            // Se não houver campo de data ou a data for válida, envie o formulário
-            this.submit();
-        })
-    };
-</script>
 
 {{-- ATENÇÃO:
 A máscara que eu coloquei para um input do tipo data só funciona se o type do input for text
