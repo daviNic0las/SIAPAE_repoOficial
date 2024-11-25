@@ -1,19 +1,18 @@
 <?php
- 
+
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
-use App\Http\Controllers\Controller;
+use App\Models\Educational;
 use Illuminate\Http\Request;
 
-class AttendanceController extends Controller
+class EducationalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -21,7 +20,7 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -29,38 +28,38 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show(Educational $educational)
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attendance $attendance)
+    public function edit(Educational $educational)
     {
-        //
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Attendance $attendance)
+    public function update(Request $request, Educational $educational)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Attendance $attendance)
+    public function destroy(Educational $educational)
     {
-        //
+        
     }
 }

@@ -50,11 +50,11 @@
             <x-icons.report class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
 
-        <x-sidebar.sublink title="{{__('Pedagogic')}}" href="{{route('example.link')}}"
-            :active="request()->routeIs('teste')" />
+        <x-sidebar.sublink title="{{__('Pedagogic')}}" href="{{route('educational.index')}}"
+            :active="request()->routeIs('educational.index', 'educational.create', 'educational.edit')" />
 
-        <x-sidebar.sublink title="{{__('Regional')}}" href="{{route('example.link')}}"
-            :active="request()->routeIs('teste')" />
+        <x-sidebar.sublink title="{{__('Regional')}}" href="{{route('regional.index')}}"
+            :active="request()->routeIs('regional.index', 'regional.create', 'regional.edit')" />
     </x-sidebar.dropdown>
 
     <!-- Transition - REUNIÕES -->

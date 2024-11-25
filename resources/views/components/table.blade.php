@@ -95,7 +95,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
 
                             @foreach($headers as $header)
                                 <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
-                                    {{ $header }}
+                                    {{ __($header) }}
                                 </th>
                             @endforeach
 

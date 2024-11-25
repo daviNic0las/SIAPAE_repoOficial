@@ -12,9 +12,11 @@ class Attendance extends Model
 
     protected $fillable = [
         'student_id',
-        '',
-        'signature',
-        'date_of_attendance'
+        'date',
+        'educational_axis',
+        'advances',
+        'difficulties',
+        'signature'
     ];
 
     public function student(): BelongsTo

@@ -62,6 +62,17 @@ route('dashboard')
 
                             @elseif($itens[2] == "select")
                                 
+                                @if($selectWithName)
+                                <x-form.select valueName="{{ $itens[1] }}" >
+                                    <option value=""> Selecione um {{ $itens[0] }} </option>
+                                    
+                                    @foreach ($selects as $select)
+                                        <option value="{{ $select->name }}" {{ old($itens[1], $elementEdit->{$itens[1]}) == $select->name ? 'selected' : '' }}>
+                                            {{ $select->name }}
+                                        </option>
+                                    @endforeach
+                                </x-form.select>
+                                @else
                                 <x-form.select valueName="{{ $itens[1] }}" >
                                     <option value=""> Selecione um {{ $itens[0] }} </option>
                                     
@@ -71,6 +82,7 @@ route('dashboard')
                                         </option>
                                     @endforeach
                                 </x-form.select>
+                                @endif
 
                             @elseif($itens[2] == "file")
                                 <div class="flex items-center">
