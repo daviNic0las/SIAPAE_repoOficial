@@ -54,10 +54,8 @@ route('dashboard')
                                                     {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                                 @elseif ($item[1] == "date_of_birth")
                                                     {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
-                                                @elseif ($item[1] == "diagnostic_id")    
-                                                    {{$elementShow->diagnostic->name}}
                                                 @else
-                                                    {{ $elementShow->{$item[1]} }}
+                                                    {{data_get($elementShow, $item[1])}}
                                                 @endif
                                             </p>
                                         @endforeach
@@ -79,10 +77,8 @@ route('dashboard')
                                                     {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                                 @elseif ($item[1] == "date_of_birth")
                                                     {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
-                                                @elseif ($item[1] == "diagnostic_id")    
-                                                    {{$elementShow->diagnostic->name}}
                                                 @else
-                                                    {{ $elementShow->{$item[1]} }}
+                                                    {{data_get($elementShow, $item[1])}}
                                                 @endif
                                             </p>
                                         @endforeach
@@ -101,10 +97,8 @@ route('dashboard')
                                             {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                         @elseif ($item[1] == "date_of_birth")
                                             {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
-                                        @elseif ($item[1] == "diagnostic_id")    
-                                            {{$elementShow->diagnostic->name}}
                                         @else
-                                            {{ $elementShow->{$item[1]} }}
+                                            {{ data_get($elementShow, $item[1]) }}
                                         @endif
                                     </p>
                                 @endforeach

@@ -1,4 +1,4 @@
-{{--
+j{{--
 $title: string que define o título da tabela.
 
 $headers: Um array que contém os cabeçalhos das colunas da tabela. Exemplo: ['ID', 'Nome', 'Descrição', 'Data de
@@ -152,6 +152,9 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
 
                                             @elseif ($variable == "student->diagnostic->name")
                                                 {{ \Illuminate\Support\Str::limit($row->student->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->student->diagnostic->name, 15) }}
+                                            @elseif ($variable == "student->name")
+                                                {{ \Illuminate\Support\Str::limit($row->student->name == '' ? 'Sem Diagnóstico' : $row->student->name, 15) }}
+                                            
                                             @else
                                                 {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 12) }}
                                                 <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->

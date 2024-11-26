@@ -9,8 +9,7 @@
             ['Assinatura', 'signature', 'select'],
             ['Data do Relatório', 'date', 'date'],
         ]" 
-        :selects="$users"
-        selectWithName
+        :selectsWithName="$users"
         actionRoute="regional"/>
  
 </x-app-layout> 

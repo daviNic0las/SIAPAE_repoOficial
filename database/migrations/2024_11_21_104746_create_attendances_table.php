@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->date('date');
             $table->string('educational_axis');
-            $table->string('advances');
-            $table->string('difficulties');
+            $table->text('advances');
+            $table->text('difficulties');
             $table->string('signature');
             $table->timestamps();
         });

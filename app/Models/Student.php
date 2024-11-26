@@ -44,4 +44,8 @@ class Student extends Model
     {
         return $this->belongsTo(MedHistory::class, 'student_id');
     }
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class, 'student_id');
+    }
 }

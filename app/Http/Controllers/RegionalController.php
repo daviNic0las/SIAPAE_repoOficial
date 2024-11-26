@@ -127,7 +127,7 @@ class RegionalController extends Controller
 
         $input = Regional::destroy($id);
         if ($input) {
-            session()->flash('success', 'Gasto excluído com sucesso!');
+            session()->flash('success', 'Relatório excluído com sucesso!');
             return redirect()->route('regional.index', compact('year'));
         } else {
             session()->flash('error', 'Erro na exclusão do Aluno');

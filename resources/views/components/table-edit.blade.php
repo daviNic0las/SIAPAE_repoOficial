@@ -31,7 +31,7 @@ route('dashboard')
 
                 @if (session()->has('error'))
                     <div class="text-red-600 dark:text-red-400">
-                        {{session('error')}}
+                        {{ session('error') }}
                     </div>
                 @endif
 
@@ -40,9 +40,8 @@ route('dashboard')
                     @method('PUT')
 
                     @if (isset($onlyHead) == 0)
-                    
+
                     @foreach ($labelsVariablesTypes as $itens)
-                    
                         <div class="mb-3">
                             <label for="{{ $itens[1] }}"
                                 class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
@@ -62,27 +61,25 @@ route('dashboard')
 
                             @elseif($itens[2] == "select")
                                 
-                                @if($selectWithName)
-                                <x-form.select valueName="{{ $itens[1] }}" >
-                                    <option value=""> Selecione um {{ $itens[0] }} </option>
-                                    
-                                    @foreach ($selects as $select)
-                                        <option value="{{ $select->name }}" {{ old($itens[1], $elementEdit->{$itens[1]}) == $select->name ? 'selected' : '' }}>
-                                            {{ $select->name }}
-                                        </option>
-                                    @endforeach
-                                </x-form.select>
-                                @else
-                                <x-form.select valueName="{{ $itens[1] }}" >
-                                    <option value=""> Selecione um {{ $itens[0] }} </option>
-                                    
-                                    @foreach ($selects as $select)
-                                        <option value="{{ $select->id }}" {{ old($itens[1], $elementEdit->{$itens[1]}) == $select->id ? 'selected' : '' }}>
-                                            {{ $select->name }}
-                                        </option>
-                                    @endforeach
-                                </x-form.select>
-                                @endif
+                            @if($itens[0] == "Assinatura")
+                                    <x-form.select valueName="{{ $itens[1] }}">
+                                        <option value=""> Selecione um {{ $itens[0] }} </option>
+                                        @foreach ($selectsWithName as $select)
+                                            <option value="{{ $select->name }}" {{ (old($itens[1], $elementEdit->{$itens[1]}) == $select->name) ? 'selected' : '' }}>
+                                                {{ $select->name }}
+                                            </option>
+                                        @endforeach
+                                    </x-form.select>
+                            @else
+                                    <x-form.select valueName="{{ $itens[1] }}">
+                                        <option value=""> Selecione um {{ $itens[0] }} </option>
+                                        @foreach ($selects as $select)
+                                            <option value="{{ $select->id }}" {{ (old($itens[1], $elementEdit->{$itens[1]}) == $select->id) ? 'selected' : '' }}>
+                                                {{ $select->name }}
+                                            </option>
+                                        @endforeach
+                                    </x-form.select>
+                            @endif
 
                             @elseif($itens[2] == "file")
                                 <div class="flex items-center">
@@ -102,15 +99,15 @@ route('dashboard')
                             @endif
 
                             @error($itens[1])
-                                <span class="text-red-600 dark:text-red-400">{{$message}}</span>
+                                <span class="text-red-600 dark:text-red-400">{{ $message }}</span>
                             @enderror
                         </div>
                     @endforeach
 
                     @else
-                        {{$slot}}
+                        {{ $slot }}
                     @endif   
-                    
+
                     <div>
                         <x-button type="submit" variant="blue" class="w-full mt-2">
                             <p class="text-center w-full"> Atualizar </p>
@@ -122,7 +119,6 @@ route('dashboard')
         </div>
     </div>
 </div>
-
 
 <script>
     if (document.getElementById('dateInput')) {

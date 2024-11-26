@@ -62,11 +62,11 @@ route('dashboard')
 
                                 @elseif($itens[2] == "select")
                                 
-                                    @if(isset($selectWithName))
+                                    @if($itens[0] == "Assinatura")
                                     <x-form.select valueName="{{ $itens[1] }}">
                                         <option value=""> Selecione um {{ $itens[0] }} </option>
 
-                                        @foreach ($selects as $select)
+                                        @foreach ($selectsWithName as $select)
                                             <option value="{{ $select->name }}" {{ old($itens[1]) == $select->name ? 'selected' : '' }}>
                                                 {{ $select->name }}
                                             </option>

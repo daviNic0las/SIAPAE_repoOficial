@@ -41,7 +41,7 @@ class StudentRequest extends FormRequest
             'school' => 'required|min:1|max:255',
             'class_school' => 'required|min:1|max:20',
             'turn_school' => 'required|min:1|max:20',
-            'grade_school' => 'required|min:1|max:20',
+            'grade_school' => 'required|min:1|max:50',
             'class_apae' => 'required|min:1|max:255',
             'turn_apae' => 'required|min:1|max:255',
             'image => nullable|mimes:png,jpg,jpeg,webp|max:2048',

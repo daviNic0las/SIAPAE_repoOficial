@@ -22,7 +22,7 @@ class EducationalRequest extends FormRequest
     public function rules(): array
     {
         return [
-           
+           //
         ];
     }
 }

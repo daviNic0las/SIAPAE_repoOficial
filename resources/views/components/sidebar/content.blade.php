@@ -38,8 +38,8 @@
             <x-icons.register class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
 
-        <x-sidebar.sublink title="{{__('Treatment')}}" href="{{route('example.link')}}"
-            :active="request()->routeIs('teste')" />
+        <x-sidebar.sublink title="{{__('Attendance')}}" href="{{route('attendance.index')}}"
+            :active="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit')" />
 
         <x-sidebar.sublink title="{{__('Diagnostic')}}" href="{{route('diagnostic.index')}}"
             :active="request()->routeIs('diagnostic.index')" />

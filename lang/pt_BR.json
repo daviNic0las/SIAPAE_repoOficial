@@ -158,7 +158,7 @@
   "Frequency List": "Lista de Frequência",
   "Student File": "Ficha dos Estudantes",
   "Diagnostic": "Diagnóstico",
-  "Treatment": "Atendimento",
+  "Attendance": "Atendimento",
   "Pedagogic": "Pedagógico",
   "Students": "Alunos",
   "Events": "Eventos",
@@ -171,5 +171,8 @@
   "Subtitle": "Subtítulo",
   "Text": "Texto",
   "Signature": "Assinatura",
-  "Date": "Data" 
+  "Date": "Data",
+  "Educational axis": "Eixo ducacional",
+  "Advances": "Avanços", 
+  "Difficulties": "Dificuldades"
 }
