@@ -22,11 +22,38 @@ class RegionalRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'date' => 'required|min:1',
-            'title' => 'required|string|min:1|max:100',
-            'subtitle' => 'required|string|min:1|max:200',
-            'text' => 'required|string|min:1|max:7000',
-            'signature' => 'required|string|min:1|max:100',
+            'date' => [
+                'required',
+                'min:1'
+            ],
+            
+            'title' => [
+                'required',
+                'string',
+                'min:1',
+                'max:100'
+            ],
+            
+            'subtitle' => [
+                'required',
+                'string',
+                'min:1',
+                'max:200'
+            ],
+            
+            'text' => [
+                'required',
+                'string',
+                'min:1',
+                'max:7000'
+            ],
+            
+            'signature' => [
+                'required',
+                'string',
+                'min:1',
+                'max:100'
+            ],
         ];
         
         return $rules;

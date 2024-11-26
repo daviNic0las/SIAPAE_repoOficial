@@ -24,7 +24,7 @@ class DiagnosticRequest extends FormRequest
     {
         $diagnosticId = $this->route('diagnostic');
 
-        $rules = [
+        $rules = [ 
             'name' => [
                 'required',
                 'min:1',

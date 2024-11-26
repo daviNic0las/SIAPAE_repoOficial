@@ -31,20 +31,65 @@ class StudentRequest extends FormRequest
                 'max:100',
                 Rule::unique('students')->ignore($studentId),
             ],
-            'date_of_birth' => 'required|min:1',
-            'diagnostic_id' => 'required|min:1|max:255',
+            
+            'date_of_birth' => [
+            'required',
+            'min:1'
+            ],
+            
+            'diagnostic_id' => [
+            'required',
+            'min:1',
+            'max:255'
+            ],
+            
             'student_id' => [
                 'required',
                 'min:1',
                 Rule::unique('students')->ignore($studentId),
             ],
-            'school' => 'required|min:1|max:255',
-            'class_school' => 'required|min:1|max:20',
-            'turn_school' => 'required|min:1|max:20',
-            'grade_school' => 'required|min:1|max:50',
-            'class_apae' => 'required|min:1|max:255',
-            'turn_apae' => 'required|min:1|max:255',
-            'image => nullable|mimes:png,jpg,jpeg,webp|max:2048',
+            
+            'school' => [
+            'required',
+            'min:1',
+            'max:255'
+            ],
+            
+            'class_school' => [
+            'required',
+            'min:1',
+            'max:20'
+            ],
+            
+            'turn_school' => [
+            'required',
+            'min:1',
+            'max:20'
+            ],
+            
+            'grade_school' => [
+            'required',
+            'min:1',
+            'max:50'
+            ],
+            
+            'class_apae' => [
+            'required',
+            'min:1',
+            'max:255'
+            ],
+            
+            'turn_apae' => [
+            'required',
+            'min:1',
+            'max:255'
+            ],
+            
+            'image' => [
+            'nullable',
+            'mimes:png,jpg,jpeg,webp',
+            'max:2048'
+            ],
         ];
         
         return $rules;
