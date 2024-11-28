@@ -18,9 +18,9 @@ class DiagnosticController extends Controller
         if ($search) {
             $diagnostics = Diagnostic::where([
                 ['name', 'like', '%' . $search . '%']
-            ])->orderBy('name', 'asc')->paginate(10);
+            ])->orderBy('name', 'asc')->paginate(15);
         } else {
-            $diagnostics = Diagnostic::orderBy('name', 'asc')->paginate(10);
+            $diagnostics = Diagnostic::orderBy('name', 'asc')->paginate(15);
         }
 
         return view('diagnostic.home', compact('diagnostics', 'search'));

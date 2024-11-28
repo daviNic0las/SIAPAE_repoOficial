@@ -8,7 +8,17 @@ import Inputmask from 'inputmask'
 
 document.addEventListener("DOMContentLoaded", function (){
     var dateMask = new Inputmask("99/99/9999");
-    dateMask.mask(document.querySelector('.date'))
+    dateMask.mask(document.querySelectorAll('.date'))
+});
+
+document.addEventListener("DOMContentLoaded", function (){
+    var dateMask = new Inputmask("(99)99999-9999");
+    dateMask.mask(document.querySelectorAll('.cellphone'))
+});
+
+document.addEventListener("DOMContentLoaded", function (){
+    var dateMask = new Inputmask("99.999.999-9");
+    dateMask.mask(document.querySelectorAll('.rg'))
 });
 
 document.addEventListener("DOMContentLoaded", function (){

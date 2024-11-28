@@ -23,7 +23,7 @@ class DonationController extends Controller
             ->join('students', 'donations.student_id', '=', 'students.id')  // Realizando o join com a tabela de partners
             ->select('donations.*','students.name')
             ->orderBy('students.name', 'asc')  // Ordenando pelo nome do parceiro
-            ->paginate(10);
+            ->paginate(15);
         } else {
             // Caso contrário, pega todos os gastos com o ano atual
             $year = \Carbon\Carbon::now()->year;
@@ -32,7 +32,7 @@ class DonationController extends Controller
             ->join('students', 'donations.student_id', '=', 'students.id')  // Realizando o join com a tabela de partners
             ->select('donations.*','students.name')
             ->orderBy('students.name', 'asc')  // Ordenando pelo nome do parceiro
-            ->paginate(10);
+            ->paginate(15);
         }
 
         // Obtém os anos disponíveis para o select

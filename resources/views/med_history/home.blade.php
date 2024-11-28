@@ -11,7 +11,7 @@
     <x-table title="Anamneses" 
         :headers="['Nome', 'Data Anamnese', 'ID do Aluno', 'Nome da Mãe', 'Diagnóstico']"
         :rows="$medHistories" 
-        :variablesDB="['student->name', 'date_of_anamnesis', 'student->student_id', 'name_mother', 'student->diagnostic->name']" 
+        :variablesDB="['student.name', 'date_of_anamnesis', 'student.student_id', 'name_mother', 'student.diagnostic.name']" 
         iteration="false" 
         withSearchInput
         :search="$search"

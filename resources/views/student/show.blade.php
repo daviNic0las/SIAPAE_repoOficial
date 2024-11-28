@@ -13,7 +13,7 @@
         ['Série na Escola', 'grade_school'],
         ['Turma na Apae', 'class_apae'],
         ['Turno na Apae', 'turn_apae'],
-        ['Diagnóstico', 'diagnostic_id']
+        ['Diagnóstico', 'diagnostic.name']
         ]" additional 
         divisionLateral
         quantLateral="5"

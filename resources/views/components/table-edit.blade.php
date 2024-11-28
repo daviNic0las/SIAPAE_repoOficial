@@ -35,7 +35,7 @@ route('dashboard')
                     </div>
                 @endif
 
-                <form id="dateForm" action="{{ route($actionRoute . '.update', [$actionRoute => $elementEdit->id]) }}" method="POST" enctype="multipart/form-data">
+                <form id="dateForm" action="{{ route($actionRoute . '.update', $elementEdit->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

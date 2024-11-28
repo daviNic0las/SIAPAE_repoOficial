@@ -21,11 +21,11 @@ class StudentController extends Controller
                 ['name', 'like', '%' . $search . '%']
             ])->with('diagnostic')
             ->orderBy('name', 'asc')
-            ->paginate(10);
+            ->paginate(15);
         } else {
             $students = Student::with('diagnostic')
             ->orderBy('name', 'asc')
-            ->paginate(10);
+            ->paginate(15);
         }
 
         return view('student.home', compact('students', 'search'));

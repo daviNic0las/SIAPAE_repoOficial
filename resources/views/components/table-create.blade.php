@@ -97,11 +97,15 @@ route('dashboard')
                         {{$slot}}
                     @endif
 
+                    @if (isset($buttonAddNotFull))
+                    @else
                     <div>
                         <x-button type="submit" variant="blue" class="w-full mt-2">
                             <p class="text-center w-full">Adicionar</p>
                         </x-button>
                     </div>
+                    @endif
+                    
 
                 </form>
             </div>

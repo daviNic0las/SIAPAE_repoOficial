@@ -12,7 +12,6 @@ $actionRoute (opcional): Contém a URL ou rota para onde o botão "Adicionar" de
 route('dashboard')
 --}}
 
-
 <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
@@ -34,7 +33,7 @@ route('dashboard')
                         if (isset($search)) {
                             $search = 'Resultados para: ' . '"' . $search . '"';
                         } else {
-                            $search = $frase == 'Anamnese' ? 'Nome do Aluno' : 'Nome do ' . $frase;
+                            $search = $frase == 'Anamnese' ? 'Nome do Aluno p/ Anamnese' : 'Nome do ' . $frase;
                         }
                     @endphp
 
@@ -106,7 +105,7 @@ route('dashboard')
                             @forelse ($rows as $row)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 {{ isset($withShow) ? 'cursor-pointer' : ''}} transition duration-300"
                                     @if(isset($withShow))
-                                    onclick="show('{{route($actionRoute . '.show', [$actionRoute => $row->id])}}')" @endif>
+                                    onclick="show('{{route($actionRoute . '.show', $row->id)}}')" @endif>
 
                                     @if($iteration == "true")
                                         <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
@@ -140,14 +139,8 @@ route('dashboard')
                                                 @else
                                                     {{ $row->file }}
                                                 @endif
-
-                                            @elseif ($variable == "diagnostic->name")
-                                                {{ \Illuminate\Support\Str::limit($row->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->diagnostic->name, 15) }}
-
-                                            @elseif ($variable == "student->diagnostic->name")
-                                                {{ \Illuminate\Support\Str::limit($row->student->diagnostic->name == '' ? 'Sem Diagnóstico' : $row->student->diagnostic->name, 15) }}
                                             @else
-                                                {{ \Illuminate\Support\Str::limit($row->$variable ?? '------', 12) }}
+                                                {{ \Illuminate\Support\Str::limit(data_get($row, $variable) ?? '------', 12) }}
                                                 <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
                                             @endif
                                         </td>
@@ -157,24 +150,20 @@ route('dashboard')
                                     @if(isset($actionRoute))
                                         <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center"
                                             onclick="event.stopPropagation();">
-                                            <x-button href="{{route($actionRoute . '.edit', [$actionRoute => $row->id])}}"
-                                                variant="warning">
-                                                <p class="text-gray-900">
-                                                    {{ __('Editar') }}
-                                                </p>
+                                            <x-button href="{{route($actionRoute . '.edit', $row->id)}}"
+                                                variant="edit" size="sm">
+                                                <x-icons.edit />
                                             </x-button>
 
                                             <form method="POST"
-                                                action="{{ route($actionRoute . '.destroy', [$actionRoute => $row->id]) }}"
+                                                action="{{ route($actionRoute . '.destroy', $row->id) }}"
                                                 accept-charset="UTF-8" style="display:inline">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
 
-                                                <x-button variant="danger" title="Deletar diagnóstico"
+                                                <x-button variant="trash" title="Deletar diagnóstico" size="sm" color="red"
                                                     onclick="deleteConfirm(event)">
-                                                    <div class="text-gray-100 dark:text-gray-200">
-                                                        {{ __('Deletar') }}
-                                                    </div>
+                                                    <x-icons.trash />
                                                 </x-button>
                                             </form>
                                         </td>
@@ -196,7 +185,7 @@ route('dashboard')
                     </tbody>
                 </table>
 
-                @if ($rows->count() > 10)
+                @if ($rows->count() > 15)
                     <hr class="border-gray-300 dark:border-gray-500 mt-4" />
                 @endif
                 <div class="pagination mt-4">
