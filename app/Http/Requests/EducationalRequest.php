@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DiagnosticRequest extends FormRequest
+class EducationalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +21,8 @@ class DiagnosticRequest extends FormRequest
      */
     public function rules(): array
     {
-        $diagnosticId = $this->route('diagnostic');
-
-        $rules = [ 
-            'name' => [
-                'required',
-                'min:1',
-                'max:255',
-                Rule::unique('students')->ignore($diagnosticId),
-            ],
+        return [
+           //
         ];
-        
-        return $rules;
     }
 }

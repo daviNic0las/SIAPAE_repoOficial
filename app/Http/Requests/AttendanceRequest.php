@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ExpenseRequest extends FormRequest
+class AttendanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,43 +22,46 @@ class ExpenseRequest extends FormRequest
      */
     public function rules(): array
     {
+        $AttendanceId = $this->route('attendance');
+
         $rules = [
-            'date_of_emission' => [
+            'student_id' => [
                 'required',
-                'min:1'
+                'min:1',
+                Rule::unique('attendances')->ignore($AttendanceId),
             ],
-            
-            'type' => [
+
+            'date' => [
+                'required',
+                'min:1',
+            ],
+
+            'educational_axis' => [
                 'required',
                 'string',
                 'min:1',
-                'max:15'
+                'max:200',
             ],
-            
-            'price' => [
+
+            'advances' => [
                 'required',
+               'string',
                 'min:1',
-                'max:11'
+                'max:5000',
             ],
             
-            'fiscal_number' => [
-                'nullable',
-                'min:1',
-                'max:30'
+            'difficulties' => [
+                'required',
+                'string',
+               ' min:1',
+                'max:5000',
             ],
             
-            'enterprise' => [
-                'nullable',
+            'signature' => [
+                'required',
                 'string',
                 'min:1',
-                'max:50'
-            ],
-            
-            'description' => [
-                'nullable',
-                'string',
-                'min:1',
-                'max:255'
+                'max:100',
             ],
         ];
         

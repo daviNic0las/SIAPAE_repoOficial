@@ -1,6 +1,6 @@
 <x-perfect-scrollbar as="nav" aria-label="main" class="flex flex-col flex-1 gap-3 px-3">
     <!-- Dashboard -->
-    <x-sidebar.link title="Dashboard" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
+    <x-sidebar.link title="Home" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
         <x-slot name="icon">
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -38,8 +38,8 @@
             <x-icons.register class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
 
-        <x-sidebar.sublink title="{{__('Treatment')}}" href="{{route('example.link')}}"
-            :active="request()->routeIs('teste')" />
+        <x-sidebar.sublink title="{{__('Attendance')}}" href="{{route('attendance.index')}}"
+            :active="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit')" />
 
         <x-sidebar.sublink title="{{__('Diagnostic')}}" href="{{route('diagnostic.index')}}"
             :active="request()->routeIs('diagnostic.index')" />
@@ -50,11 +50,11 @@
             <x-icons.report class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
 
-        <x-sidebar.sublink title="{{__('Pedagogic')}}" href="{{route('example.link')}}"
-            :active="request()->routeIs('teste')" />
+        <x-sidebar.sublink title="{{__('Pedagogic')}}" href="{{route('educational.index')}}"
+            :active="request()->routeIs('educational.index', 'educational.create', 'educational.edit')" />
 
-        <x-sidebar.sublink title="{{__('Regional')}}" href="{{route('example.link')}}"
-            :active="request()->routeIs('teste')" />
+        <x-sidebar.sublink title="{{__('Regional')}}" href="{{route('regional.index')}}"
+            :active="request()->routeIs('regional.index', 'regional.create', 'regional.edit')" />
     </x-sidebar.dropdown>
 
     <!-- Transition - REUNIÕES -->

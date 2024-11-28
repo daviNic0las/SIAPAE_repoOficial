@@ -8,6 +8,7 @@ use App\Http\Controllers\MedHistoryController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\StudentApiController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\RegionalController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -50,6 +51,8 @@ Route::middleware('auth')->group(function () {
         'diagnostic' => DiagnosticController::class,
         'record' => RecordController::class,
         'student' => StudentController::class,
+        'regional' => RegionalController::class,
+        'educational' => EducationalController::class,
     ]);
     Route::get('/studentapi/{id}', [StudentApiController::class, 'getStudentData']);
     Route::get('/sla', [StudentApiController::class, 'teste']);

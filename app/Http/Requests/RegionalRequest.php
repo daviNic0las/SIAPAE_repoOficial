@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ExpenseRequest extends FormRequest
+class RegionalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,42 +22,37 @@ class ExpenseRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'date_of_emission' => [
+            'date' => [
                 'required',
                 'min:1'
             ],
             
-            'type' => [
+            'title' => [
                 'required',
                 'string',
                 'min:1',
-                'max:15'
+                'max:100'
             ],
             
-            'price' => [
+            'subtitle' => [
                 'required',
-                'min:1',
-                'max:11'
-            ],
-            
-            'fiscal_number' => [
-                'nullable',
-                'min:1',
-                'max:30'
-            ],
-            
-            'enterprise' => [
-                'nullable',
                 'string',
                 'min:1',
-                'max:50'
+                'max:200'
             ],
             
-            'description' => [
-                'nullable',
+            'text' => [
+                'required',
                 'string',
                 'min:1',
-                'max:255'
+                'max:7000'
+            ],
+            
+            'signature' => [
+                'required',
+                'string',
+                'min:1',
+                'max:100'
             ],
         ];
         

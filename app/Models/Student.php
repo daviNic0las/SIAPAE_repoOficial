@@ -32,7 +32,9 @@ class Student extends Model
 
     public function diagnostic(): BelongsTo
     {
-        return $this->belongsTo(Diagnostic::class, 'diagnostic_id'); 
+        return $this->belongsTo(Diagnostic::class, 'diagnostic_id')->withDefault([ 
+        'name' => 'Diagnóstico não encontrado'
+    ]); // Permitir valor default caso null
     }
     public function donations(): HasMany
     {
@@ -41,5 +43,9 @@ class Student extends Model
     public function MedHistory(): BelongsTo
     {
         return $this->belongsTo(MedHistory::class, 'student_id');
+    }
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class, 'student_id');
     }
 }

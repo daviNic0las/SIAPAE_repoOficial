@@ -1,4 +1,4 @@
-{{--
+j{{--
 $title: string que define o título da tabela.
 
 $headers: Um array que contém os cabeçalhos das colunas da tabela. Exemplo: ['ID', 'Nome', 'Descrição', 'Data de
@@ -10,6 +10,12 @@ $variablesDB: Um array com o nomes da colunas que existem no banco de dados
 
 $actionRoute (opcional): Contém a URL ou rota para onde o botão "Adicionar" deve redirecionar. ex:
 route('dashboard')
+
+Tutorial de como resetar as senhas dos usuários:
+passo 1: execute o comando "php artisan db:seed --class=TruncateUsersTableSeeder",
+passo 2: execute o comando "php artisan db:seed",
+passo 3: faça login em sua conta ,
+passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pessoal.
 --}}
 
 <div class="py-6">
@@ -88,7 +94,7 @@ route('dashboard')
 
                             @foreach($headers as $header)
                                 <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
-                                    {{ $header }}
+                                    {{ __($header) }}
                                 </th>
                             @endforeach
 
