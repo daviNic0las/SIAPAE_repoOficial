@@ -19,6 +19,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "inputmask": "^5.0.9"
+        "inputmask": "^5.0.9",
+        "toastr": "^2.1.4"
     }
 }

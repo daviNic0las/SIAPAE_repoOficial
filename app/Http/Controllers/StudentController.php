@@ -54,7 +54,7 @@ class StudentController extends Controller
 
         $input = Student::create($data);
         if ($input) {
-            session()->flash('success', 'Aluno adicionado com sucesso');
+            session()->flash('success', 'Aluno adicionado com sucesso!');
             return redirect()->route('student.index');
         } else {
             session()->flash('error', 'Falha na criação do Aluno');
