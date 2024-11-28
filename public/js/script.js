@@ -136,16 +136,17 @@ if (document.querySelector('.dateInput')) {
 
 // View Anamnese - Função para habilitar/desabilitar inputs dependendo da checkbox
 function toggleInput(checkbox) {
-    // Obtém o ID do target (input que será habilitado/desabilitado)
-    const targetId = checkbox.getAttribute('data-target');
-    const targetInput = document.getElementById(targetId);
+    const targetClass = checkbox.getAttribute('data-target'); 
+    const targetInputs = document.querySelectorAll(`.${targetClass}`);
 
-    // Se a checkbox estiver marcada, habilita o input. Caso contrário, desabilita.
-    if (checkbox.checked) {
-        targetInput.disabled = false;
-    } else {
-        targetInput.disabled = true;
-    }
+    // Se a checkbox estiver marcada, habilita os inputs. Caso contrário, desabilita.
+    targetInputs.forEach(function(input) {
+        if (checkbox.checked) {
+            input.disabled = false;
+        } else {
+            input.disabled = true;
+        }
+    });
 }
 
 // Para garantir que os inputs sejam desabilitados ao carregar a página (caso as checkboxes não estejam marcadas)
@@ -187,4 +188,26 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('tipo_gasto').addEventListener('change', function () {
         mostrarCampos(this.value);
     });
+});
+
+//View MedHistory/Anamnesis - botão select: selecionar aluno e modificar campos
+document.querySelector('.anamnesis_student').addEventListener('change', function() {
+    var studentId = this.value;
+    if (studentId) {
+        // Faz a requisição AJAX para pegar os dados do aluno
+        fetch(`/anamnesis/${studentId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Preenche os campos com os dados recebidos
+                document.getElementById('turma').value = data.turma;
+                document.getElementById('turno').value = data.turno;
+                document.getElementById('escola').value = data.escola;
+            })
+            .catch(error => console.error('Erro:', error));
+    } else {
+        // Limpa os campos se nenhum aluno for selecionado
+        document.getElementById('turma').value = '';
+        document.getElementById('turno').value = '';
+        document.getElementById('escola').value = '';
+    }
 });

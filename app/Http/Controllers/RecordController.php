@@ -17,13 +17,13 @@ class RecordController extends Controller
         if ($year) {
             $records = Record::whereYear('date', $year)
             ->orderBy('date', 'asc')
-            ->paginate(10);
+            ->paginate(15);
         } else {
             // Caso contrário, pega todos os gastos com o ano atual
             $year = \Carbon\Carbon::now()->year;
             $records = Record::whereYear('date', $year)
             ->orderBy('date', 'asc')
-            ->paginate(10);
+            ->paginate(15);
         }
 
         // Obtém os anos disponíveis para o select

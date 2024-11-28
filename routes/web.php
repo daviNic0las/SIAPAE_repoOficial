@@ -6,6 +6,7 @@ use App\Http\Controllers\DiagnosticController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\MedHistoryController;
 use App\Http\Controllers\RecordController;
+use App\Http\Controllers\StudentApiController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\RegionalController;
 
@@ -53,6 +54,8 @@ Route::middleware('auth')->group(function () {
         'regional' => RegionalController::class,
         'educational' => EducationalController::class,
     ]);
+    Route::get('/studentapi/{id}', [StudentApiController::class, 'getStudentData']);
+    Route::get('/sla', [StudentApiController::class, 'teste']);
 
     // Admin Access:
     Route::middleware(CheckAdmin::class)->group( function() {

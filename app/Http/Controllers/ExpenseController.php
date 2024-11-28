@@ -20,13 +20,13 @@ class ExpenseController extends Controller
         if ($year) {
             $expenses = Expense::whereYear('date_of_emission', $year)
             ->orderBy('date_of_emission', 'asc')
-            ->paginate(10);
+            ->paginate(15);
         } else {
             // Caso contrário, pega todos os gastos com o ano atual
             $year = \Carbon\Carbon::now()->year;
             $expenses = Expense::whereYear('date_of_emission', $year)
             ->orderBy('date_of_emission', 'asc')
-            ->paginate(10);
+            ->paginate(15);
         }
 
         // Obtém os anos disponíveis para o select

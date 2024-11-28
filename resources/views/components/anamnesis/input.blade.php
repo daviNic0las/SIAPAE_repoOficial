@@ -1,13 +1,14 @@
 @props([
     'disabled' => false,
+    'readOnly' => false,
 ])
 
 <input
     {{ $disabled ? 'disabled' : '' }}
+    {{ $readOnly ? 'readOnly' : '' }}
     {!! $attributes->merge([
-            'class' => 'py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-            focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
-            dark:focus:ring-offset-dark-eval-1',
+            'class' => 'w-full py-1 border-gray-400 rounded-md focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
+            shadow-sm sm:text-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-400 dark:text-gray-400',
         ])
     !!}
 >

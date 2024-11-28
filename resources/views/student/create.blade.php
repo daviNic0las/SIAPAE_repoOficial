@@ -10,17 +10,20 @@
                 Nome do Aluno:
             </label>
             <x-form.input id="name" type="text" name="name" value="{{ old('name') }}" class="w-full dark:text-gray-400"
-                placeholder="Ex: João" />
+                placeholder="Ex: João" required/>
 
             @error("name")
                 <span class="text-red-600 dark:text-red-400">{{$message}}</span>
             @enderror
         </div>
 
-        <div class="flex justify-between mb-3 mt-4">
-            <div class="flex-1">
-                <x-form.select valueName="class_apae">
-                    <option value=""> Selecione a Turma realizada na Apae: </option>
+        <div class="grid grid-cols-3 mb-3">
+            <div class="flex-1 pr-2">
+                <label for="class_apae" class="block text-gray-700 dark:text-gray-300 font-normal mb-2">
+                    Selecione a Turma realizada na Apae:
+                </label>
+                <x-form.select full valueName="class_apae">
+                    <option value=""> Turma: </option>
 
                     <option value="Segunda e Quarta" {{ old('class_apae') == 'Segunda e Quarta' ? 'selected' : '' }}>
                         Segunda e Quarta
@@ -36,9 +39,12 @@
                     <span class="text-red-600 dark:text-red-400">{{$message}}</span>
                 @enderror
             </div>
-            <div class="flex-1 flex justify-end">
-                <x-form.select valueName="turn_apae">
-                    <option value=""> Selecione o Turno realizado na Apae: </option>
+            <div class="pl-2">
+                <label for="class_apae" class="block text-gray-700 dark:text-gray-300 font-normal mb-2">
+                    Selecione o Turno realizado na Apae:
+                </label>
+                <x-form.select valueName="turn_apae" full>
+                    <option value=""> Turno: </option>
 
                     <option value="Manhã" {{ old('turn_apae') == 'Manhã' ? 'selected' : '' }}>
                         Manhã
@@ -58,10 +64,11 @@
                 Data de Nascimento:
             </label>
             <x-form.input id="date" type="text" name="date_of_birth" value="{{ old('date_of_birth') }}"
-                class="w-full dark:text-gray-400 date dateInput" placeholder="Ex: 01/01/2021" />
+                class="w-full dark:text-gray-400 date dateInput" placeholder="Ex: 01/01/2021" required/>
 
-            <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre
-                1960 e 2200.</span>
+            <span id="errorMessage" style="color: red; display: none;">
+                Data inválida. Insira uma data entre 1960 e 2200.
+            </span>
             @error("date_of_birth")
                 <span class="text-red-600 dark:text-red-400">{{$message}}</span>
             @enderror
@@ -72,7 +79,7 @@
                 ID do Estudante:
             </label>
             <x-form.input id="student_id" type="text" name="student_id" value="{{ old('student_id') }}"
-                class="w-full dark:text-gray-400" placeholder="Ex: 2137981" />
+                class="w-full dark:text-gray-400" placeholder="Ex: 2137981" required/>
 
             @error("student_id")
                 <span class="text-red-600 dark:text-red-400">{{$message}}</span>
@@ -81,7 +88,7 @@
 
         <div class="mb-3">
             <label for="school" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
-                Escola do Aluno:
+                Escola do Aluno: (*opcional - caso o Aluno não frequente uma escola)
             </label>
             <x-form.input id="school" type="text" name="school" value="{{ old('school') }}"
                 class="w-full dark:text-gray-400" placeholder="Ex: Benilce.." />
@@ -94,10 +101,10 @@
         <div class="flex mb-3">
             <div class="flex-1 pr-2">
                 <label for="class_school" class="block text-gray-700 dark:text-gray-300 font-normal mb-2">
-                    Turma do Aluno na Escola:
+                    Turma do Aluno na Escola: (*opcional)
                 </label>
                 <x-form.input id="class_school" type="text" name="class_school" value="{{ old('class_school') }}"
-                    class="w-full dark:text-gray-400" placeholder="Ex: 21372" />
+                    class="w-full dark:text-gray-400" placeholder="Ex: 21372"/>
 
                 @error("class_school")
                     <span class="text-red-600 dark:text-red-400">{{$message}}</span>
@@ -106,10 +113,10 @@
 
             <div class="flex-1 px-2">
                 <label for="grade_school" class="block text-gray-700 dark:text-gray-300 font-normal mb-2">
-                    Série:
+                    Série: (*opcional)
                 </label>
                 <x-form.input id="grade_school" type="text" name="grade_school" value="{{ old('grade_school') }}"
-                    class="w-full dark:text-gray-400" placeholder="Ex: 2º ano Fundamental" />
+                    class="w-full dark:text-gray-400" placeholder="Ex: 2º ano Fundamental"/>
 
                 @error("grade_school")
                     <span class="text-red-600 dark:text-red-400">{{$message}}</span>
@@ -118,9 +125,9 @@
 
             <div class="flex-1 pl-2">
                 <label for="turn_school" class="block text-gray-700 dark:text-gray-300 font-normal mb-2">
-                    Turno do Aluno na Escola:
+                    Turno do Aluno na Escola: (*opcional)
                 </label>
-                <x-form.select valueName="turn_school" full>
+                <x-form.select valueName="turn_school" full notRequired>
                     <option value=""> Turno: </option>
 
                     <option value="Manhã" {{ old('turn_school') == 'Manhã' ? 'selected' : '' }}>
@@ -141,7 +148,7 @@
                 <option value=""> Selecione o Diagnóstico: </option>
 
                 @foreach ($diagnostics as $diagnostic)
-                    <option value="{{ $diagnostic->id }}" {{ old($diagnostic->id) == $diagnostic->id ? 'selected' : '' }}>
+                    <option value="{{ $diagnostic->id }}" {{ old('diagnostic_id') == $diagnostic->id ? 'selected' : '' }}>
                         {{ $diagnostic->name }}
                     </option>
                 @endforeach
