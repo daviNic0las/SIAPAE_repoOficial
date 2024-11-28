@@ -148,7 +148,7 @@
                 <option value=""> Selecione o Diagnóstico: </option>
 
                 @foreach ($diagnostics as $diagnostic)
-                    <option value="{{ $diagnostic->id }}" {{ old($diagnostic->id) == $diagnostic->id ? 'selected' : '' }}>
+                    <option value="{{ $diagnostic->id }}" {{ old('diagnostic_id') == $diagnostic->id ? 'selected' : '' }}>
                         {{ $diagnostic->name }}
                     </option>
                 @endforeach

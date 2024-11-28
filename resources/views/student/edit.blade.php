@@ -93,7 +93,7 @@
                 Escola do Aluno:
             </label>
             <x-form.input id="school" type="text" name="school" value="{{ old('school', $student->school) }}"
-                class="w-full dark:text-gray-400" placeholder="Ex: Benilce.." required />
+                class="w-full dark:text-gray-400" placeholder="Ex: Benilce.." />
 
             @error("school")
                 <span class="text-red-600 dark:text-red-400">{{$message}}</span>
@@ -107,7 +107,7 @@
                 </label>
                 <x-form.input id="class_school" type="text" name="class_school"
                     value="{{ old('class_school', $student->class_school) }}" class="w-full dark:text-gray-400"
-                    placeholder="Ex: 21372" required />
+                    placeholder="Ex: 21372" />
 
                 @error("class_school")
                     <span class="text-red-600 dark:text-red-400">{{$message}}</span>
@@ -120,7 +120,7 @@
                 </label>
                 <x-form.input id="grade_school" type="text" name="grade_school"
                     value="{{ old('grade_school', $student->grade_school) }}" class="w-full dark:text-gray-400"
-                    placeholder="Ex: 2º ano Fundamental" required />
+                    placeholder="Ex: 2º ano Fundamental" />
 
                 @error("grade_school")
                     <span class="text-red-600 dark:text-red-400">{{$message}}</span>
@@ -131,7 +131,7 @@
                 <label for="turn_school" class="block text-gray-700 dark:text-gray-300 font-normal mb-2">
                     Turno do Aluno na Escola:
                 </label>
-                <x-form.select valueName="turn_school" full>
+                <x-form.select valueName="turn_school" full notRequired>
                     <option value=""> Turno: </option>
 
                     <option value="Manhã" {{ old('turn_school', $student->turn_school) == 'Manhã' ? 'selected' : '' }}>
@@ -155,7 +155,7 @@
                 <option value=""> Selecione o Diagnóstico: </option>
 
                 @foreach ($diagnostics as $diagnostic)
-                    <option value="{{ $diagnostic->id }}" {{ old($diagnostic->id, $student->diagnostic_id) == $diagnostic->id ? 'selected' : '' }}>
+                    <option value="{{ $diagnostic->id }}" {{ old('diagnostic_id', $student->diagnostic_id) == $diagnostic->id ? 'selected' : '' }}>
                         {{ $diagnostic->name }}
                     </option>
                 @endforeach

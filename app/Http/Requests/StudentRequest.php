@@ -50,25 +50,25 @@ class StudentRequest extends FormRequest
             ],
             
             'school' => [
-            'required',
+            'nullable',
             'min:1',
             'max:255'
             ],
             
             'class_school' => [
-            'required',
+            'nullable',
             'min:1',
             'max:20'
             ],
             
             'turn_school' => [
-            'required',
+            'nullable',
             'min:1',
             'max:20'
             ],
             
             'grade_school' => [
-            'required',
+            'nullable',
             'min:1',
             'max:50'
             ],

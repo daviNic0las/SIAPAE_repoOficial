@@ -117,7 +117,6 @@ route('dashboard')
                         </x-button>
                     </div>
                     @endif
-                    
 
                 </form>
             </div>

@@ -1,4 +1,4 @@
-j{{--
+{{--
 $title: string que define o título da tabela.
 
 $headers: Um array que contém os cabeçalhos das colunas da tabela. Exemplo: ['ID', 'Nome', 'Descrição', 'Data de

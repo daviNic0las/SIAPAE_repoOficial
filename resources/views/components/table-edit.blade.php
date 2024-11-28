@@ -120,32 +120,6 @@ route('dashboard')
     </div>
 </div>
 
-<script>
-    if (document.getElementById('dateInput')) {
-        document.getElementById('dateForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const dateInput = document.getElementById('dateInput');
-            const dateFormated = \Carbon\Carbon::createFromFormat('d/m/Y', dateInput)->format('Y-m-d');
-            const errorMessage = document.getElementById('errorMessage');
-            const dateValue = new Date(dateFormated.value);
-            const minDate = new Date('1960-01-01');
-            const maxDate = new Date('2200-12-31');
-
-            if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
-                errorMessage.style.display = 'inline';
-                return; // Previne o envio do formulário se a data for inválida
-            } else {
-                errorMessage.style.display = 'none';
-                this.submit();
-            }
-            // Se não houver campo de data ou a data for válida, envie o formulário
-            this.submit();
-        })
-    };
-</script>
-
-
 {{-- ATENÇÃO:   
 A máscara que eu coloquei para um input do tipo data só funciona se o type do input for text
 então no controller vc vai precisar converter esse dado no controller, sendo necessário ajeitar o edit() e o update() 
