@@ -27,23 +27,13 @@ class MedHistoryRequest extends FormRequest
         // Captura o id da rota e está estranha pois o id de anamnesis é {anamnesi}
 
         $rules = [
-            'informant' => [
-                'required',
-                'string',
-                'max:255'
-            ],
-            'date_of_anamnesis' => [
-                'required',
-                'min:8'
-            ],
-
+            'informant' => 'required|string|max:255',
+            'date_of_anamnesis' => 'required|min:8',
             'student_id' => [
                 'required',
                 'min:1',
                 Rule::unique('med_histories')->ignore($MedHistoryId),
             ],
-            'informant' => 'required|string|max:255',
-            'date_of_anamnesis' => 'required|min:8',
             'appraisal' => 'required|string|max:255',
             'have_caregiver' => 'sometimes|boolean',
             'have_AEE' => 'sometimes|boolean',

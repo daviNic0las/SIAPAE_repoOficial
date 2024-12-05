@@ -9,9 +9,9 @@
 
     <x-table 
         title="Atendimentos" 
-        :headers="['Aluno', 'Date', 'Educational axis', 'Advances', 'Difficulties', 'Signature']" 
+        :headers="['Aluno', 'Data', 'Eixo Educacional', 'Avanços', 'Dificuldades', 'Assinatura']" 
         :rows="$attendances" 
-        :variables_DB="['student->name', 'date', 'educational_axis', 'advances', 'difficulties', 'signature']"
+        :variablesDB="['student.name', 'date', 'educational_axis', 'advances', 'difficulties', 'signature']"
         iteration="false"
         withSearchSelect
         :years="$years"
@@ -19,5 +19,4 @@
         withShow
         actionRoute="attendance">
     </x-table>
-    
 </x-app-layout>

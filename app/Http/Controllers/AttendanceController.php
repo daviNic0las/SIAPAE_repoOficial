@@ -86,7 +86,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::with('student')->findOrFail($id);
         $attendance['date'] = \Carbon\Carbon::createFromFormat('Y-m-d', $attendance['date'])->format('d/m/Y');
 
-
+        
         $students = Student::orderBy('name', 'asc')->get();
         $users = User::orderBy('name', 'asc')->get();
 

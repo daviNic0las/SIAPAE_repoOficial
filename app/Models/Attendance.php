@@ -22,6 +22,8 @@ class Attendance extends Model
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(Student::class, 'student_id'); 
+        return $this->belongsTo(Student::class, 'student_id')->withDefault([ 
+            'name' => 'Aluno não registrado'
+        ]);
     }
 }
