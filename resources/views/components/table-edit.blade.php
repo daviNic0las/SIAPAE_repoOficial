@@ -109,8 +109,8 @@ route('dashboard')
                     @endif   
 
                     <div>
-                        <x-button type="submit" variant="blue" class="w-full mt-2">
-                            <p class="text-center w-full"> Atualizar </p>
+                        <x-button type="submit" variant="warning" class="w-full mt-2">
+                            <p class="text-center w-full text-gray-900"> Atualizar </p>
                         </x-button>
                     </div>
 

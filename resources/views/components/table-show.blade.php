@@ -21,8 +21,8 @@ route('dashboard')
                     <h1 class="text-xl font-bold leading-tight">Informações do(a) {{ $title }} </h1>
 
                     @if(isset($actionRoute))
-                        <x-button href="{{route($actionRoute . '.index')}}" variant="warning">
-                            <p class="text-gray-900">
+                        <x-button href="{{route($actionRoute . '.index')}}" variant="primary">
+                            <p class="text-white">
                                 Voltar
                             </p>
                         </x-button>
