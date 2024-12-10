@@ -19,7 +19,7 @@
     @endif
 
     <x-table 
-    title="Doações" 
+    title="Doação" 
     :headers="['Nome', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']" 
     :rows="$donations"
     onlyHead 
@@ -114,7 +114,7 @@
 
         @empty
             <tr class="text-center">
-                <td class="p-3 font-normal dark:text-gray-300" colspan="{{ 14 }}">
+                <td class="border border-gray-300 dark:border-gray-600 p-3 font-normal dark:text-gray-300" colspan="{{ 14 }}">
                     Nenhum registro encontrado.
                 </td>
             </tr>

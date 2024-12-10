@@ -53,7 +53,7 @@ return new class extends Migration
             // IV - Gestation/birth conditions
             $table->text('have_child_desired');
             $table->string('gestation_order');
-            $table->integer('number_children');
+            $table->string('number_children');
             $table->boolean('history_abort');
             $table->string('abort_justify')->nullable();
             $table->text('child_adopted');
@@ -62,7 +62,7 @@ return new class extends Migration
             $table->text('type_childbirth');
             $table->boolean('have_disease_gestation');
             $table->string('what_disease_gestation')->nullable();
-            $table->text('have_treatment');
+            $table->text('have_treatment')->nullable();
             $table->string('place_birth');
             $table->boolean('have_problems_birth');
             $table->string('what_problems_birth')->nullable();
@@ -74,8 +74,6 @@ return new class extends Migration
             $table->text('have_mother_breastfeed');
             $table->boolean('have_nozzle');
             $table->string('detail_nozzle')->nullable();
-            $table->boolean('have_up-to-date_vaccines');
-            $table->string('detail_up-to-date_vaccines')->nullable();
             // V - Development
             $table->boolean('have_delay_NPM');
             $table->string('detail_delay_NPM')->nullable();
@@ -92,29 +90,77 @@ return new class extends Migration
             $table->string('sleep_time');
             $table->text('difficulty_waking_up');
             $table->text('independent_daily_activities');
-            $table->string('other_difficulty');
+            $table->string('other_difficulty')->nullable();
             // VI - Behavioral attitudes
-            // $table->string('child_temperament');
-            // $table->boolean('stubbornness');
-            // $table->boolean('tantrum');
-            // $table->boolean('lies');
-            // $table->boolean('aggressiveness');
-            // $table->boolean('shyness');
-            // $table->boolean('affectionate');
-            // $table->boolean('inappropriate_behavior');
-            // $table->string('how_manifests_inappropriate_behavior')->nullable();
-            // $table->boolean('tics_manias');
-            // $table->boolean('hyperfocus');
-            // $table->boolean('waiting_skill');
-            // $table->boolean('tolerates_frustration');
-            // $table->boolean('responds_orders');
-            // $table->boolean('sexual_curiosity');
-            // $table->string('how_manifests_sexual_curiosity')->nullable();
-            // $table->boolean('daily_routine');
-            // $table->string('rigidity_daily_routine')->nullable();
-            // $table->string('what_daily_routine')->nullable();
-            // $table->boolean('sports_activity');
-            // $table->string('what_sports_activity')->nullable();
+            $table->string('child_temperament');
+            $table->boolean('stubbornness');
+            $table->boolean('tantrum');
+            $table->boolean('lies');
+            $table->boolean('aggressiveness');
+            $table->boolean('shyness');
+            $table->boolean('affectionate');
+            $table->boolean('inappropriate_behavior');
+            $table->string('how_manifests_inappropriate_behavior')->nullable();
+            $table->boolean('tics_manias');
+            $table->boolean('hyperfocus');
+            $table->boolean('waiting_skill');
+            $table->boolean('tolerates_frustration');
+            $table->boolean('responds_orders');
+            $table->boolean('sexual_curiosity');
+            $table->string('how_manifests_sexual_curiosity')->nullable();
+            $table->boolean('daily_routine');
+            $table->string('rigidity_daily_routine')->nullable();
+            $table->string('what_daily_routine')->nullable();
+            $table->boolean('sports_activity');
+            $table->string('what_sports_activity')->nullable();
+            // VII - Scholarity
+            $table->string('age_start_school');
+            $table->string('how_school_adaptation');
+            $table->boolean('have_difficulty_learning');
+            $table->string('justify_difficulty_learning')->nullable();
+            $table->text('school_reinforcement');
+            $table->text('parents_participate_school_life');
+            $table->string('favorite_activity_school');
+            $table->text('complaint_behavior');
+            $table->text('demonstrates_satisfaction_school');
+            $table->text('report_situation_school_in_home');
+            // VIII - School skills
+            $table->text('knows_handle_pencil');
+            $table->text('reading_letters');
+            $table->text('reading_words');
+            $table->text('reading_texts');
+            $table->text('do_activities_autonomously');
+            $table->text('not_participate_collective_activities');
+            $table->text('follows_school_routine');
+            $table->text('adapted_activities');
+            $table->text('literacy_level');
+            // IX - Medical History
+            $table->boolean('have_allergy');
+            $table->string('what_allergy')->nullable();
+            $table->text('wear_glasses');
+            $table->text('use_hearing_aid');
+            $table->text('know_libras');
+            $table->boolean('have_therapeutic');
+            $table->string('times_days_therapeutic')->nullable();
+            $table->boolean('history_disorders_family');
+            $table->string('what_history_disorders_family')->nullable();
+            $table->boolean('have_update_vaccines');
+            $table->string('detail_update_vaccines')->nullable();
+            // X - Ambiente Social e Familiar
+            $table->string('relation_family_members');
+            $table->text('super_protected');
+            $table->boolean('have_access_cellphone');
+            $table->string('time_access_cellphone')->nullable();
+            $table->text('accompanies_access_cellphone')->nullable();
+            // XI - Avaliando o Caee da APAEE Russas
+            $table->boolean('already_had_information_institution');
+            $table->string('who_recommend_institution')->nullable();
+            $table->text('participate_contribution');
+            // XII - Observações Gerais
+            $table->string('general_observations')->nullable();
+            
+            $table->string('signature');
+
 
             $table->timestamps();
         });

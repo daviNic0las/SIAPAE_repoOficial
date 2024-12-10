@@ -9,7 +9,7 @@
     </x-slot>
 
     <x-table 
-        title="Gastos" 
+        title="Gasto" 
         :headers="['Data de Emissão', 'Tipo', 'Número Nota', 'Empresa', 'Descrição', 'Valor']" 
         :rows="$expenses" 
         :variables_DB="['date_of_emission', 'type', 'fiscal_number', 'enterprise', 'description', 'price']"

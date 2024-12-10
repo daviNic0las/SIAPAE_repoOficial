@@ -29,7 +29,7 @@ class DiagnosticRequest extends FormRequest
                 'required',
                 'min:1',
                 'max:255',
-                Rule::unique('students')->ignore($diagnosticId),
+                Rule::unique('diagnostics')->ignore($diagnosticId),
             ],
         ];
         

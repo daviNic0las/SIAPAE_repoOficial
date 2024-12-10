@@ -8,14 +8,13 @@
     </x-slot>
 
     <x-table 
-        title="Atendimentos" 
-        :headers="['Aluno', 'Data', 'Eixo Educacional', 'Avanços', 'Dificuldades', 'Assinatura']" 
+        title="Atendimento" 
+        :headers="['Aluno', 'Date', 'Educational axis', 'Advances', 'Difficulties', 'Signature']" 
         :rows="$attendances" 
-        :variablesDB="['student.name', 'date', 'educational_axis', 'advances', 'difficulties', 'signature']"
+        :variables_DB="['student_name', 'date', 'educational_axis', 'advances', 'difficulties', 'signature']"
         iteration="false"
-        withSearchSelect
-        :years="$years"
-        :year="$year"
+        withSearchDateRange
+        :range="$date_range"
         withShow
         actionRoute="attendance">
     </x-table>

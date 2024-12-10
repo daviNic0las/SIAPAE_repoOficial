@@ -80,10 +80,10 @@ class DonationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $validated = $request->validate([
-        //     'preco' => 'nullable|numeric|max:6',
-        //     'field' => 'required|string|max:6',
-        // ]);
+        $validated = $request->validate([
+            'preco' => 'nullable|numeric|max:6',
+            'field' => 'required|string|max:6',
+        ]);
 
         $donation = Donation::findOrFail($id);
 

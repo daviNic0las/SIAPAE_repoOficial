@@ -41,7 +41,7 @@ class DiagnosticController extends Controller
         // dd($data);
         $data = Diagnostic::create($data);
         if ($data) {
-            session()->flash('success','Categoria adicionada com sucesso');
+            session()->flash('success','Diagnóstico adicionada com sucesso');
             return redirect()->route('diagnostic.index');
         } else {
             session()->flash('error','Falha na criação');
@@ -81,7 +81,7 @@ class DiagnosticController extends Controller
     {
         $input = Diagnostic::findOrFail($id)->delete();
         if ($input) {
-            session()->flash('success', 'Categoria excluída com sucesso!');
+            session()->flash('success', 'Diagnóstico excluído com sucesso!');
             return redirect()->route('diagnostic.index');
         } else {
             session()->flash('error', 'Erro na exclusão do item');

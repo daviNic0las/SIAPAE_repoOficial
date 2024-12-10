@@ -9,7 +9,7 @@
     </x-slot>
 
     <x-table 
-        title="Ata de Reuniões" 
+        title="Ata de Reunião" 
         :headers="['Nome', 'Data', 'Arquivo']" 
         :rows="$records" 
         :variables_DB="['name', 'date', 'file']"

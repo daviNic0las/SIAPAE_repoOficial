@@ -62,27 +62,39 @@ route('dashboard')
 
                                 @elseif($itens[2] == "select")
                                 
-                                    @if($itens[0] == "Assinatura")
                                     <x-form.select valueName="{{ $itens[1] }}">
                                         <option value=""> Selecione um {{ $itens[0] }} </option>
-
-                                        @foreach ($selectsWithName as $select)
+                                        
+                                        @if($itens[1] == "student_name" || $itens[1] == "signature")
+                                        @php 
+                                        // Se for um array de arrays, alterna entre os elementos de cada array, caso contrário, usa o array simples
+                                        if (is_array($selectsWithName ?? null)) {
+                                            // Caso seja um array de arrays (ex: selectWithName tem dois arrays), seleciona de forma alternada
+                                            $selectArray = $selectsWithName[ session()->get('selectIndex', 0) ];
+                                            // Alterna o índice para o próximo array
+                                            session()->put('selectIndex', session()->get('selectIndex', 0) == 1 ? 0 : 1);
+                                        } else {
+                                            // Caso seja um array simples
+                                            $selectArray = $selectsWithName;
+                                        }
+                                        @endphp
+                                        
+                                        @foreach ($selectArray as $select)
                                             <option value="{{ $select->name }}" {{ old($itens[1]) == $select->name ? 'selected' : '' }}>
                                                 {{ $select->name }}
                                             </option>
                                         @endforeach
-                                    </x-form.select>
-                                    @else
-                                    <x-form.select valueName="{{ $itens[1] }}">
-                                        <option value=""> Selecione um {{ $itens[0] }} </option>
+
+                                        @else
 
                                         @foreach ($selects as $select)
                                             <option value="{{ $select->id }}" {{ old($itens[1]) == $select->id ? 'selected' : '' }}>
                                                 {{ $select->name }}
                                             </option>
                                         @endforeach
+
+                                        @endif
                                     </x-form.select>
-                                    @endif
 
                                 @elseif($itens[2] == "file")
                                     <div class="flex items-center">
@@ -109,7 +121,7 @@ route('dashboard')
                         {{$slot}}
                     @endif
 
-                    @if (isset($buttonAddNotFull))
+                    @if (isset($notButtonAdd))
                     @else
                     <div>
                         <x-button type="submit" variant="blue" class="w-full mt-2">

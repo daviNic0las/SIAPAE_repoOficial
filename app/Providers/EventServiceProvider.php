@@ -9,6 +9,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [ 
         \App\Events\StudentCreated::class => [ 
             \App\Listeners\CreateDonationForNewStudent::class, 
+            \App\Listeners\CreateFrequencyList::class,
         ], 
     ];
 

@@ -9,7 +9,7 @@
     </x-slot>
 
     <x-table 
-        title="Diagnósticos" 
+        title="Diagnóstico" 
         :headers="['Nome']" 
         :rows="$diagnostics" 
         :variables_DB="['name']"

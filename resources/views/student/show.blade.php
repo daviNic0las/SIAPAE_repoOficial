@@ -19,7 +19,13 @@
         quantLateral="5"
         actionRoute="student">
         
-        <p class="mt-4">Em Andamento</p>
+        <div class="my-4">
+            <h1 class="text-xl font-bold">
+                Anamnese do Estudante:
+            </h1>
+        </div>
+
+        
          
     </x-table-show>
 

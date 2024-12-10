@@ -17,31 +17,21 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $year = request('year');
-    
-        if ($year) {
-            $attendances = Attendance::with('student')
-                ->whereYear('date', $year)
-                ->orderBy('date', 'asc')
-                ->paginate(10);
-        } else {
-            $year = \Carbon\Carbon::now()->year;
-            $attendances = Attendance::with('student')
-                ->whereYear('date', $year)
-                ->orderBy('date', 'asc')
-                ->paginate(10);
+        $date_range = request('date_range'); 
+
+        if ($date_range) { 
+            $dates = explode(' até ', $date_range); 
+            $start_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[0]))->format('Y-m-d'); 
+            $end_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[1]))->format('Y-m-d'); 
+            $attendances = Attendance::whereDate('date', '>=', $start_date)
+                ->whereDate('date', '<=', $end_date) ->orderBy('date', 'asc') 
+                ->paginate(15); 
+        } else { 
+            $attendances = Attendance::orderBy('date', 'asc')
+                ->paginate(15);
         }
-    
-        // Debug: verificar dados dos registros de atendimento e estudantes
-        foreach ($attendances as $attendance) {
-            error_log($attendance->student->name); // Registra no log o nome do estudante
-        }
-    
-        $years = Attendance::selectRaw('YEAR(date) as year')
-            ->distinct()
-            ->orderByDesc('year')->pluck('year', 'year');
         
-        return view('attendance.home', compact('attendances', 'years', 'year'));
+        return view('attendance.home', compact('attendances', 'date_range'));
     }
     
 
@@ -83,7 +73,7 @@ class AttendanceController extends Controller
      */
     public function show($id)
     {
-        $attendance = Attendance::with('student')->findOrFail($id);
+        $attendance = Attendance::findOrFail($id);
         $attendance['date'] = \Carbon\Carbon::createFromFormat('Y-m-d', $attendance['date'])->format('d/m/Y');
 
         

@@ -3,7 +3,9 @@
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DiagnosticController;
+use App\Http\Controllers\EducationalController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FrequencyController;
 use App\Http\Controllers\MedHistoryController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\StudentApiController;
@@ -49,6 +51,7 @@ Route::middleware('auth')->group(function () {
         'anamnesis' => MedHistoryController::class,
         'attendance' => AttendanceController::class,
         'diagnostic' => DiagnosticController::class,
+        'frequency' => FrequencyController::class,
         'record' => RecordController::class,
         'student' => StudentController::class,
         'regional' => RegionalController::class,

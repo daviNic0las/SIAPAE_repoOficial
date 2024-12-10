@@ -26,14 +26,14 @@
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.link title="{{__('Frequency List')}}" href="{{route('example.link')}}"
-        :isActive="request()->routeIs('teste')">
+    <x-sidebar.link title="{{__('Frequency List')}}" href="{{route('frequency.index')}}"
+        :isActive="request()->routeIs('frequency.index', 'frequency.create', 'frequency.edit')">
         <x-slot name="icon">
             <x-icons.frequency class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.dropdown title="{{ __('Registers') }}" :active="Str::startsWith(request()->route()->uri(), 'diagnostic')">
+    <x-sidebar.dropdown title="{{ __('Registers') }}" :active="Str::startsWith(request()->route()->uri(), ['attendance', 'diagnostic'])">
         <x-slot name="icon">
             <x-icons.register class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -42,10 +42,10 @@
             :active="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit')" />
 
         <x-sidebar.sublink title="{{__('Diagnostic')}}" href="{{route('diagnostic.index')}}"
-            :active="request()->routeIs('diagnostic.index')" />
+            :active="request()->routeIs('diagnostic.index', 'diagnostic.create', 'diagnostic.edit')" />
     </x-sidebar.dropdown>
 
-    <x-sidebar.dropdown title="{{ __('Reports') }}" :active="Str::startsWith(request()->route()->uri(), '')">
+    <x-sidebar.dropdown title="{{ __('Reports') }}" :active="Str::startsWith(request()->route()->uri(), ['educational', 'regional'])">
         <x-slot name="icon">
             <x-icons.report class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
