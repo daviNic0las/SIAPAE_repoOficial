@@ -7,23 +7,51 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import Inputmask from 'inputmask'
 
 document.addEventListener("DOMContentLoaded", function (){
+    //Calendário no input de data
+    flatpickr(".date", {
+        dateFormat: "d/m/Y",  
+        allowInput: true,     
+        locale: "pt",
+        minDate: "01/01/1960",
+        maxDate: "today",  
+    });
+
+    // Aplicar o Flatpickr com a opção de intervalo de datas 
+    flatpickr(".date-range", { 
+        mode: "range", // para filtragem entre datas
+        dateFormat: "d/m/Y", 
+        locale: "pt", 
+        allowInput: true, 
+        minDate: "01/01/1960",
+        maxDate: "today",
+    });
+
+    var dateRangeMask = new Inputmask({
+        mask: "99/99/9999 até 99/99/9999",
+        definitions: {
+            'a': {  // Definindo a máscara para o "a" como texto fixo
+              validator: "[a]", // Permite o "a" como texto fixo
+              cardinality: 1,
+              prevalidator: []
+            }
+        }
+    });
+    dateRangeMask.mask(document.querySelectorAll('.date-range'));
+
     var dateMask = new Inputmask("99/99/9999");
-    dateMask.mask(document.querySelectorAll('.date'))
-});
+    dateMask.mask(document.querySelectorAll('.date'));
 
-document.addEventListener("DOMContentLoaded", function (){
-    var dateMask = new Inputmask("(99)99999-9999");
-    dateMask.mask(document.querySelectorAll('.cellphone'))
-});
+    var monthYearMask = new Inputmask("99/9999");
+    monthYearMask.mask(document.querySelectorAll('.monthYear'));
 
-document.addEventListener("DOMContentLoaded", function (){
-    var dateMask = new Inputmask("99.999.999-9");
-    dateMask.mask(document.querySelectorAll('.rg'))
-});
+    var cellphoneMask = new Inputmask("(99) 99999-9999");
+    cellphoneMask.mask(document.querySelectorAll('.cellphone'));
 
-document.addEventListener("DOMContentLoaded", function (){
+    var rgMask = new Inputmask("99.999.999-9");
+    rgMask.mask(document.querySelectorAll('.rg'));
+
     var fiscalMask = new Inputmask("999.999.999");
-    fiscalMask.mask(document.querySelector('#fiscal'))
+    fiscalMask.mask(document.querySelector('#fiscal'));
 });
 
 window.PerfectScrollbar = PerfectScrollbar

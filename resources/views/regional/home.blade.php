@@ -9,7 +9,7 @@
     </x-slot>
 
     <x-table 
-        title="Relatórios Regionais" 
+        title="Relatório Regional" 
         :headers="['Title', 'Subtitle', 'Text', 'Signature', 'Date']" 
         :rows="$regionals" 
         :variables_DB="['title', 'subtitle', 'text', 'signature', 'date']"

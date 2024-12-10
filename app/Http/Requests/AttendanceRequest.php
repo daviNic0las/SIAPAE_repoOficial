@@ -21,14 +21,11 @@ class AttendanceRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        $AttendanceId = $this->route('attendance');
-
+    {   
         $rules = [
-            'student_id' => [
+            'student_name' => [
                 'required',
                 'min:1',
-                Rule::unique('attendances')->ignore($AttendanceId),
             ],
 
             'date' => [

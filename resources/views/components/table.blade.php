@@ -23,29 +23,17 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    {{-- <h1 class="text-xl font-bold leading-tight">Lista de {{ $title }} </h1> --}}
-
                     @php
-                        $ultimaPalavra = last(explode(' ', $title)); // Pega a última palavra da frase
-                        // Se a última palavra terminar com "ões", substitui por "ão"
-                        if (preg_match('/ões$/', $ultimaPalavra)) {
-                            $frase = preg_replace('/ões$/', 'ão', $title);
-                        }
-                        // Se a última palavra terminar com "s", remove o "s"
-                        elseif (preg_match('/s$/', $ultimaPalavra)) {
-                            $frase = rtrim($title, 's');
-                        }
-
                         if (isset($search)) {
                             $search = 'Resultados para: ' . '"' . $search . '"';
                         } else {
-                            $search = $frase == 'Anamnese' ? 'Nome do Aluno p/ Anamnese' : 'Nome do ' . $frase;
+                            $search = $title == 'Anamnese' ? 'Nome do Aluno p/ Anamnese' : 'Nome do ' . $title;
                         }
                     @endphp
 
                     @if (isset($withSearchInput))
                         <div id="search-container" class="flex items-center border border-gray-400 rounded-lg focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
-                                    dark:focus:ring-offset-dark-eval-1 overflow-hidden">
+                                        dark:focus:ring-offset-dark-eval-1 overflow-hidden">
                             <form action="{{ route($actionRoute . '.index') }}" method="GET">
                                 <x-form.input type="text" id="search" name="search"
                                     class="form-control w-64 dark:text-gray-300" placeholder="{{$search}}" />
@@ -60,7 +48,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
 
                     @if (isset($withSearchSelect))
                         <form method="GET"
-                            action="{{ route(isset($actionRoute) == 1 ? $actionRoute . '.index' : 'donation.index') }}">
+                            action="{{ route(isset($actionRoute) ? $actionRoute . '.index' : 'donation.index') }}">
                             <div class="form-group">
                                 <x-form.select valueName="year" function="this.form.submit()">
                                     <option value="">Selecione o ano:</option>
@@ -73,10 +61,63 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                         </form>
                     @endif
 
+                    @if (isset($withSearchFrequency))
+                        <form method="GET" action="{{route('frequency.index')}}"
+                            class="flex gap-x-2">
+                            <div> 
+                                <x-form.select valueName="class_apae">
+                                    <option value="">Classe do aluno</option>
+
+                                    <option value="Segunda e Quarta" {{old('class_apae') == 'Segunda e Quarta' ? 'selected' : ''}}>Segunda e Quarta</option>
+                                    <option value="Terça e Quinta" {{old('class_apae') == 'Terça e Quinta' ? 'selected' : ''}}>Terça e Quinta</option>
+                                    <option value="Sexta" {{old('class_apae') == 'Sexta' ? 'selected' : ''}}>Sexta</option>
+                                </x-form.select>
+                                <x-form.select valueName="turn_apae">
+                                    <option value="">Turno do aluno</option>
+
+                                    <option value="Manhã" {{old('turn_apae') == 'Manhã' ? 'selected' : ''}}>Manhã</option>
+                                    <option value="Tarde" {{old('turn_apae') == 'Tarde' ? 'selected' : ''}}>Tarde</option>
+                                </x-form.select> 
+
+                                <x-form.input name="monthYear" placeholder="Mês/Ano" value="{{old('monthYear')}}"
+                                    class="period-input form-control w-32 monthYear" /> 
+                            </div>
+                            <div> 
+                                <x-button>
+                                    <div class="text-gray-100 dark:text-gray-100 text-md"> Filtrar </div>
+                                </x-button> 
+                            </div>
+                        </form>
+                    @endif
+
+                    @if (isset($withSearchDateRange))
+                                        <form method="GET" action="{{route($actionRoute . '.index')}}" class="flex gap-x-2">
+                                            <div>
+                                                @php
+                                                    if ($range) {
+                                                        $placeholderValue = 'Intervalo: ' . $range;
+                                                    } else {
+                                                        $placeholderValue = 'Filtro para intervalo de Datas';
+                                                    }
+                                                @endphp
+
+                                                <x-form.input class="date-range w-80" name="date_range"
+                                                    placeholder="{{$placeholderValue}}" />
+                                            </div>
+                                            <div>
+                                                <x-button>
+                                                    <div class="text-gray-100 dark:text-gray-100 text-md">
+                                                        Filtrar
+                                                    </div>
+                                                </x-button>
+                                            </div>
+                                        </form>
+                    @endif
+
                     @if(isset($actionRoute))
                         <x-button href="{{route($actionRoute . '.create')}}" variant="blue">
                             <div class="dark:text-gray-100">
-                                Adicionar {{$frase}}
+                                Adicionar {{$title}}
                             </div>
                         </x-button>
                     @endif
@@ -88,18 +129,21 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                     <thead class="bg-blue-100 dark:bg-gray-700 dark:text-gray-200">
                         <tr>
                             @if($iteration == "true")
-                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
+                                <th
+                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-2 py-1' : 'px-4 py-2'}} text-center font-semibold">
                                     # </th>
                             @endif
 
                             @foreach($headers as $header)
-                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
+                                <th
+                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-2 py-1' : 'px-4 py-2'}} text-center font-semibold">
                                     {{ __($header) }}
                                 </th>
                             @endforeach
 
                             @if(isset($actionRoute))
-                                <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center font-semibold">
+                                <th
+                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-2 py-1' : 'px-4 py-2'}} text-center font-semibold">
                                     Ações </th>
                             @endif
                         </tr>
@@ -110,8 +154,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                         @if (!isset($onlyHead))
                             @forelse ($rows as $row)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-900 {{ isset($withShow) ? 'cursor-pointer' : ''}} transition duration-300"
-                                    @if(isset($withShow))
-                                    onclick="show('{{route($actionRoute . '.show', $row->id)}}')" @endif>
+                                    @if(isset($withShow)) onclick="show('{{route($actionRoute . '.show', $row->id)}}')" @endif>
 
                                     @if($iteration == "true")
                                         <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center">
@@ -122,7 +165,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                     @foreach ($variablesDB as $variable)
                                         <td
                                             class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                                            @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date")
+                                            @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date" || $variable == "date_of_anamnesis")
                                                 {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
                                             @elseif ($variable == "image")
@@ -156,13 +199,11 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                     @if(isset($actionRoute))
                                         <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center"
                                             onclick="event.stopPropagation();">
-                                            <x-button href="{{route($actionRoute . '.edit', $row->id)}}"
-                                                variant="edit" size="sm">
+                                            <x-button href="{{route($actionRoute . '.edit', $row->id)}}" variant="edit" size="sm">
                                                 <x-icons.edit />
                                             </x-button>
 
-                                            <form method="POST"
-                                                action="{{ route($actionRoute . '.destroy', $row->id) }}"
+                                            <form method="POST" action="{{ route($actionRoute . '.destroy', $row->id) }}"
                                                 accept-charset="UTF-8" style="display:inline">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}

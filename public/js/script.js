@@ -211,3 +211,29 @@ document.querySelector('.anamnesis_student').addEventListener('change', function
         document.getElementById('escola').value = '';
     }
 });
+
+//
+document.addEventListener('DOMContentLoaded', function() {
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-bottom-left",
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    if (window.messages.success) {
+        toastr.success(window.messages.success);
+    }
+
+    if (window.messages.error) {
+        toastr.error(window.messages.error);
+    }
+    
+});

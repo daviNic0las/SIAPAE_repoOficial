@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -8,8 +8,6 @@
     <title> @yield('title', config('app.name', 'Laravel')) </title>
     
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 
     <!-- Fonts -->
     <link
@@ -23,13 +21,18 @@
         }
     </style>
     <link rel="stylesheet" href=" {{ asset('css/etc.css') }} ">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css"> -->
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+
     <script src="{{ asset('js/script.js') }}" defer></script>
 </head>
 
@@ -74,5 +77,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Pop-up com o toastr -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" >
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-left",
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        @if(Session::has('success'))
+            toastr.success("{{ Session::get('success') }}");
+            console.log('wtf');
+        @endif
+        @if(Session::has('error'))
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+    </script>
 </body>
 </html>

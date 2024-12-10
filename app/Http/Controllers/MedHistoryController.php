@@ -6,7 +6,7 @@ use App\Http\Requests\MedHistoryRequest;
 use App\Models\MedHistory;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
-use lluminate\Support\Facades\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MedHistoryController extends Controller
@@ -43,8 +43,9 @@ class MedHistoryController extends Controller
     public function create()
     {
         $students = Student::with('diagnostic')->get();
+        $users = User::orderBy('name', 'asc')->get();
 
-        return view('med_history.create', compact('students'));
+        return view('med_history.create', compact('students', 'users'));
     }
 
     /**
@@ -52,14 +53,6 @@ class MedHistoryController extends Controller
      */
     public function store(MedHistoryRequest $request)
     {
-        // Handle values of checkbox   
-        $data['have_caregiver'] = (bool)$request['have_caregiver'];
-        $data['have_AEE'] = (bool)$request['have_AEE'];
-        $data['have_medication'] = (bool)$request['have_medication'];
-        $data['have_kinship_parents'] = (bool)$request['have_kinship_parents'];
-        $data['new_relation_mother'] = (bool)$request['new_relation_mother'];
-        $data['new_relation_father'] = (bool)$request['new_relation_father'];
-
         $data = $request->validated();
 
         // Convert string to data
@@ -70,11 +63,11 @@ class MedHistoryController extends Controller
         $input = MedHistory::create($data);
         if ($input) {
             session()->flash('success', 'Anamnese adicionada com sucesso');
-            return redirect()->route('med_history.index');
+            return redirect()->route('anamnesis.index');
 
         } else {
             session()->flash('error', 'Falha na criação da Anamnese');
-            return redirect()->route('med_history.create');
+            return redirect()->route('anamnesis.create');
         }
     }
 
@@ -93,6 +86,7 @@ class MedHistoryController extends Controller
     {
         $medHistory = MedHistory::with('student.diagnostic')
         ->findOrFail($id);
+        $users = User::orderBy('name', 'asc')->get();
 
         $medHistory['date_of_anamnesis'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_of_anamnesis'])->format('d/m/Y');
         $medHistory['date_mother'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_mother'])->format('d/m/Y');
@@ -100,7 +94,7 @@ class MedHistoryController extends Controller
 
         $students = Student::orderBy('name', 'asc')->get();
 
-        return view('med_history.edit', compact('medHistory', 'students'));
+        return view('med_history.edit', compact('medHistory', 'students', 'users'));
     }
 
     /**
@@ -109,13 +103,6 @@ class MedHistoryController extends Controller
     public function update(MedHistoryRequest $request, $id)
     {
         $medHistory = MedHistory::findOrFail($id);
-        // Handle values of checkbox   
-        $data['have_caregiver'] = (bool)$request['have_caregiver'];
-        $data['have_AEE'] = (bool)$request['have_AEE'];
-        $data['have_medication'] = (bool)$request['have_medication'];
-        $data['have_kinship_parents'] = (bool)$request['have_kinship_parents'];
-        $data['new_relation_mother'] = (bool)$request['new_relation_mother'];
-        $data['new_relation_father'] = (bool)$request['new_relation_father'];
 
         $data = $request->validated();
 
