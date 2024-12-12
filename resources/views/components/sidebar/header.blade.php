@@ -5,16 +5,20 @@
         class="inline-flex items-center gap-2"
     >
 
-        <x-application-mini-logo 
-            x-show="!isSidebarOpen"
-            aria-hidden="true"
-            class="mini-logo" 
-        />
-
-        <x-application-logo 
-            x-show="isSidebarOpen"
-            class="h-logo"
-        />
+    <x-application-mini-logo    
+    x-show="!isSidebarOpen && !isDarkMode" 
+    aria-hidden="true" 
+    class="mini-logo" /> 
+    <x-application-mini-logo 
+    x-show="!isSidebarOpen && isDarkMode" 
+    aria-hidden="true" 
+    class="mini-logo dark-mode" /> 
+    <x-application-logo 
+    x-show="isSidebarOpen && !isDarkMode" 
+    class="h-logo" /> 
+    <x-application-logo-dark 
+    x-show="isSidebarOpen && isDarkMode" 
+    class="h-logo dark-mode" />
 
         <span class="sr-only">Dashboard</span>
     </a>

@@ -21,8 +21,8 @@ route('dashboard')
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-2xl font-bold leading-tight">Editar {{ $title }}</h1>
 
-                    <x-button href="{{ route($actionRoute . '.index') }}" variant="warning">
-                        <p class="text-gray-900">
+                    <x-button href="{{ route($actionRoute . '.index') }}" variant="primary">
+                        <p class="text-white">
                             Voltar
                         </p>
                     </x-button>

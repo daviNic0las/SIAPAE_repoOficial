@@ -1,7 +1,77 @@
 <img 
-    src="{{ asset('logo/LOGO APAE RUSSAS CE.png') }}" 
+    src="{{ asset('logo/logo-light.png') }}"
+    alt="Logo Clara" 
+    id="logo-light"
     {{ $attributes }}
 >
+<img 
+    src="{{ asset('logo/logo-dark.png') }}" 
+    alt="Logo Escura" 
+    id="logo-dark" 
+    {{ $attributes }}
+>
+
+<style>
+/* CSS incorporado para alternar logos com base no tema */
+/* Esconder logo escura por padrão */
+#logo-dark {
+    display: none;
+}
+/* Se o modo escuro estiver ativo, mostrar a logo escura e esconder a clara */
+body.dark-mode #logo-light {
+    display: none;
+}
+body.dark-mode #logo-dark {
+    display: inline;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const logoLight = document.getElementById('logo-light');
+    const logoDark = document.getElementById('logo-dark');
+    
+    // Função para inicializar a logo com base no tema atual
+    function initializeLogo() {
+        if (document.body.classList.contains('dark-mode')) {
+            logoLight.style.display = 'none';
+            logoDark.style.display = 'inline';
+            console.log("Modo escuro ativado. Logo escura (branca) exibida.");
+        } else {
+            logoLight.style.display = 'inline';
+            logoDark.style.display = 'none';
+            console.log("Modo claro ativado. Logo clara exibida.");
+        }
+    }
+
+    // Chamar a função de inicialização no carregamento da página
+    initializeLogo();
+
+    // Listener alternar tema
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('[x-on\\:click="toggleTheme"]')) {
+            setTimeout(function() {
+                if (document.body.classList.contains('dark-mode')) {
+                    console.log("Alternado para modo escuro");
+                } else {
+                    console.log("Alternado para modo claro");
+                }
+                initializeLogo();
+            }, 0); // Pequeno atraso para garantir a mudança de classe
+        }
+    });
+});
+</script>
+
+
+
+
+
+
+<!-- <img 
+    src="{{ asset('logo/LOGO APAE RUSSAS CE.png') }}" 
+    {{ $attributes }}
+> -->
 
     <!-- <svg
     {{ $attributes }}
