@@ -41,11 +41,7 @@ Route::middleware('auth')->group(function () {
 
 // Funcional Site
 Route::middleware('auth')->group(function () {
-
-    Route::get('/example', function() {
-        return view('example');
-    })->name('example.link');
-
+    
     // User Access:
     Route::resources([
         'anamnesis' => MedHistoryController::class,
@@ -57,15 +53,11 @@ Route::middleware('auth')->group(function () {
         'regional' => RegionalController::class,
         'educational' => EducationalController::class,
     ]);
+    Route::post('/frequencies/multiple-details', [FrequencyController::class, 'updateDetails'])->name('frequency_details.update');
     Route::get('/studentapi/{id}', [StudentApiController::class, 'getStudentData']);
-    Route::get('/sla', [StudentApiController::class, 'teste']);
 
     // Admin Access:
     Route::middleware(CheckAdmin::class)->group( function() {
-        Route::get('/admin', function() {
-            return view('forbidden');
-        })->name('adminsla');
-
         Route::resources([
             'donation' => DonationController::class,
             'expense' => ExpenseController::class

@@ -25,7 +25,7 @@
             $variantClasses = 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500';
         break;
         case 'danger':
-            $variantClasses = 'bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600';
+            $variantClasses = 'bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 focus:ring-red-700';
         break;
         case 'warning':
             $variantClasses = 'bg-yellow-400 text-white hover:bg-yellow-500 dark:bg-yellow-500 dark:hover:bg-yellow-400';
@@ -47,6 +47,9 @@
     }
 
     switch ($size) {
+        case 'hyper-sm':
+            $sizeClasses = $iconOnly ? 'p-1' : 'px-2 py-1.5 text-sm';
+        break;
         case 'sm':
             $sizeClasses = $iconOnly ? 'p-1.5' : 'px-2.5 py-1.5 text-sm';
         break;

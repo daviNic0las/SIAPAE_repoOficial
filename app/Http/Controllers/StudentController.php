@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Events\StudentUpdated;
 use App\Models\Diagnostic;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
@@ -81,6 +82,7 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
         $data = $request->validated();
+        $oldName = $student['name'];
 
         // Convert string to data
         $data['date_of_birth'] = \Carbon\Carbon::createFromFormat('d/m/Y', $data['date_of_birth'])->format('Y-m-d');
@@ -102,7 +104,8 @@ class StudentController extends Controller
 
         };
 
-        $input = $student->update($data);
+        $input = $student->update($data);// Dispara o evento p/ att a lista de frequência tbm
+        event(new StudentUpdated($student, $oldName));
 
         if ($input) {
             session()->flash('success', 'Aluno atualizado com sucesso!');

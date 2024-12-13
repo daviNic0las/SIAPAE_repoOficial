@@ -80,7 +80,7 @@ route('dashboard')
                                         @endphp
                                         
                                         @foreach ($selectArray as $select)
-                                            <option value="{{ $select->name }}" {{ old($itens[1]) == $select->name ? 'selected' : '' }}>
+                                            <option value="{{ $select->name }}" {{ old($itens[1], $itens[1] == "signature" ? Auth::user()->name : '') == $select->name ? 'selected' : '' }}>
                                                 {{ $select->name }}
                                             </option>
                                         @endforeach

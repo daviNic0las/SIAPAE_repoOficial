@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('class_apae');
             $table->string('turn_apae');
             $table->string('month_year');
-            $table->string('observation')->nullable();
+            $table->text('observation')->nullable(); 
+            $table->string('signature')->nullable();
             for ($i = 1; $i <= 31; $i++) { 
                 $table->boolean((string)$i)->nullable(); 
             }

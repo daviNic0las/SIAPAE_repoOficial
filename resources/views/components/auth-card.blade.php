@@ -1,7 +1,12 @@
 <main class="flex flex-col items-center flex-1 px-4 pt-6 sm:justify-center">
     <div style="margin: -5px">
         <a href="/">
-            <x-application-logo class="h-logo-login"/>
+        <x-application-logo-light
+            x-show="!isDarkMode" 
+            class="h-logo-login" /> 
+            <x-application-logo-dark 
+            x-show="isDarkMode" 
+            class="h-logo-login" />
 
             <h1 class="ml-8 display-1 text-xl">
                 <strong class="dark:text-gray-300">Login SIAPAE</strong>

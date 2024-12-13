@@ -12,7 +12,7 @@ class EducationalController extends Controller
      */
     public function index()
     {
-        return view('error.404');
+        return view('errors.404');
     }
 
     /**
