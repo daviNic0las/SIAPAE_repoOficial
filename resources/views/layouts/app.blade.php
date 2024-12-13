@@ -9,8 +9,8 @@
     
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
     <style>
@@ -18,54 +18,46 @@
             display: none;
         }
     </style>
-    <link rel="stylesheet" href=" {{ asset('css/etc.css') }} ">
+    <link rel="stylesheet" href="{{ asset('css/etc.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css"> -->
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js" defer></script>
-
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
-
     <script src="{{ asset('js/script.js') }}" defer></script>
 </head>
+<body class="font-sans antialiased">
+    <!-- Carregar jQuery antes de qualquer outro script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <body class="font-sans antialiased">
-        <!-- Carregar jQuery antes de qualquer outro script -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Carregar o arquivo JS do Laravel -->
-        <script src="{{ asset('js/app.js') }}"></script>
-        <!-- Carregar Toastr -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <div x-data="mainState" :class="{ dark: isDarkMode }" x-on:resize.window="handleWindowResize" x-cloak>
+        <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
+            <!-- Sidebar -->
+            <x-sidebar.sidebar />
 
-        <div x-data="mainState" :class="{ dark: isDarkMode }" x-on:resize.window="handleWindowResize" x-cloak>
-            <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
-                <!-- Sidebar -->
-                <x-sidebar.sidebar />
+            <!-- Page Wrapper -->
+            <div class="flex flex-col min-h-screen"
+                 :class="{ 'lg:ml-64': isSidebarOpen, 'md:ml-16': !isSidebarOpen }"
+                 style="transition-property: margin; transition-duration: 150ms;">
 
-                <!-- Page Wrapper -->
-                <div class="flex flex-col min-h-screen"
-                     :class="{ 'lg:ml-64': isSidebarOpen, 'md:ml-16': !isSidebarOpen }"
-                     style="transition-property: margin; transition-duration: 150ms;">
+                <!-- Navbar -->
+                <x-navbar />
 
-                    <!-- Navbar -->
-                    <x-navbar />
+                <!-- Page Heading -->
+                <header>
+                    <div class="p-3 sm:p-6">
+                        {{ $header ?? ''}}
+                    </div>
+                </header>
 
-                    <!-- Page Heading -->
-                    <header>
-                        <div class="p-3 sm:p-6">
-                            {{ $header ?? ''}}
-                        </div>
-                    </header>
-
-                    <!-- Page Content -->
-                    <main class="px-4 sm:px-6 flex-1">
-                        {{ $slot }}
-                    </main>
+                <!-- Page Content -->
+                <main class="px-4 sm:px-6 flex-1">
+                    {{ $slot }}
+                </main>
 
                 <!-- Page Footer -->
                 <x-footer />
@@ -74,9 +66,8 @@
     </div>
 
     <!-- Pop-up com o toastr -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <script>
         toastr.options = {
             "closeButton": true,
