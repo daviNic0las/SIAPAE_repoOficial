@@ -62,24 +62,27 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                     @endif
 
                     @if (isset($withSearchFrequency))
-                        <form method="GET" action="{{route('frequency.index')}}"
-                            class="flex gap-x-2">
+                        @php    
+                            list($class_apae, $turn_apae, $monthYear) = explode('-', $variablesSearchFrequency);
+                        @endphp
+
+                        <form method="GET" action="{{route('frequency.index')}}" class="flex gap-x-2">
                             <div> 
-                                <x-form.select valueName="class_apae">
+                                <x-form.select valueName="class_apae" notRequired>
                                     <option value="">Classe do aluno</option>
 
-                                    <option value="Segunda e Quarta" {{old('class_apae') == 'Segunda e Quarta' ? 'selected' : ''}}>Segunda e Quarta</option>
-                                    <option value="Terça e Quinta" {{old('class_apae') == 'Terça e Quinta' ? 'selected' : ''}}>Terça e Quinta</option>
-                                    <option value="Sexta" {{old('class_apae') == 'Sexta' ? 'selected' : ''}}>Sexta</option>
+                                    <option value="Segunda e Quarta" {{old('class_apae', $class_apae ?? '') == 'Segunda e Quarta' ? 'selected' : ''}}>Segunda e Quarta</option>
+                                    <option value="Terça e Quinta" {{old('class_apae', $class_apae ?? '') == 'Terça e Quinta' ? 'selected' : ''}}>Terça e Quinta</option>
+                                    <option value="Sexta" {{old('class_apae', $class_apae ?? '') == 'Sexta' ? 'selected' : ''}}>Sexta</option>
                                 </x-form.select>
-                                <x-form.select valueName="turn_apae">
+                                <x-form.select valueName="turn_apae" notRequired>
                                     <option value="">Turno do aluno</option>
 
-                                    <option value="Manhã" {{old('turn_apae') == 'Manhã' ? 'selected' : ''}}>Manhã</option>
-                                    <option value="Tarde" {{old('turn_apae') == 'Tarde' ? 'selected' : ''}}>Tarde</option>
+                                    <option value="Manhã" {{old('turn_apae', $turn_apae ?? '') == 'Manhã' ? 'selected' : ''}}>Manhã</option>
+                                    <option value="Tarde" {{old('turn_apae', $turn_apae ?? '') == 'Tarde' ? 'selected' : ''}}>Tarde</option>
                                 </x-form.select> 
 
-                                <x-form.input name="monthYear" placeholder="Mês/Ano" value="{{old('monthYear')}}"
+                                <x-form.input name="monthYear" placeholder="Mês/Ano" value="{{old('monthYear', $monthYear)}}"
                                     class="period-input form-control w-32 monthYear" /> 
                             </div>
                             <div> 
@@ -87,31 +90,29 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                     <div class="text-gray-100 dark:text-gray-100 text-md"> Filtrar </div>
                                 </x-button> 
                             </div>
-                        </form>
+                        </form>         
                     @endif
 
                     @if (isset($withSearchDateRange))
-                                        <form method="GET" action="{{route($actionRoute . '.index')}}" class="flex gap-x-2">
-                                            <div>
-                                                @php
-                                                    if ($range) {
-                                                        $placeholderValue = 'Intervalo: ' . $range;
-                                                    } else {
-                                                        $placeholderValue = 'Filtro para intervalo de Datas';
-                                                    }
-                                                @endphp
+                        <div id="search-container" class="flex items-center border border-gray-400 rounded-lg focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
+                                        dark:focus:ring-offset-dark-eval-1 overflow-hidden">
+                        <form method="GET" action="{{route($actionRoute . '.index')}}" class="flex gap-x-2">
+                            @php
+                                if ($range) {
+                                    $placeholderValue = 'Intervalo: ' . $range;
+                                } else {
+                                    $placeholderValue = 'Filtro para intervalo de Datas';
+                                }
+                            @endphp
 
-                                                <x-form.input class="date-range w-80" name="date_range"
-                                                    placeholder="{{$placeholderValue}}" />
-                                            </div>
-                                            <div>
-                                                <x-button>
-                                                    <div class="text-gray-100 dark:text-gray-100 text-md">
-                                                        Filtrar
-                                                    </div>
-                                                </x-button>
-                                            </div>
-                                        </form>
+                            <x-form.input class="date-range w-80 form-control text-gra-800 dark:text-gray-300" name="date_range" placeholder="{{$placeholderValue}}" />     
+                            
+                            <button id="icone-search"
+                                class="px-2 bg-gray-500 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none -ml-3 transition duration-300">
+                                <x-icons.search />
+                            </button>
+                        </form>
+                        </div>
                     @endif
 
                     @if(isset($actionRoute))
@@ -130,21 +131,23 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                         <tr>
                             @if($iteration == "true")
                                 <th
-                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-2 py-1' : 'px-4 py-2'}} text-center font-semibold">
-                                    # </th>
+                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-1 py-1' : 'px-4 py-2'}} text-center font-semibold">
+                                    # 
+                                </th>
                             @endif
 
                             @foreach($headers as $header)
                                 <th
-                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-2 py-1' : 'px-4 py-2'}} text-center font-semibold">
+                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-1 py-1' : 'px-4 py-2'}} text-center font-semibold">
                                     {{ __($header) }}
                                 </th>
                             @endforeach
 
                             @if(isset($actionRoute))
                                 <th
-                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-2 py-1' : 'px-4 py-2'}} text-center font-semibold">
-                                    Ações </th>
+                                    class="border border-gray-300 dark:border-gray-600 {{isset($headersSmall) ? 'px-1 py-1' : 'px-4 py-2'}} text-center font-semibold">
+                                    Ações 
+                                </th>
                             @endif
                         </tr>
                     </thead>

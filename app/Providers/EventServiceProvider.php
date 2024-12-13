@@ -11,6 +11,9 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\CreateDonationForNewStudent::class, 
             \App\Listeners\CreateFrequencyList::class,
         ], 
+        \App\Events\StudentUpdated::class => [ 
+            \App\Listeners\UpdateFrequencyList::class,
+        ], 
     ];
 
     /**

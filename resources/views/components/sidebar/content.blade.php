@@ -27,7 +27,7 @@
     </x-sidebar.link>
 
     <x-sidebar.link title="{{__('Frequency List')}}" href="{{route('frequency.index')}}"
-        :isActive="request()->routeIs('frequency.index', 'frequency.create', 'frequency.edit')">
+        :isActive="request()->routeIs('frequency.index')">
         <x-slot name="icon">
             <x-icons.frequency class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -80,7 +80,7 @@
         </div>
 
         <x-sidebar.link title="{{ __('Donation Control')}}" href="{{route('donation.index')}}"
-            :isActive="request()->routeIs('donation.index', 'donation.create', 'donation.edit')">
+            :isActive="request()->routeIs('donation.index')">
             <x-slot name="icon">
                 <x-icons.partner class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
             </x-slot>

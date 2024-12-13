@@ -235,7 +235,20 @@ return [
         'modality' => 'modalidade',
         'diagnostic' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
-        'birth_date' => 'data de nascimento'
+        'date_of_birth' => 'data de nascimento',
+        'student_id' => 'nome do aluno',
+        'diagnostic_id' => 'diagnóstico',
+        'class_apae' => 'classe da APAE',
+        'turn_apae' => 'turno da APAE',
+        'educational_axis' => 'eixo educacional',
+        'advances' => 'avanços',
+        'difficulties' => 'dificuldades',
+        'signature' => 'assinatura',
+        'date_of_emission' => 'data de emissão',
+        'type' => 'tipo',
+        'price' => 'preço',
+        'file' => 'arquivo',
+        'subtitle' => 'subtítulo',
     ],
 
 ];

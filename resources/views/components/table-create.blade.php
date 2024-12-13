@@ -20,8 +20,8 @@ route('dashboard')
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-2xl font-bold leading-tight">Adicionar novo(a) {{ $title }}</h1>
 
-                    <x-button href="{{ route($actionRoute . '.index') }}" variant="warning">
-                        <p class="text-gray-900">
+                    <x-button href="{{ route($actionRoute . '.index') }}" variant="primary">
+                        <p class="text-white">
                             Voltar
                         </p>
                     </x-button>
@@ -80,7 +80,7 @@ route('dashboard')
                                         @endphp
                                         
                                         @foreach ($selectArray as $select)
-                                            <option value="{{ $select->name }}" {{ old($itens[1]) == $select->name ? 'selected' : '' }}>
+                                            <option value="{{ $select->name }}" {{ old($itens[1], $itens[1] == "signature" ? Auth::user()->name : '') == $select->name ? 'selected' : '' }}>
                                                 {{ $select->name }}
                                             </option>
                                         @endforeach
