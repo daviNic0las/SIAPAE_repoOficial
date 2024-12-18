@@ -2,7 +2,9 @@
 
 °Atenção!!! Este documento não irá tratar de nenhum detalhe sobre o site feito em WordPress, o mesmo possui sua própria documentação à parte.
 
-Sumário: 1.0 Introdução:
+------------------------------------------------------------------------------------------------
+Sumário:
+1.0 Introdução:
 
 1.1 Regras.
 
@@ -22,7 +24,8 @@ Sumário: 1.0 Introdução:
 
 3.1 Instruções de uso.
 
-2 Funcionalidades principais.
+3. 2 Funcionalidades principais. 
+
 4.0 Arquitetura:
 
 4.1 Estrutura do projeto.
@@ -45,6 +48,7 @@ Sumário: 1.0 Introdução:
 
 7.1 Informações de contato para suporte.
 
+------------------------------------------------------------------------------------------------
 1.0 Introdução
 
 1.1: Regras: Definimos algumas regras para a atualização desse documento e arquivos do projeto, uma vez que o estagiário ou sua equipe terão a responsabilidade de atualizar as informações aqui presentes.
