@@ -2,6 +2,7 @@
     'disabled' => false,
     'required' => false,
     'sizeFont' => 'sm',
+    'height' => 'base',
 ])
 
 @php
@@ -12,15 +13,28 @@
             $sizeClasses = 'text-sm';
         break;
         case 'base':
+        default:
             $sizeClasses = 'text-base';
         break;
         case 'lg':
-        default:
             $sizeClasses = 'text-xl';
         break;
     }
 
-    $classes = $baseClasses . ' ' . $sizeClasses;
+    switch ($height) {
+        case 'base':
+        default:
+            $height = 'h-16';
+        break;
+        case 'lg':
+            $height = 'h-24';
+        break;
+        case 'text':
+            $height = 'h-64';
+        break;
+    }
+
+    $classes = $baseClasses . ' ' . $sizeClasses . ' ' . $height;
 @endphp
 
 <textarea

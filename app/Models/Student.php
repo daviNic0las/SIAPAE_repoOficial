@@ -24,6 +24,7 @@ class Student extends Model
         'class_apae',
         'turn_apae',
         'image',
+        'state_student',
     ];
     
     protected $dispatchesEvents = [ 
@@ -40,7 +41,15 @@ class Student extends Model
     {
         return $this->hasMany(Donation::class, 'student_id');
     }
-    public function MedHistory(): BelongsTo
+    public function educationals(): HasMany
+    {
+        return $this->hasMany(Educational::class, 'student_id');
+    }
+    public function frequencies(): HasMany
+    {
+        return $this->hasMany(Frequency::class, 'student_id');
+    }
+    public function medHistory(): BelongsTo
     {
         return $this->belongsTo(MedHistory::class, 'student_id');
     }

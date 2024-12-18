@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <div class="flex flex-col md:justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-3">
-            <h2 class="text-2xl font-bold leading-tight">
+            <h2 class="text-2xl font-bold leading-tight pt-2">
                 {{ __('Lista de Frequência') }}
             </h2>
         </div>
@@ -42,7 +42,7 @@
 
                 <td
                     class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                    {{$frequency->student_name ? \Illuminate\Support\Str::limit($frequency->student_name, 12, ' ...') : 'Estudante não encontrado'}}
+                    {{$frequency->student->name ? \Illuminate\Support\Str::limit($frequency->student->name, 12, ' ...') : 'Não encontrado'}}
                 </td>
 
                 @for ($day = 1; $day <= $numberDaysInMonth; $day++)
@@ -79,7 +79,7 @@
                         <label for="observation" class="text-gray-800 dark:text-gray-200"> Observações: (*opcional)
                         </label>
                         <x-form.textarea name="observation" id="observation" class="h-32 mt-2" sizeFont="base"
-                            placeholder="Ex: O Aluno *** faltou dia ** pois estava doente ....."
+                            placeholder="Ex: O Aluno *** faltou dia ** pois estava doente ....." 
                             data-observation="">
                             {{old('observation', $observation)}}
                         </x-form.textarea>

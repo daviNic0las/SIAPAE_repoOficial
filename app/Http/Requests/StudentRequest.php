@@ -90,6 +90,10 @@ class StudentRequest extends FormRequest
             'mimes:png,jpg,jpeg,webp',
             'max:2048'
             ],
+
+            'state_student' => [
+            'nullable'
+            ],
         ];
         
         return $rules;

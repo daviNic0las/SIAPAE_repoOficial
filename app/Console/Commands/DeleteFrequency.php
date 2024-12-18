@@ -38,16 +38,16 @@ class DeleteFrequency extends Command
 
         foreach ($students as $student) {
 
-            $frequencyExist = Frequency::where('student_name', $student->name)
+            $frequencyExist = Frequency::where('student_id', $student->id)
                 ->where('month_year', $monthYear)
                 ->exists();
 
             //Caso a frequência exista, delete-a
             if ($frequencyExist) {
-                $frequency = Frequency::where('student_name', $student->name)
+                $frequency = Frequency::where('student_id', $student->id)
                 ->where('month_year', $monthYear)
-                ->get();
-                Frequency::destroy($frequency[0]->id);
+                ->first();
+                Frequency::destroy($frequency->id);
                 $this->info("Frequência deletada para o aluno {$student->name} no mês/ano {$monthYear}.");
             } else {
                 $this->info("O aluno {$student->name} não tem uma Frequência a ser apagada para o mês/ano {$monthYear}.");

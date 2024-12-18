@@ -23,7 +23,7 @@ class AttendanceRequest extends FormRequest
     public function rules(): array
     {   
         $rules = [
-            'student_name' => [
+            'student_id' => [
                 'required',
                 'min:1',
             ],

@@ -9,8 +9,12 @@ function updateImageLabel(event) {
     const labelImage = document.getElementById('label-image');
 
 
-    const fileName = fileInput.files[0].name;
-    labelImage.textContent = fileName; // Atualiza o texto com o nome do arquivo
+    if (labelImage && fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        labelImage.textContent = fileName; // Atualiza o texto com o nome do arquivo
+    } else {
+        console.error("Elemento label-image não encontrado ou nenhum arquivo selecionado.");
+    }
 
 }
 
@@ -18,20 +22,18 @@ function updateImagePreview(event) {
     const fileInput = event.target;
     const imagePreview = document.getElementById('image-preview');
 
-    const file = fileInput.files[0];
-    const reader = new FileReader();
+    if (imagePreview && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
 
-    if (fileInput.files.length > 0) {
         reader.onload = function (e) {
             imagePreview.src = e.target.result; // Atualiza a imagem prévia com a nova imagem
         }
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // Lê o arquivo como uma URL de dados
+    } else {
+        console.error("Elemento image-preview não encontrado ou nenhum arquivo selecionado.");
     }
-
-    // Lê o arquivo como uma URL de dados
-
-    // if (fileInput.files.length > 0) { };
 }
 
 // VIEW Expense - p/ mascara de moeda com o R$
@@ -98,49 +100,64 @@ window.deleteConfirm = function (e) {
         }
     });
 };
+//Restore Confirm
+window.restoreConfirm = function (e) {
+    e.preventDefault();
+    var form = e.target.closest('form');
 
-//Validação da Data
-if (document.querySelector('.dateInput')) {
-    document.getElementById('dateForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-    
-        const dateInputs = document.querySelectorAll('.dateInput');  // Seleciona todos os campos com a classe "dateInput"
-        const errorMessage = document.getElementById('errorMessage'); // A mensagem de erro geral
-    
-        let isValid = true; // Flag para rastrear se todos os campos são válidos
-    
-        // Iterar sobre cada campo de data
-        dateInputs.forEach(function (dateInput) {
-            const dateFormated = moment(dateInput.value, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    
-            const dateValue = new Date(dateFormated); // Criando a data com o formato adequado
-            const minDate = new Date('1960-01-01');
-            const maxDate = new Date('2200-12-31');
-    
-            // Verificando a validade da data
-            if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
-                errorMessage.style.display = 'inline';
-                isValid = false;  // Marca como inválido
-            } else {
-                errorMessage.style.display = 'none';
-                dateInput.style.borderColor = '';  // Remove a borda vermelha
-            }
-        });
-    
-        // Se algum campo for inválido, o formulário não será enviado
-        if (isValid) {
-            this.submit();  // Envia o formulário se todos os campos forem válidos
+    Swal.fire({
+        title: "Você tem Certeza?",
+        text: "Quer restaurar esse Registro?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Restaurar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
         }
     });
-}    
+};
+
+// Validação da Data
+function validateDate() {
+    document.getElementById('dateForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const dateInputs = document.querySelectorAll('.dateInput');
+        const errorMessage = document.getElementById('errorMessage');
+
+        let isValid = true;
+
+        dateInputs.forEach(function (dateInput) {
+            const dateFormated = moment(dateInput.value, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            const dateValue = new Date(dateFormated);
+            const minDate = new Date('1960-01-01');
+            const maxDate = new Date('2200-12-31');
+
+            if (dateValue < minDate || dateValue > maxDate || isNaN(dateValue)) {
+                errorMessage.style.display = 'inline';
+                isValid = false;
+            } else {
+                errorMessage.style.display = 'none';
+                dateInput.style.borderColor = '';
+            }
+        });
+
+        if (isValid) {
+            this.submit();
+        }
+    });
+}
 
 // View Anamnese - Função para habilitar/desabilitar inputs dependendo da checkbox
 function toggleInput(checkbox) {
-    const targetClass = checkbox.getAttribute('data-target'); 
+    const targetClass = checkbox.getAttribute('data-target');
     const targetInputs = document.querySelectorAll(`.${targetClass}`);
 
     // Se a checkbox estiver marcada, habilita os inputs. Caso contrário, desabilita.
-    targetInputs.forEach(function(input) {
+    targetInputs.forEach(function (input) {
         if (checkbox.checked) {
             input.disabled = false;
         } else {
@@ -149,91 +166,83 @@ function toggleInput(checkbox) {
     });
 }
 
-// Para garantir que os inputs sejam desabilitados ao carregar a página (caso as checkboxes não estejam marcadas)
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+    const elementsToUpdate = [
+        { selector: 'input[type="file"]', handler: updateImageLabel, event: 'change' },
+        { selector: 'input[type="file"]', handler: updateImagePreview, event: 'change' },
+        { selector: '#tipo_gasto', handler: handleExpenseTypeChange, event: 'change' },
+        // { selector: '.anamnesis_student', handler: handleAnamnesisStudentChange, event: 'change' },
+    ];
+
+    // Verificação de todos os elementos que podem não existir
+    elementsToUpdate.forEach(({ selector, handler, event }) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(element => {
+            if (element) {
+                element.addEventListener(event, handler);
+            } else {
+                console.error(`Elemento ${selector} não encontrado no DOM.`);
+            }
+        });
+    });
+
+    // Inicializa o estado dos inputs conforme o estado das checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"][data-target]');
-
-    checkboxes.forEach(function(checkbox) {
-        toggleInput(checkbox);  // Inicializa o estado do input conforme o estado da checkbox
+    checkboxes.forEach(function (checkbox) {
+        toggleInput(checkbox);
     });
+
+    // Inicializa o estado dos campos conforme o valor inicial do select 
+    const tipoGastoSelect = document.getElementById('tipo_gasto'); 
+    if (tipoGastoSelect) { 
+        mostrarCampos(tipoGastoSelect.value); 
+    }
+
+    if (document.querySelector('.dateInput')) {
+        validateDate();
+    }
+
+    if (window.messages && window.messages.success) { 
+        toastr.success(window.messages.success); 
+    } 
+    if (window.messages && window.messages.error) { 
+        toastr.error(window.messages.error); 
+    }
 });
 
-
-//VIEW Expense -  p/ ocultar alguns campos de acordo com o seu id
-document.addEventListener('DOMContentLoaded', function () {
-
-    var tipoGasto = document.getElementById('tipo_gasto').value;
-
-    // Função para ocultar todos os campos
-    function ocultarCampos() {
-        document.getElementById('campo_recibo').style.display = 'none';
-        document.getElementById('campo_nota_fiscal').style.display = 'none';
-    }
-
-    // Mostrar o campo correto baseado no tipo de gasto
-    function mostrarCampos(tipoGasto) {
-        ocultarCampos(); // Primeiro, esconder todos os campos
-
-        if (tipoGasto === 'Nota Fiscal') {
-            document.getElementById('campo_nota_fiscal').style.display = 'block';
-        } else if (tipoGasto === 'Recibo') {
-            document.getElementById('campo_recibo').style.display = 'block';
-        }
-    }
-
-    // Chamar a função para mostrar o campo correto ao carregar a página
+function handleExpenseTypeChange(event) {
+    var tipoGasto = event.target.value;
     mostrarCampos(tipoGasto);
+}
 
-    // Ouvir mudanças no select
-    document.getElementById('tipo_gasto').addEventListener('change', function () {
-        mostrarCampos(this.value);
-    });
-});
-
-//View MedHistory/Anamnesis - botão select: selecionar aluno e modificar campos
-document.querySelector('.anamnesis_student').addEventListener('change', function() {
-    var studentId = this.value;
-    if (studentId) {
-        // Faz a requisição AJAX para pegar os dados do aluno
-        fetch(`/anamnesis/${studentId}`)
-            .then(response => response.json())
-            .then(data => {
-                // Preenche os campos com os dados recebidos
-                document.getElementById('turma').value = data.turma;
-                document.getElementById('turno').value = data.turno;
-                document.getElementById('escola').value = data.escola;
-            })
-            .catch(error => console.error('Erro:', error));
-    } else {
-        // Limpa os campos se nenhum aluno for selecionado
-        document.getElementById('turma').value = '';
-        document.getElementById('turno').value = '';
-        document.getElementById('escola').value = '';
+function mostrarCampos(tipoGasto) {
+    ocultarCampos();
+    if (tipoGasto === 'Nota Fiscal') {
+        document.getElementById('campo_nota_fiscal').style.display = 'block';
+    } else if (tipoGasto === 'Recibo') {
+        document.getElementById('campo_recibo').style.display = 'block';
     }
-});
+}
 
-//
-document.addEventListener('DOMContentLoaded', function() {
-    toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-bottom-left",
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
+function ocultarCampos() {
+    document.getElementById('campo_recibo').style.display = 'none';
+    document.getElementById('campo_nota_fiscal').style.display = 'none';
+}
 
-    if (window.messages.success) {
-        toastr.success(window.messages.success);
-    }
-
-    if (window.messages.error) {
-        toastr.error(window.messages.error);
-    }
-    
-});
+// function handleAnamnesisStudentChange(event) {
+//     const studentId = event.target.value;
+//     if (studentId) {
+//         fetch(`/anamnesis/${studentId}`)
+//             .then(response => response.json())
+//             .then(data => {
+//                 document.getElementById('turma').value = data.turma;
+//                 document.getElementById('turno').value = data.turno;
+//                 document.getElementById('escola').value = data.escola;
+//             })
+//             .catch(error => console.error('Erro:', error));
+//     } else {
+//         document.getElementById('turma').value = '';
+//         document.getElementById('turno').value = '';
+//         document.getElementById('escola').value = '';
+//     }
+// }

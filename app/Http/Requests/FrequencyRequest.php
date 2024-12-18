@@ -22,7 +22,7 @@ class FrequencyRequest extends FormRequest
     public function rules(): array
     {
         return [    
-            'student_name' => 'required|string|max:255',
+            'student_id' => 'required|min:1',
             'class_apae' => 'required|string|max:255', 
             'turn_apae' => 'required|string|max:255',
             'date' => 'required|date',

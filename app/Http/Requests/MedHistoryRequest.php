@@ -34,7 +34,7 @@ class MedHistoryRequest extends FormRequest
             ],
             'informant' => 'required|string|max:255',
             'date_of_anamnesis' => 'required|min:8',
-            'appraisal' => 'required|string|max:100c',
+            'appraisal' => 'required|string|max:100',
             'have_caregiver' => 'required|boolean',
             'have_AEE' => 'required|boolean',
             'turn_AEE' => 'nullable|string|max:255',

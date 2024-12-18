@@ -28,7 +28,7 @@
                 Data de emissão:
             </label>
             <x-form.input id="dateInput" type="text" name="date_of_emission" value="{{ old('date_of_emission') }}"
-                class="w-full dark:text-gray-400 date dateInput" required placeholder="Ex: 01/01/2001" />
+                class="w-full dark:text-gray-400 date dateInput" required placeholder="Ex: 01/01/2001" x-init="initFlatpickr" />
 
             <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre
                 1960 e 2200.</span>

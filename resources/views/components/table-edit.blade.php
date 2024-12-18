@@ -42,16 +42,27 @@ route('dashboard')
                                 {{ $itens[0] }}:
                             </label>
 
-                            @if($itens[2] != "select" && $itens[2] != "file")
+                            @if($itens[2] == "text")
 
-                                <x-form.input id="{{ $itens[1] }}" type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
-                                    value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" class="w-full dark:text-gray-400                                    
-                                    {{ $itens[2] === 'date' ? 'date dateInput' : '' }}" 
+                                <x-form.input id="{{ $itens[1] }}" type="text" name="{{ $itens[1] }}" 
+                                    value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" class="w-full dark:text-gray-400"
                                     placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
-                                @if($itens[2] == 'date')
-                                    <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre 1960 e 2200.</span>
-                                @endif
+                            @elseif($itens[2] == "date")
+
+                                <x-form.input id="{{ $itens[1] }}" type="text" name="{{ $itens[1] }}" x-init="initFlatpickr"
+                                    value="{{ old($itens[1], $elementEdit->{$itens[1]}) }}" class="w-full dark:text-gray-400 date dateInput"
+                                    placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
+
+                                <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre 1960 e 2200.</span>
+
+                            @elseif($itens[2] == "textarea")
+
+                                <x-form.textarea id="{{ $itens[1] }}" name="{{ $itens[1] }}"
+                                    value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400" sizeFont="base"
+                                    placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required height="{{$itens[1]}}">
+                                    {{old($itens[1], $elementEdit->{$itens[1]})}}
+                                </x-form.textarea>
 
                             @elseif($itens[2] == "select")
                                 

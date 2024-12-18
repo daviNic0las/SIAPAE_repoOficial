@@ -27,7 +27,7 @@
             <label for="dateInput" class="block text-gray-700 dark:text-gray-300 font-normal mt-3 mb-2">
                 Data de emissão:
             </label>
-            <x-form.input id="dateInput" type="text" name="date_of_emission"
+            <x-form.input id="dateInput" type="text" name="date_of_emission" x-init="initFlatpickr"
                 value="{{ old('date_of_emission', $expense->date_of_emission) }}" class="w-full dark:text-gray-400 date dateInput"
                 required placeholder="Ex: 01/01/2001" />
 

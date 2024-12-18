@@ -33,8 +33,13 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
 
                     @if (isset($withSearchInput))
                         <div id="search-container" class="flex items-center border border-gray-400 rounded-lg focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
-                                        dark:focus:ring-offset-dark-eval-1 overflow-hidden">
-                            <form action="{{ route($actionRoute . '.index') }}" method="GET">
+                            dark:focus:ring-offset-dark-eval-1 overflow-hidden">
+                            @php
+                                if(isset($searchTrash)) {
+                                    $actionTrash = $actionRoute . '.trash';
+                                }
+                            @endphp
+                            <form action="{{ isset($searchTrash) ? route($actionTrash) : route($actionRoute . '.index') }}" method="GET">
                                 <x-form.input type="text" id="search" name="search"
                                     class="form-control w-64 dark:text-gray-300" placeholder="{{$search}}" />
 
@@ -96,7 +101,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                     @if (isset($withSearchDateRange))
                         <div id="search-container" class="flex items-center border border-gray-400 rounded-lg focus:border-gray-400 dark:border-gray-600 dark:bg-dark-eval-1
                                         dark:focus:ring-offset-dark-eval-1 overflow-hidden">
-                        <form method="GET" action="{{route($actionRoute . '.index')}}" class="flex gap-x-2">
+                        <form method="GET" action="{{isset($searchRoute) ? route($searchRoute, $element->id) : route($actionRoute . '.index')}}" class="flex gap-x-2">
                             @php
                                 if ($range) {
                                     $placeholderValue = 'Intervalo: ' . $range;
@@ -105,7 +110,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                 }
                             @endphp
 
-                            <x-form.input class="date-range w-80 form-control text-gra-800 dark:text-gray-300" name="date_range" placeholder="{{$placeholderValue}}" />     
+                            <x-form.input class="date-range w-80 form-control text-gra-800 dark:text-gray-300" x-init="initFlatpickr" name="date_range" placeholder="{{$placeholderValue}}" />     
                             
                             <button id="icone-search"
                                 class="px-2 bg-gray-500 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none -ml-3 transition duration-300">
@@ -115,7 +120,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                         </div>
                     @endif
 
-                    @if(isset($actionRoute))
+                    @if(isset($actionRoute) && !isset($notButtonAdd) && !isset($actionsTrash))
                         <x-button href="{{route($actionRoute . '.create')}}" variant="blue">
                             <div class="dark:text-gray-100">
                                 Adicionar {{$title}}
@@ -168,12 +173,12 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                     @foreach ($variablesDB as $variable)
                                         <td
                                             class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                                            @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date" || $variable == "date_of_anamnesis")
+                                            @if ($variable == "date_of_birth" || $variable == "date_of_emission" || $variable == "date" || $variable == "date_of_anamnesis" || $variable == "date_pedagogical")
                                                 {{ \Carbon\Carbon::parse($row->{$variable})->format('d/m/Y') }}
 
                                             @elseif ($variable == "image")
                                                 <div class="flex justify-center items-center">
-                                                    <img class="rounded-full w-12 h-12"
+                                                    <img class="rounded-full w-10 h-10"
                                                         src="{{ asset('img/' . $actionRoute . '/' . $row->image) }}"
                                                         alt="Image not loaded">
 
@@ -192,7 +197,7 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                                     {{ $row->file }}
                                                 @endif
                                             @else
-                                                {{ \Illuminate\Support\Str::limit(data_get($row, $variable) ?? '------', 12) }}
+                                                {{ \Illuminate\Support\Str::limit(data_get($row, $variable) ?? '------', 15) }}
                                                 <!-- Exibe o valor com limitação de tamanho e caso não exista coloque '-----' -->
                                             @endif
                                         </td>
@@ -202,20 +207,35 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                     @if(isset($actionRoute))
                                         <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center"
                                             onclick="event.stopPropagation();">
-                                            <x-button href="{{route($actionRoute . '.edit', $row->id)}}" variant="edit" size="sm">
+
+                                            @if (isset($actionsTrash))
+                                            <form action="{{route($actionRoute . '.restore', $row->id)}}" method="POST"
+                                                onclick="restoreConfirm(event)">
+                                                @csrf
+                                                <x-button title="Restaurar esse {{$title}}" variant="restore" size="sm">
+                                                    <x-icons.restore />
+                                                </x-button>
+                                            </form>
+
+                                            @else
+                                            <x-button href="{{route($actionRoute . '.edit', $row->id)}}" title="Editar {{$title}}" variant="edit" size="sm">
                                                 <x-icons.edit />
                                             </x-button>
 
                                             <form method="POST" action="{{ route($actionRoute . '.destroy', $row->id) }}"
                                                 accept-charset="UTF-8" style="display:inline">
+                                                @if (isset($notDelete))
+                                                @else
                                                 {{ method_field('DELETE') }}
+                                                @endif
                                                 {{ csrf_field() }}
 
-                                                <x-button variant="trash" title="Deletar diagnóstico" size="sm" color="red"
+                                                <x-button variant="trash" title="Deletar {{$title}}" size="sm"
                                                     onclick="deleteConfirm(event)">
                                                     <x-icons.trash />
                                                 </x-button>
                                             </form>
+                                            @endif
                                         </td>
                                     @endif
                                 </tr>

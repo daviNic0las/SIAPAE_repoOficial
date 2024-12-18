@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <div class="flex flex-col md:justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-3">
-            <h2 class="text-2xl font-bold leading-tight">
+            <h2 class="text-2xl font-bold leading-tight pt-2">
                 {{ __('Ata de Reuniões') }}
             </h2>
         </div>
@@ -17,6 +17,7 @@
         withSearchSelect
         :years="$years"
         :year="$year"
+        withShow
         actionRoute="record">
     </x-table>
  

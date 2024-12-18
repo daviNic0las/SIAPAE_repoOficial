@@ -74,9 +74,15 @@ class MedHistoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MedHistory $medHistory)
+    public function show($id)
     {
-        return view('errors.404');
+        $medHistory = MedHistory::with('student')->findOrFail($id);
+
+        $medHistory['date_of_anamnesis'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_of_anamnesis'])->format('d/m/Y');
+        $medHistory['date_mother'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_mother'])->format('d/m/Y');
+        $medHistory['date_father'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_father'])->format('d/m/Y');
+        
+        return view('med_history.show', compact('medHistory'));
     }
 
     /**
@@ -125,8 +131,20 @@ class MedHistoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MedHistory $medHistory)
+    public function destroy($id)
     {
-        //
+        $data = MedHistory::findOrFail($id);
+        // Para a data criada seja aquela que vai aparecer no .index
+        $carbonDate = \Carbon\Carbon::parse($data['date']);
+        $year = $carbonDate->year; 
+
+        $input = MedHistory::destroy($id);
+        if ($input) {
+            session()->flash('success', 'Anamnese excluída com sucesso!');
+            return redirect()->route('anamnesis.index', compact('year'));
+        } else {
+            session()->flash('error', 'Erro na exclusão da Anamnese');
+            return redirect()->route('anamnesis.index', compact('year'));
+        }
     }
 }

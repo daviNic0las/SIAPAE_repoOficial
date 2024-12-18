@@ -12,7 +12,7 @@
             <div class="grid gap-4">
                 <!-- Email Address -->
                 <div class="space-y-2">
-                    <x-form.label for="email" :value="__('Email')" />
+                    <x-form.label for="email" :value="__('Email')" sizeClass="sm" />
 
                     <x-form.input-with-icon-wrapper>
                         <x-slot name="icon">
@@ -26,7 +26,7 @@
 
                 <!-- Password -->
                 <div class="space-y-2">
-                    <x-form.label for="password" :value="__('Password')" />
+                    <x-form.label for="password" :value="__('Password')" sizeClass="sm"/>
                     <x-form.input-with-icon-wrapper>
                         <x-slot name="icon">
                             <x-heroicon-o-lock-closed aria-hidden="false" class="w-5 h-5" />

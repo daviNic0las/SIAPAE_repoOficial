@@ -6,7 +6,7 @@ use App\Models\Frequency;
 use App\Models\Student;
 use Illuminate\Console\Command;
 
-class createActualFrequency extends Command
+class CreateActualFrequency extends Command
 {
     /**
      * The name and signature of the console command.
@@ -44,19 +44,21 @@ class createActualFrequency extends Command
                 $monthYear = \Carbon\Carbon::now()->format('m/Y');
             }
 
-            $frequencyExist = Frequency::where('student_name', $student->name)
+            $frequencyExist = Frequency::where('student_id', $student->id)
                 ->where('month_year', $monthYear)
                 ->exists();
 
             //Caso a frequência não exista
             if (!$frequencyExist) {
-                Frequency::create([
-                    'student_name' => $student->name,
-                    'class_apae' => $student->class_apae,
-                    'turn_apae' => $student->turn_apae,
-                    'month_year' => $monthYear,
-                ]);
-                $this->info("Frequência criada para o aluno {$student->name} no ano {$monthYear}.");
+                if($student['state_student'] == 'alive') {
+                    Frequency::create([
+                        'student_id' => $student->id,
+                        'month_year' => $monthYear,
+                    ]);
+                    $this->info("Frequência criada para o aluno {$student->name} no ano {$monthYear}.");
+                } else { 
+                    $this->info("Frequência não criada para o Aluno {$student->name} por estar na Lixeira.");
+                }
             } else {
                 $this->info("O aluno {$student->name} já tem uma Frequência para o ano {$monthYear}.");
             }

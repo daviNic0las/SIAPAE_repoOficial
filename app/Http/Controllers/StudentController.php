@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MedHistory;
 use App\Models\Student;
+use App\Models\Attendance;
 use App\Events\StudentUpdated;
 use App\Models\Diagnostic;
 use App\Http\Controllers\Controller;
@@ -20,17 +22,20 @@ class StudentController extends Controller
         if ($search) {
             $students = Student::where([
                 ['name', 'like', '%' . $search . '%']
-            ])->with('diagnostic')
+            ])->where('state_student', 'alive')
+            ->with('diagnostic')
             ->orderBy('name', 'asc')
             ->paginate(15);
         } else {
             $students = Student::with('diagnostic')
+            ->where('state_student', 'alive')
             ->orderBy('name', 'asc')
             ->paginate(15);
         }
 
         return view('student.home', compact('students', 'search'));
     }
+
     public function create()
     {
         $diagnostics = Diagnostic::all();
@@ -66,12 +71,49 @@ class StudentController extends Controller
     public function show($id)
     {
         $student = Student::with('diagnostic')->findOrFail($id);
-        return view('student.show', compact('student'));
+        
+        $medHistory = null;
+         
+        $medHistoryExists = MedHistory::where('student_id', $id)->exists();
+        if($medHistoryExists) {
+            $medHistory = MedHistory::where('student_id', $id)->first();
+        }
+
+        $isTrash = null;
+        if($student['state_student'] == 'trash') {
+            $isTrash = true; 
+        }
+
+        $date_range = request('date_range'); 
+        $scrollBack = null;
+
+        if ($date_range) { 
+            $dates = explode(' até ', $date_range); 
+            $start_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[0]))->format('Y-m-d'); 
+            $end_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[1]))->format('Y-m-d'); 
+            
+            $attendances = Attendance::whereDate('date', '>=', $start_date)
+                ->whereDate('date', '<=', $end_date) 
+                ->where('student_id', $id)
+                ->with('student')
+                ->orderBy('date', 'desc') 
+                ->paginate(15); 
+
+            $scrollBack = true;
+        } else { 
+            $attendances = Attendance::where('student_id', $id)
+            ->with('student')
+            ->orderBy('date', 'desc') 
+            ->paginate(15); 
+        }
+
+        return view('student.show', compact('student', 'medHistory', 'attendances', 'date_range', 'scrollBack', 'isTrash'));
     }
     public function edit($id)
     {
         $student = Student::findOrFail($id);
-        //Formatando a data que está em Y/m/d para d/m/Y, pois estou usando um input type text pra data
+        
+        //Convert data to string
         $student['date_of_birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $student['date_of_birth'])->format('d/m/Y');
 
         $diagnostics = Diagnostic::orderBy('name', 'asc')->get();
@@ -82,7 +124,6 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
         $data = $request->validated();
-        $oldName = $student['name'];
 
         // Convert string to data
         $data['date_of_birth'] = \Carbon\Carbon::createFromFormat('d/m/Y', $data['date_of_birth'])->format('Y-m-d');
@@ -104,8 +145,9 @@ class StudentController extends Controller
 
         };
 
-        $input = $student->update($data);// Dispara o evento p/ att a lista de frequência tbm
-        event(new StudentUpdated($student, $oldName));
+        $input = $student->update($data);
+        // Dispara o evento p/ att a lista de frequência tbm
+        // event(new StudentUpdated($student, $oldName));
 
         if ($input) {
             session()->flash('success', 'Aluno atualizado com sucesso!');
@@ -116,28 +158,13 @@ class StudentController extends Controller
         }
 
     }
-
-    public function destroy($id)
-    {
-        $data = Student::find($id);
-        if ($data->image) {
-            $destination = public_path('img/student/' . $data->image);
-
-            if (file_exists($destination) && $destination != public_path('img/student/Foto_Desconhecido.jpg')) {
-                unlink($destination);
-            };
-        };
-
-        $input = Student::destroy($id);
-
-        if ($input) {
-            session()->flash('success', 'Aluno excluído com sucesso!');
-            return redirect()->route('student.index');
-        } else {
-            session()->flash('error', 'Erro na exclusão do Aluno');
-            return redirect()->route('student.index');
-        }
-
-
-    }
 }
+
+// Destroy para as imagens
+// if ($data->image) {
+//     $destination = public_path('img/student/' . $data->image);
+
+//     if (file_exists($destination) && $destination != public_path('img/student/Foto_Desconhecido.jpg')) {
+//         unlink($destination);
+//     };
+// };

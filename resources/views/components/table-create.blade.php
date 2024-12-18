@@ -18,7 +18,7 @@ route('dashboard')
         <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-2xl font-bold leading-tight">Adicionar novo(a) {{ $title }}</h1>
+                    <h1 class="text-2xl font-bold leading-tight pt-2">Adicionar novo(a) {{ $title }}</h1>
 
                     <x-button href="{{ route($actionRoute . '.index') }}" variant="primary">
                         <p class="text-white">
@@ -47,25 +47,34 @@ route('dashboard')
                                     {{ $itens[0] }}:
                                 </label>
 
-                                @if($itens[2] != "select" && $itens[2] != "file")
+                                @if($itens[2] == "text")
 
-                                    <x-form.input id="{{ $itens[1] }}"
-                                        type="{{ $itens[2] != 'date' ? $itens[2] : 'text' }}" name="{{ $itens[1] }}"
-                                        value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400                                    
-                                                    {{ ($itens[2] ?? '') === 'date' ? 'date dateInput' : '' }}"
+                                    <x-form.input id="{{ $itens[1] }}" type="text" name="{{ $itens[1] }}"
+                                        value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400"
                                         placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
 
-                                    @if($itens[2] == 'date')
-                                        <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre
-                                            1960 e 2200.</span>
-                                    @endif
+                                @elseif($itens[2] == "date")
+
+                                    <x-form.input id="{{ $itens[1] }}" type="text" name="{{ $itens[1] }}"
+                                        value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400 date dateInput"
+                                        x-init="initFlatpickr" placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required />
+
+                                    <span id="errorMessage" style="color: red; display: none;">Data inválida. Insira uma data entre 1960 e 2200.</span>
+                                    
+                                @elseif($itens[2] == "textarea")
+
+                                    <x-form.textarea id="{{ $itens[1] }}" name="{{ $itens[1] }}"
+                                        value="{{ old($itens[1]) }}" class="w-full dark:text-gray-400" sizeFont="base"
+                                        placeholder="{{ isset($itens[3]) ? $itens[3] : $itens[0] }}" required height="{{$itens[1]}}">
+                                        {{old($itens[1])}}
+                                    </x-form.textarea>
 
                                 @elseif($itens[2] == "select")
                                 
                                     <x-form.select valueName="{{ $itens[1] }}">
                                         <option value=""> Selecione um {{ $itens[0] }} </option>
                                         
-                                        @if($itens[1] == "student_name" || $itens[1] == "signature")
+                                        @if($itens[1] == "signature")
                                         @php 
                                         // Se for um array de arrays, alterna entre os elementos de cada array, caso contrário, usa o array simples
                                         if (is_array($selectsWithName ?? null)) {
