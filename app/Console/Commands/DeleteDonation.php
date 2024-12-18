@@ -6,7 +6,7 @@ use App\Models\Donation;
 use App\Models\Student;
 use Illuminate\Console\Command;
 
-class deleteDonation extends Command
+class DeleteDonation extends Command
 {
     /**
      * The name and signature of the console command.
@@ -46,8 +46,8 @@ class deleteDonation extends Command
             if ($donationExist) {
                 $donation = Donation::where('student_id', $student->id)
                 ->where('year_of_donation', $year)
-                ->get();
-                Donation::destroy($donation[0]->id); // Delete a instância da doação
+                ->first();
+                Donation::destroy($donation->id); // Delete a instância da doação
                 $this->info("Lista de Doação deletada para o Aluno {$student->name} no ano {$year}.");
             } else {
                 $this->info("O Aluno {$student->name} não tem uma Lista de Doação a ser apagada para o ano {$year}.");

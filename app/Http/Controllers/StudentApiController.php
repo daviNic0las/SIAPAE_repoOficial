@@ -27,8 +27,58 @@ class StudentApiController extends Controller
         }
 
     }
-    public function teste()
+    
+    public function trash() 
     {
-        return view('teste');
+        $search = request('search');
+        
+        if ($search) {
+            $students = Student::where([
+                ['name', 'like', '%' . $search . '%']
+            ])->where('state_student', 'trash')
+            ->with('diagnostic')
+            ->orderBy('name', 'asc')
+            ->paginate(15);
+        } else {
+            $students = Student::with('diagnostic')
+            ->where('state_student', 'trash')
+            ->orderBy('name', 'asc')
+            ->paginate(15);
+        }
+
+        return view('student.trash', compact('students', 'search'));
+    }
+    public function destroy($id)
+    {
+        $student = Student::find($id);
+
+        $student['state_student'] = 'trash';
+        $student['image'] = "Foto_Desconhecido.jpg";
+
+        $input = $student->save();
+
+        if ($input) {
+            session()->flash('success', 'Aluno movido para a Lixeira com sucesso!');
+            return redirect()->route('student.index');
+        } else {
+            session()->flash('error', 'Erro na exclusão do Aluno');
+            return redirect()->route('student.index');
+        }
+    }
+    public function restore($id) 
+    {
+        $student = Student::find($id);
+
+        $student['state_student'] = 'alive';
+
+        $input = $student->save();
+
+        if ($input) {
+            session()->flash('success', 'Aluno Restaurado com sucesso!');
+            return redirect()->route('student.trash');
+        } else {
+            session()->flash('error', 'Erro na restauração do Aluno');
+            return redirect()->route('student.trash');
+        }
     }
 }

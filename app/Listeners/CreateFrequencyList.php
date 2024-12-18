@@ -23,9 +23,7 @@ class CreateFrequencyList
     public function handle(StudentCreated $event): void
     {
         Frequency::create([ 
-            'student_name' => $event->student->name, 
-            'class_apae' => $event->student->class_apae,
-            'turn_apae' => $event->student->turn_apae,
+            'student_id' => $event->student->id, 
             'month_year' => \Carbon\Carbon::now()->format('m/Y')
         // Outros campos da tabela de doações, que serão vazios por padrão 
         ]); 

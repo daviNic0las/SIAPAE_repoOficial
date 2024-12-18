@@ -20,13 +20,13 @@ class RegionalController extends Controller
         // Se o ano for fornecido, filtra os gastos por year
         if ($year) {
             $regionals = Regional::whereYear('date', $year)
-            ->orderBy('date', 'asc')
+            ->orderBy('date', 'desc')
             ->paginate(15);
         } else {
             // Caso contrário, pega todos os gastos com o ano atual
             $year = \Carbon\Carbon::now()->year;
             $regionals = Regional::whereYear('date', $year)
-            ->orderBy('date', 'asc')
+            ->orderBy('date', 'desc')
             ->paginate(15);
         }
 
@@ -74,8 +74,12 @@ class RegionalController extends Controller
      */
     public function show($id)
     {
-        //
+        $regional = Regional::findOrFail($id);
+        $regional['date'] = \Carbon\Carbon::createFromFormat('Y-m-d', $regional['date'])->format('d/m/Y');
+
+        return view('regional.show', compact('regional'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -130,7 +134,7 @@ class RegionalController extends Controller
             session()->flash('success', 'Relatório excluído com sucesso!');
             return redirect()->route('regional.index', compact('year'));
         } else {
-            session()->flash('error', 'Erro na exclusão do Aluno');
+            session()->flash('error', 'Erro na exclusão do Relatório');
             return redirect()->route('regional.index');
         }
     }

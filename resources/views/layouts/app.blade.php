@@ -18,10 +18,11 @@
             display: none;
         }
     </style>
-    <link rel="stylesheet" href=" {{ asset('css/etc.css') }} ">
+    <link rel="stylesheet" href=" {{ asset('css/etc.css') }}">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_green.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" id="flatpickr-light">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" id="flatpickr-dark" disabled>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,8 +36,13 @@
 <body class="font-sans antialiased">
     <!-- Carregar jQuery antes de qualquer outro script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <div x-data="mainState" :class="{ dark: isDarkMode }" x-on:resize.window="handleWindowResize" x-cloak>
+    
+    <div
+        x-data="mainState"
+        :class="{ dark: isDarkMode }"
+        x-on:resize.window="handleWindowResize"
+        x-cloak
+    >
         <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
             <!-- Sidebar -->
             <x-sidebar.sidebar />
@@ -86,7 +92,6 @@
         };
         @if(Session::has('success'))
             toastr.success("{{ Session::get('success') }}");
-            console.log('wtf');
         @endif
         @if(Session::has('error'))
             toastr.error("{{ Session::get('error') }}");

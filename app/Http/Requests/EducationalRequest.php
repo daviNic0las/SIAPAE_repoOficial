@@ -22,7 +22,16 @@ class EducationalRequest extends FormRequest
     public function rules(): array
     {
         return [
-           //
+            'student_id' => 'required|min:1',
+            'school' => 'required|string|max:100',
+            'age' => 'required|string|max:50',
+            'turn_school' => 'required|string|max:50',
+            'grade_school' => 'required|string|max:50',
+            'school_year' => 'required|string|max:20',
+            'professor_signature' => 'required|string|max:100',
+            'text' => 'required|string|max:8000',
+            'date_pedagogical' => 'required|string|max:10',
+            'signature' => 'required|string|max:100',
         ];
     }
 }

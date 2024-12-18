@@ -64,7 +64,7 @@
                 Data de Nascimento:
             </label>
             <x-form.input id="date" type="text" name="date_of_birth" value="{{ old('date_of_birth') }}"
-                class="w-full dark:text-gray-400 date dateInput" placeholder="Ex: 01/01/2021" required/>
+                class="w-full dark:text-gray-400 date dateInput" x-init="initFlatpickr" placeholder="Ex: 01/01/2021" required/>
 
             <span id="errorMessage" style="color: red; display: none;">
                 Data inválida. Insira uma data entre 1960 e 2200.

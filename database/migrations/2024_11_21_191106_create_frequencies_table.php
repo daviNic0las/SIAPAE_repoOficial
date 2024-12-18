@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('frequencies', function (Blueprint $table) {
             $table->id();
-            $table->string('student_name');
-            $table->string('class_apae');
-            $table->string('turn_apae');
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->string('month_year');
             $table->text('observation')->nullable(); 
             $table->string('signature')->nullable();

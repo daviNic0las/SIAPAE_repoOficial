@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('educationals', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->string('school');
+            $table->string('age');
+            $table->string('turn_school');
+            $table->string('grade_school');
+            $table->string('school_year');
+            $table->string('professor_signature');
+            $table->string('text');
+            $table->date('date_pedagogical');
+            $table->string('signature');
             $table->timestamps();
         });
     }

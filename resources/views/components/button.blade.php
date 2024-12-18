@@ -8,6 +8,7 @@
     'disabled' => false,
     'pill' => false,
     'squared' => false,
+    'bg' => 'bg-white dark:bg-dark-eval-1',
 ])
 
 @php
@@ -37,10 +38,13 @@
             $variantClasses = 'bg-black text-gray-300 hover:text-white hover:bg-gray-800 focus:ring focus:ring-black dark:hover:bg-dark-eval-3';
         break;
         case 'trash':
-            $variantClasses = 'bg-white border border-gray-300 hover:border-red-600 dark:border-gray-700 dark:hover:border-red-700 text-black hover:text-white hover:bg-red-600 focus:ring focus:ring-red-700 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-red-700 dark:hover:text-gray-200';
+            $variantClasses = $bg.' border border-gray-300 hover:border-red-600 dark:border-gray-700 dark:hover:border-red-700 text-black hover:text-white hover:bg-red-600 focus:ring focus:ring-red-700 dark:text-gray-400 dark:hover:bg-red-700 dark:hover:text-gray-200';
         break;
         case 'edit':
-            $variantClasses = 'bg-white border border-gray-300 hover:border-yellow-400 hover:bg-yellow-400 focus:ring focus:ring-yellow-500 dark:text-gray-400 dark:border-gray-700 dark:hover:border-yellow-500 dark:bg-dark-eval-1 dark:hover:bg-yellow-500 dark:hover:text-gray-900';
+            $variantClasses = $bg.' border border-gray-300 hover:border-yellow-400 hover:bg-yellow-400 focus:ring focus:ring-yellow-500 dark:text-gray-400 dark:border-gray-700 dark:hover:border-yellow-500 dark:hover:bg-yellow-500 dark:hover:text-gray-900';
+        break;
+        case 'restore':
+            $variantClasses = $bg.' border border-gray-300 hover:border-blue-600 hover:bg-blue-600 hover:text-white focus:ring focus:ring-blue-600 dark:text-gray-400 dark:border-gray-700 dark:hover:border-blue-500 dark:hover:bg-blue-500 dark:hover:text-gray-900';
         break;
         default:
             $variantClasses = 'bg-gray-300 text-white hover:bg-gray-600 focus:ring focus:ring-gray-500';
@@ -48,7 +52,7 @@
 
     switch ($size) {
         case 'hyper-sm':
-            $sizeClasses = $iconOnly ? 'p-1' : 'px-2 py-1.5 text-sm';
+            $sizeClasses = $iconOnly ? 'p-1' : 'px-1.5 py-1 text-sm';
         break;
         case 'sm':
             $sizeClasses = $iconOnly ? 'p-1.5' : 'px-2.5 py-1.5 text-sm';

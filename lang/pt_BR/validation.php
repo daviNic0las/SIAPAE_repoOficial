@@ -236,10 +236,13 @@ return [
         'diagnostic' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
         'date_of_birth' => 'data de nascimento',
-        'student_id' => 'nome do aluno',
+        'student_id' => 'ID do aluno',
         'diagnostic_id' => 'diagnóstico',
         'class_apae' => 'classe da APAE',
         'turn_apae' => 'turno da APAE',
+        'turn_school' => 'turno da escola',
+        'class_school' => 'classe da escola',
+        'grade_school' => 'ano/série da escola',
         'educational_axis' => 'eixo educacional',
         'advances' => 'avanços',
         'difficulties' => 'dificuldades',
@@ -250,7 +253,6 @@ return [
         'file' => 'arquivo',
         'subtitle' => 'subtítulo',
         'observation' => 'observação',
-        'student_id' => 'nome do aluno',
         'informant' => 'informante',
         'date_of_anamnesis' => 'data da anamnese',
         'appraisal' => 'avaliação',
@@ -268,7 +270,6 @@ return [
         'rg_father' => 'RG do pai',
         'profession_father' => 'profissão do pai',
         'cellphone_father' => 'celular do pai',
-        'address' => 'endereço',
         'have_medication' => 'faz uso de medicação',
         'what_medication' => 'qual medicação',
         'complaint' => 'queixa principal',
@@ -382,8 +383,11 @@ return [
         'who_recommend_institution' => 'quem recomendou a instituição',
         'participate_contribution' => 'participa de contribuições',
         'general_observations' => 'observações gerais',
-        'signature' => 'assinatura',
+        'date_pedagogical' => 'data do relatório',
+        'professor_signature' => 'assinatura do professor',
+        'school_year' => 'ano letivo'
     ],
+
 
 
 ];

@@ -1,28 +1,11 @@
-import './bootstrap';
-import Alpine from 'alpinejs';
-import collapse from '@alpinejs/collapse';
-import PerfectScrollbar from 'perfect-scrollbar';
-import Inputmask from 'inputmask';
+import './bootstrap'
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Calendário no input de data
-    flatpickr(".date", {
-        dateFormat: "d/m/Y",  
-        allowInput: true,     
-        locale: "pt",
-        minDate: "01/01/1960",
-        maxDate: "today",  
-    });
+import Alpine from 'alpinejs'
+import collapse from '@alpinejs/collapse'
+import PerfectScrollbar from 'perfect-scrollbar'
+import Inputmask from 'inputmask'
 
-    // Aplicar o Flatpickr com a opção de intervalo de datas 
-    flatpickr(".date-range", { 
-        mode: "range", 
-        dateFormat: "d/m/Y", 
-        locale: "pt", 
-        allowInput: true, 
-        minDate: "01/01/1960",
-        maxDate: "today",
-    });
+document.addEventListener("DOMContentLoaded", function () {
 
     // Função para aplicar máscaras aos elementos
     function applyMask(selector, mask) {
@@ -32,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
     }
 
-    // Aplicar máscaras com verificação de existência dos elementos
     applyMask('.date-range', new Inputmask("99/99/9999 até 99/99/9999"));
     applyMask('.date', new Inputmask("99/99/9999"));
     applyMask('.monthYear', new Inputmask("99/9999"));
@@ -45,8 +27,9 @@ window.PerfectScrollbar = PerfectScrollbar;
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('mainState', () => {
-        let lastScrollTop = 0;
-        const init = function() {
+        let lastScrollTop = 0
+        const init = function () {
+            this.applyTheme();
             window.addEventListener('scroll', () => {
                 let st = window.pageYOffset || document.documentElement.scrollTop;
                 if (st > lastScrollTop) {
@@ -67,7 +50,7 @@ document.addEventListener('alpine:init', () => {
             const storedSidebarState = window.localStorage.getItem('isSidebarOpen');
             this.isSidebarOpen = storedSidebarState !== null ? JSON.parse(storedSidebarState) : (window.innerWidth > 1024);
 
-            // Ajustar visibilidade da barra lateral com base no tamanho da janela inicial
+            // Adjust sidebar visibility based on initial window size
             if (window.innerWidth <= 1024) {
                 this.isSidebarOpen = false;
             }
@@ -91,8 +74,38 @@ document.addEventListener('alpine:init', () => {
             init,
             isDarkMode: getTheme(),
             toggleTheme() {
-                this.isDarkMode = !this.isDarkMode;
-                setTheme(this.isDarkMode);
+                this.isDarkMode = !this.isDarkMode
+                setTheme(this.isDarkMode)
+                this.applyTheme();
+            },
+            applyTheme() {
+                if (this.isDarkMode) {
+                    document.getElementById('flatpickr-dark').disabled = false;
+                    document.getElementById('flatpickr-light').disabled = true;
+                } else {
+                    document.getElementById('flatpickr-dark').disabled = true;
+                    document.getElementById('flatpickr-light').disabled = false;
+                }
+            },
+            initFlatpickr() {
+                //Calendário no input de data
+                flatpickr(".date", {
+                    dateFormat: "d/m/Y",
+                    allowInput: true,
+                    locale: "pt",
+                    minDate: "01/01/1960",
+                    maxDate: "today",
+                });
+
+                // Aplicar o Flatpickr com a opção de intervalo de datas 
+                flatpickr(".date-range", {
+                    mode: "range", 
+                    dateFormat: "d/m/Y",
+                    locale: "pt",
+                    allowInput: true,
+                    minDate: "01/01/1960",
+                    maxDate: "today",
+                });
             },
             isSidebarOpen: JSON.parse(window.localStorage.getItem('isSidebarOpen')) ?? (window.innerWidth > 1024),
             isSidebarHovered: false,
@@ -120,5 +133,6 @@ document.addEventListener('alpine:init', () => {
     });
 });
 
-Alpine.plugin(collapse);
-Alpine.start();
+Alpine.plugin(collapse)
+
+Alpine.start() 

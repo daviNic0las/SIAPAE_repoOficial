@@ -16,13 +16,13 @@ class RecordController extends Controller
         // Se o ano for fornecido, filtra os gastos por year
         if ($year) {
             $records = Record::whereYear('date', $year)
-            ->orderBy('date', 'asc')
+            ->orderBy('date', 'desc')
             ->paginate(15);
         } else {
             // Caso contrário, pega todos os gastos com o ano atual
             $year = \Carbon\Carbon::now()->year;
             $records = Record::whereYear('date', $year)
-            ->orderBy('date', 'asc')
+            ->orderBy('date', 'desc')
             ->paginate(15);
         }
 
@@ -79,7 +79,9 @@ class RecordController extends Controller
      */
     public function show(string $id)
     {
-        return view('errors.404');
+        $record = Record::findOrFail($id);
+
+        return view('record.show', compact('record'));
     }
 
     /**
@@ -146,7 +148,7 @@ class RecordController extends Controller
 
         $input = Record::findOrFail($id)->delete();
         if ($input) {
-            session()->flash('success', 'Categoria excluída com sucesso!');
+            session()->flash('success', 'Ata excluída com sucesso!');
             return redirect()->route('record.index');
         } else {
             session()->flash('error', 'Erro na exclusão do item');

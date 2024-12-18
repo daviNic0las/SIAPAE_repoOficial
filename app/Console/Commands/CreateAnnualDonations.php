@@ -49,11 +49,15 @@ class CreateAnnualDonations extends Command
                 ->exists();
 
             if (!$donationExist) {
-                Donation::create([
-                    'student_id' => $student->id,
-                    'year_of_donation' => $year,
-                ]);
-                $this->info("Lista de Doação criada para o Aluno {$student->name} no ano {$year}.");
+                if($student['state_student'] == 'alive') {
+                    Donation::create([
+                        'student_id' => $student->id,
+                        'year_of_donation' => $year,
+                    ]);
+                    $this->info("Lista de Doação criada para o Aluno {$student->name} no ano {$year}.");
+                } else {    
+                    $this->info("Doação não criada para o Aluno {$student->name} por estar na Lixeira.");
+                }
             } else {
                 $this->info("O Aluno {$student->name} já tem uma Lista de Doação para o ano {$year}.");
             }

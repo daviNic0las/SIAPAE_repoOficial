@@ -23,24 +23,37 @@ class FrequencyController extends Controller
         $monthYear = request('monthYear');
 
         if ($class_apae && $turn_apae && $monthYear) {
-            $frequencies = Frequency::where('class_apae', $class_apae)->
-                where('turn_apae', $turn_apae)->
-                where('month_year', $monthYear)->
-                orderBy('student_name', 'asc')->
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+                select('frequencies.*')->
+                where('students.class_apae', $class_apae)->
+                where('students.turn_apae', $turn_apae)->
+                where('frequencies.month_year', $monthYear)->
+                with('student')->
+                orderBy('students.name', 'asc')->
                 paginate(15);
+            
         } elseif ($class_apae && $monthYear) {
-            $frequencies = Frequency::where('class_apae', $class_apae)->
-                where('month_year', $monthYear)->
-                orderBy('student_name', 'asc')->
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+                select('frequencies.*')->
+                where('students.class_apae', $class_apae)->
+                where('frequencies.month_year', $monthYear)->
+                with('student')->
+                orderBy('students.name', 'asc')->
                 paginate(15);
         } elseif ($turn_apae && $monthYear) {
-            $frequencies = Frequency::where('turn_apae', $turn_apae)->
-                where('month_year', $monthYear)->
-                orderBy('student_name', 'asc')->
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+                select('frequencies.*')->
+                where('students.turn_apae', $turn_apae)->
+                where('frequencies.month_year', $monthYear)->
+                with('student')->
+                orderBy('students.name', 'asc')->
                 paginate(15);
         } elseif ($monthYear) {
-            $frequencies = Frequency::where('month_year', $monthYear)->
-                orderBy('student_name', 'asc')->
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+                select('frequencies.*')->
+                where('frequencies.month_year', $monthYear)->
+                with('student')->
+                orderBy('students.name', 'asc')->
                 paginate(15);
         } else {
 
@@ -63,19 +76,25 @@ class FrequencyController extends Controller
             } else {
             }
 
-            $frequencies = Frequency::where('class_apae', $class_apae)
-                ->where('month_year', $monthYear)
-                ->where('turn_apae', $turn_apae)
-                ->orderBy('student_name', 'asc')
-                ->paginate(15);
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+                select('frequencies.*')->
+                where('students.class_apae', $class_apae)->
+                where('students.turn_apae', $turn_apae)->
+                where('frequencies.month_year', $monthYear)->
+                with('student')->
+                orderBy('students.name', 'asc')->
+                paginate(15);
 
             if ($diaSemanaNumero == 0 || $diaSemanaNumero == 6) {
                 //Caso seja sabado (6) ou domingo (0), substitua a pesquisa apenas pelo mês/ano
                 $class_apae = '';
                 $turn_apae = '';
-                $frequencies = Frequency::where('month_year', $monthYear)
-                    ->orderBy('student_name', 'asc')
-                    ->paginate(15);
+                $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+                select('frequencies.*')->
+                where('frequencies.month_year', $monthYear)->
+                with('student')->
+                orderBy('students.name', 'asc')->
+                paginate(15);
             }
         }
 
@@ -167,7 +186,6 @@ class FrequencyController extends Controller
                 $frequency = Frequency::find($frequencyData['id']);
                 if ($frequency) {
                     $updated = $frequency->update([
-                        'student_name' => $frequencyData['student_name'],
                         'observation' => $observation, // Atualize conforme necessário
                         'signature' => $signature, // Assinatura comum para todos
                     ]);

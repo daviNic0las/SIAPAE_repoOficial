@@ -13,14 +13,14 @@
     </div>
 
     <x-sidebar.link title="{{__('Anamnesis')}}" href="{{route('anamnesis.index')}}"
-        :isActive="request()->routeIs('anamnesis.index', 'anamnesis.create', 'anamnesis.edit')">
+        :isActive="request()->routeIs('anamnesis.index', 'anamnesis.create', 'anamnesis.edit', 'anamnesis.show')">
         <x-slot name="icon">
             <x-icons.anamnesis class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
 
     <x-sidebar.link title="{{__('Student File')}}" href="{{route('student.index')}}"
-        :isActive="request()->routeIs('student.index', 'student.create', 'student.edit')">
+        :isActive="request()->routeIs('student.index', 'student.create', 'student.edit', 'student.show')">
         <x-slot name="icon">
             <x-icons.person class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -39,7 +39,7 @@
         </x-slot>
 
         <x-sidebar.sublink title="{{__('Attendance')}}" href="{{route('attendance.index')}}"
-            :active="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit')" />
+            :active="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit', 'attendance.show')" />
 
         <x-sidebar.sublink title="{{__('Diagnostic')}}" href="{{route('diagnostic.index')}}"
             :active="request()->routeIs('diagnostic.index', 'diagnostic.create', 'diagnostic.edit')" />
@@ -51,10 +51,10 @@
         </x-slot>
 
         <x-sidebar.sublink title="{{__('Pedagogic')}}" href="{{route('educational.index')}}"
-            :active="request()->routeIs('educational.index', 'educational.create', 'educational.edit')" />
+            :active="request()->routeIs('educational.index', 'educational.create', 'educational.edit', 'educational.show')" />
 
         <x-sidebar.sublink title="{{__('Regional')}}" href="{{route('regional.index')}}"
-            :active="request()->routeIs('regional.index', 'regional.create', 'regional.edit')" />
+            :active="request()->routeIs('regional.index', 'regional.create', 'regional.edit', 'regional.show')" />
     </x-sidebar.dropdown>
 
     <!-- Transition - REUNIÕES -->
@@ -87,7 +87,7 @@
         </x-sidebar.link>
 
         <x-sidebar.link title="{{__('Expense Control')}}" href="{{route('expense.index')}}"
-            :isActive="request()->routeIs('expense.index', 'expense.create', 'expense.edit')">
+            :isActive="request()->routeIs('expense.index', 'expense.create', 'expense.edit', 'expense.show')">
             <x-slot name="icon">
                 <x-icons.expense class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
             </x-slot>

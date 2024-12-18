@@ -7,12 +7,14 @@ function updateImageLabel(event) {
     const fileInput = event.target;
     const labelImage = document.getElementById('label-image');
 
+
     if (labelImage && fileInput.files.length > 0) {
         const fileName = fileInput.files[0].name;
         labelImage.textContent = fileName; // Atualiza o texto com o nome do arquivo
     } else {
         console.error("Elemento label-image não encontrado ou nenhum arquivo selecionado.");
     }
+
 }
 
 function updateImagePreview(event) {
@@ -92,6 +94,26 @@ window.deleteConfirm = function (e) {
         }
     });
 };
+//Restore Confirm
+window.restoreConfirm = function (e) {
+    e.preventDefault();
+    var form = e.target.closest('form');
+
+    Swal.fire({
+        title: "Você tem Certeza?",
+        text: "Quer restaurar esse Registro?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Restaurar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+};
 
 // Validação da Data
 function validateDate() {
@@ -124,10 +146,11 @@ function validateDate() {
 }
 
 function toggleInput(checkbox) {
-    const targetClass = checkbox.getAttribute('data-target'); 
+    const targetClass = checkbox.getAttribute('data-target');
     const targetInputs = document.querySelectorAll(`.${targetClass}`);
 
-    targetInputs.forEach(function(input) {
+    // Se a checkbox estiver marcada, habilita os inputs. Caso contrário, desabilita.
+    targetInputs.forEach(function (input) {
         if (checkbox.checked) {
             input.disabled = false;
         } else {
@@ -136,12 +159,12 @@ function toggleInput(checkbox) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const elementsToUpdate = [
         { selector: 'input[type="file"]', handler: updateImageLabel, event: 'change' },
         { selector: 'input[type="file"]', handler: updateImagePreview, event: 'change' },
         { selector: '#tipo_gasto', handler: handleExpenseTypeChange, event: 'change' },
-        { selector: '.anamnesis_student', handler: handleAnamnesisStudentChange, event: 'change' },
+        // { selector: '.anamnesis_student', handler: handleAnamnesisStudentChange, event: 'change' },
     ];
 
     // Verificação de todos os elementos que podem não existir
@@ -158,39 +181,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Inicializa o estado dos inputs conforme o estado das checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"][data-target]');
-    checkboxes.forEach(function(checkbox) {
+    checkboxes.forEach(function (checkbox) {
         toggleInput(checkbox);
     });
+
+    // Inicializa o estado dos campos conforme o valor inicial do select 
+    const tipoGastoSelect = document.getElementById('tipo_gasto'); 
+    if (tipoGastoSelect) { 
+        mostrarCampos(tipoGastoSelect.value); 
+    }
 
     if (document.querySelector('.dateInput')) {
         validateDate();
     }
 
-    toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-bottom-left",
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-    if (window.messages && window.messages.success) {
-        toastr.success(window.messages.success);
-    }
-
-    if (window.messages && window.messages.error) {
-        toastr.error(window.messages.error);
+    if (window.messages && window.messages.success) { 
+        toastr.success(window.messages.success); 
+    } 
+    if (window.messages && window.messages.error) { 
+        toastr.error(window.messages.error); 
     }
 });
 
 function handleExpenseTypeChange(event) {
-    const tipoGasto = event.target.value;
+    var tipoGasto = event.target.value;
     mostrarCampos(tipoGasto);
 }
 
@@ -208,20 +222,20 @@ function ocultarCampos() {
     document.getElementById('campo_nota_fiscal').style.display = 'none';
 }
 
-function handleAnamnesisStudentChange(event) {
-    const studentId = event.target.value;
-    if (studentId) {
-        fetch(`/anamnesis/${studentId}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('turma').value = data.turma;
-                document.getElementById('turno').value = data.turno;
-                document.getElementById('escola').value = data.escola;
-            })
-            .catch(error => console.error('Erro:', error));
-    } else {
-        document.getElementById('turma').value = '';
-        document.getElementById('turno').value = '';
-        document.getElementById('escola').value = '';
-    }
-}
+// function handleAnamnesisStudentChange(event) {
+//     const studentId = event.target.value;
+//     if (studentId) {
+//         fetch(`/anamnesis/${studentId}`)
+//             .then(response => response.json())
+//             .then(data => {
+//                 document.getElementById('turma').value = data.turma;
+//                 document.getElementById('turno').value = data.turno;
+//                 document.getElementById('escola').value = data.escola;
+//             })
+//             .catch(error => console.error('Erro:', error));
+//     } else {
+//         document.getElementById('turma').value = '';
+//         document.getElementById('turno').value = '';
+//         document.getElementById('escola').value = '';
+//     }
+// }

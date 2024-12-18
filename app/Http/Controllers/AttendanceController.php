@@ -23,11 +23,14 @@ class AttendanceController extends Controller
             $dates = explode(' até ', $date_range); 
             $start_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[0]))->format('Y-m-d'); 
             $end_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[1]))->format('Y-m-d'); 
+            
             $attendances = Attendance::whereDate('date', '>=', $start_date)
-                ->whereDate('date', '<=', $end_date) ->orderBy('date', 'asc') 
+                ->whereDate('date', '<=', $end_date) 
+                ->with('student')
+                ->orderBy('date', 'desc') 
                 ->paginate(15); 
         } else { 
-            $attendances = Attendance::orderBy('date', 'asc')
+            $attendances = Attendance::orderBy('date', 'desc')
                 ->paginate(15);
         }
         
@@ -41,7 +44,9 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        $students = Student::orderBy('name', 'asc')->get();
+        $students = Student::where('state_student', 'alive')
+        ->orderBy('name', 'asc')
+        ->get();
         $users = User::orderBy('name', 'asc')->get();
         return view('attendance.create', compact('users', 'students'));
     }
@@ -60,10 +65,10 @@ class AttendanceController extends Controller
         
         $data = Attendance::create($data);
         if ($data) {
-            session()->flash('success','Registro adicionado com sucesso');
+            session()->flash('success','Atendimento adicionado com sucesso');
             return redirect()->route('attendance.index', compact('year'));
         } else {
-            session()->flash('error','Falha na criação');
+            session()->flash('error','Falha na criação do Atendimento');
             return redirect()->route('attendance.create');
         }
     }
@@ -76,11 +81,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::findOrFail($id);
         $attendance['date'] = \Carbon\Carbon::createFromFormat('Y-m-d', $attendance['date'])->format('d/m/Y');
 
-        
-        $students = Student::orderBy('name', 'asc')->get();
-        $users = User::orderBy('name', 'asc')->get();
-
-        return view('attendance.show', compact('attendance', 'students', 'users'));
+        return view('attendance.show', compact('attendance'));
     }
 
     /**
@@ -92,7 +93,9 @@ class AttendanceController extends Controller
         // Formatando a data que está em Y/m/d para d/m/Y, pois estou usando um input type text pra data
         $attendance['date'] = \Carbon\Carbon::createFromFormat('Y-m-d', $attendance['date'])->format('d/m/Y');
 
-        $students = Student::orderBy('name', 'asc')->get();
+        $students = Student::where('state_student', 'alive')
+        ->orderBy('name', 'asc')
+        ->get();
         $users = User::orderBy('name', 'asc')->get();
 
         return view('attendance.edit', compact('attendance', 'students', 'users'));
@@ -114,10 +117,10 @@ class AttendanceController extends Controller
         
         $input = $attendance->update($data);
         if ($input) {
-            session()->flash('success', 'Registro atualizado com sucesso!');
+            session()->flash('success', 'Atendimento atualizado com sucesso!');
             return redirect()->route('attendance.index', compact('year'));
         } else {
-            session()->flash('error','Falha na edição');
+            session()->flash('error','Falha na edição do Atendimento');
             return redirect()->route('attendance.edit');
         }
     }
@@ -134,10 +137,10 @@ class AttendanceController extends Controller
 
         $input = Attendance::destroy($id);
         if ($input) {
-            session()->flash('success', 'Registro excluído com sucesso!');
+            session()->flash('success', 'Atendimento excluído com sucesso!');
             return redirect()->route('attendance.index', compact('year'));
         } else {
-            session()->flash('error', 'Erro na exclusão do Aluno');
+            session()->flash('error', 'Erro na exclusão do Atendimento');
             return redirect()->route('attendance.index');
         }
     }

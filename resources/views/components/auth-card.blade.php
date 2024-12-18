@@ -1,7 +1,7 @@
 <main class="flex flex-col items-center flex-1 px-4 pt-6 sm:justify-center">
     <div style="margin: -5px">
         <a href="/">
-        <x-application-logo-light
+            <x-application-logo-light
             x-show="!isDarkMode" 
             class="h-logo-login" /> 
             <x-application-logo-dark 
