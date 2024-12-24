@@ -43,8 +43,11 @@ class RegionalController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('name', 'asc')->get();
-        return view("regional.create", compact('users'));
+        $coordinators = User::orderBy('name', 'asc')
+        ->where('position', 'Cordenador(a)')
+        ->where('state_user', 'alive')
+        ->get();
+        return view("regional.create", compact('coordinators'));
     }
 
     /**
@@ -90,9 +93,11 @@ class RegionalController extends Controller
         // Formatando a data que está em Y/m/d para d/m/Y, pois estou usando um input type text pra data
         $regional['date'] = \Carbon\Carbon::createFromFormat('Y-m-d', $regional['date'])->format('d/m/Y');
 
-        $users = User::orderBy('name', 'asc')->get();
+        $coordinators = User::orderBy('name', 'asc')
+        ->where('position', 'Cordenador(a)')
+        ->get();
         
-        return view('regional.edit', compact('regional', 'users'));
+        return view('regional.edit', compact('regional', 'coordinators'));
     }
 
     /**

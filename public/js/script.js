@@ -80,39 +80,19 @@ const currency = (valor, currency = 'BRL') => {
     }).format(valor);
 }
 
-//Delete Confirm
-window.deleteConfirm = function (e) {
+//Warning Confirm
+window.warningConfirm = function (e, text, icon, confirmButtonText) {
     e.preventDefault();
     var form = e.target.closest('form');
 
     Swal.fire({
         title: "Você tem Certeza?",
-        text: "Essa ação é irreversível!",
-        icon: "warning",
+        text: text,
+        icon: icon,
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Deletar",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        }
-    });
-};
-//Restore Confirm
-window.restoreConfirm = function (e) {
-    e.preventDefault();
-    var form = e.target.closest('form');
-
-    Swal.fire({
-        title: "Você tem Certeza?",
-        text: "Quer restaurar esse Registro?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Restaurar",
+        confirmButtonText: confirmButtonText,
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {

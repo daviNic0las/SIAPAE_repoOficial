@@ -15,6 +15,8 @@ class UsersSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('333729015'),
             'access_level' => 'admin',
+            'position' => '---', 
+            'state_user' => 'alive',
          ]);
 
          User::create([
@@ -22,6 +24,8 @@ class UsersSeeder extends Seeder
             'email' => 'kelvia.mgv@gmail.com',
             'password' => bcrypt('12345678'),
             'access_level' => 'admin',
+            'position' => 'Cordenador(a)', 
+            'state_user' => 'alive',
          ]);
 
          User::create([
@@ -29,6 +33,8 @@ class UsersSeeder extends Seeder
             'email' => 'samiamariagoncalves@gmail.com',
             'password' => bcrypt('12345678'),
             'access_level' => 'user',
+            'position' => 'Cordenador(a)', 
+            'state_user' => 'alive',
          ]);
 
          User::create([
@@ -36,6 +42,8 @@ class UsersSeeder extends Seeder
             'email' => 'isadelianogueira@gmail.com',
             'password' => bcrypt('12345678'),
             'access_level' => 'user',
+            'position' => 'Professor(a)', 
+            'state_user' => 'alive',
          ]);
 
          User::create([
@@ -43,6 +51,8 @@ class UsersSeeder extends Seeder
             'email' => 'glaucialopesbezerra@gmail.com',
             'password' => bcrypt('12345678'),
             'access_level' => 'user',
+            'position' => 'Professor(a)', 
+            'state_user' => 'alive',
          ]);
     }
 }

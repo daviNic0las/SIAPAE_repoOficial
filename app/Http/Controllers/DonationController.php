@@ -98,7 +98,7 @@ class DonationController extends Controller
 
         $input = $donation->update();
         if ($input) {
-            session()->flash('success', 'Gasto atualizado com sucesso!');
+            session()->flash('success', 'Doação atualizada com sucesso!');
             return redirect()->route('donationD.index');
         } else {
             session()->flash('error','Falha na edição');

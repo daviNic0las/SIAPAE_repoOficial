@@ -18,6 +18,7 @@
         withSearchSelect
         :years="$years"
         :year="$year"
+        withExport
         actionRoute="expense">
     </x-table>
 

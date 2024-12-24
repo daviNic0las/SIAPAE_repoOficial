@@ -19,7 +19,7 @@ class MedHistoryController extends Controller
         $search = request('search');
         
         if ($search) {
-            $medHistories = MedHistory::with('student.diagnostic')
+            $medHistories = MedHistory::with('student')
             ->whereHas('student', function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })->select('med_histories.*')
@@ -29,7 +29,7 @@ class MedHistoryController extends Controller
         } else {
             $medHistories = MedHistory::select('med_histories.*')
                 ->join('students', 'students.id', '=', 'med_histories.student_id')
-                ->with('student.diagnostic')
+                ->with('student')
                 ->orderBy('students.name', 'asc')
                 ->paginate(15);
         }
@@ -42,8 +42,14 @@ class MedHistoryController extends Controller
      */
     public function create()
     {
-        $students = Student::with('diagnostic')->get();
-        $users = User::orderBy('name', 'asc')->get();
+        $students = Student::orderBy('name', 'asc')
+        ->where('state_student', 'alive')
+        ->get();
+
+        $users = User::orderBy('name', 'asc')
+        ->where('position', '!=', '---')
+        ->where('state_user', 'alive')
+        ->get();
 
         return view('med_history.create', compact('students', 'users'));
     }
@@ -90,15 +96,20 @@ class MedHistoryController extends Controller
      */
     public function edit($id)
     {
-        $medHistory = MedHistory::with('student.diagnostic')
+        $medHistory = MedHistory::with('student')
         ->findOrFail($id);
-        $users = User::orderBy('name', 'asc')->get();
+        $users = User::orderBy('name', 'asc')
+        ->where('position', '!=', '---')
+        ->where('state_user', 'alive')
+        ->get();
 
         $medHistory['date_of_anamnesis'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_of_anamnesis'])->format('d/m/Y');
         $medHistory['date_mother'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_mother'])->format('d/m/Y');
         $medHistory['date_father'] = \Carbon\Carbon::createFromFormat('Y-m-d', $medHistory['date_father'])->format('d/m/Y');
 
-        $students = Student::orderBy('name', 'asc')->get();
+        $students = Student::orderBy('name', 'asc')
+        ->where('state_student', 'alive')
+        ->get();
 
         return view('med_history.edit', compact('medHistory', 'students', 'users'));
     }
@@ -146,5 +157,10 @@ class MedHistoryController extends Controller
             session()->flash('error', 'Erro na exclusão da Anamnese');
             return redirect()->route('anamnesis.index', compact('year'));
         }
+    }
+
+    public function generatePdf($id) 
+    {
+        
     }
 }

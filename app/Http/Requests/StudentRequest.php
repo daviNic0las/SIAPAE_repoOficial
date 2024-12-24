@@ -37,7 +37,7 @@ class StudentRequest extends FormRequest
             'min:1'
             ],
             
-            'diagnostic_id' => [
+            'diagnostic' => [
             'required',
             'min:1',
             'max:255'

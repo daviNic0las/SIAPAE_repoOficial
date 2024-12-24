@@ -42,7 +42,7 @@
 
                 <td
                     class="border border-gray-300 dark:border-gray-600 px-2 py-3 text-center text-gray-800 dark:text-gray-300">
-                    {{$frequency->student->name ? \Illuminate\Support\Str::limit($frequency->student->name, 12, ' ...') : 'Não encontrado'}}
+                    {{$frequency->student->name ? \Illuminate\Support\Str::limit($frequency->student->name, 15, '...') : 'Não encontrado'}}
                 </td>
 
                 @for ($day = 1; $day <= $numberDaysInMonth; $day++)
@@ -69,6 +69,7 @@
 
     </x-table>
     
+    @if (isset($class_apae) && isset($turn_apae) && isset($monthYear) && count($frequencies) != 0)
     <div class="py-3">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden rounded-lg shadow-md dark:bg-dark-eval-1">
@@ -93,9 +94,9 @@
                             <x-form.select valueName="signature" idSelect="signature">
                                 <option value="">Selecione o Nome:</option>
 
-                                @foreach ($users as $user)
-                                    <option value="{{$user->name}}" {{old('signature', $signature) == $user->name ? 'selected' : ''}}>
-                                        {{$user->name}}
+                                @foreach ($professors as $professor)
+                                    <option value="{{$professor->name}}" {{old('signature', $signature) == $professor->name ? 'selected' : ''}}>
+                                        {{$professor->name}}
                                     </option>
                                 @endforeach
                             </x-form.select>
@@ -110,6 +111,8 @@
             </div>
         </div>
     </div>
+
+    @endif
 
 </x-app-layout>
 

@@ -2,8 +2,8 @@
 
     @php
         $state_student = '';
-        if(isset($isTrash)) {
-            $state_student = ' (Apagado)';
+        if(isset($isArchived)) {
+            $state_student = ' (Arquivado)';
         }
     @endphp
 
@@ -26,7 +26,7 @@
         quantLateral="5"
         notEditDelete
         actionRoute="student"
-        :isTrash="$isTrash">
+        :isArchived="$isArchived">
 
         <hr class="my-4 border-gray-300 dark:border-gray-500" />
 
@@ -44,7 +44,6 @@
         :element="$student"
         searchRoute="student.show"
         notButtonAdd
-        :isTrash="$isTrash"
         :range="$date_range"
         withShow
         actionRoute="attendance">
@@ -77,14 +76,15 @@
                     </p>
                 </x-button>
     
-                @if (!isset($isTrash))
-                <form method="POST" action="{{ route('student.destroy', $student->id) }}" accept-charset="UTF-8"
+                @if (!isset($isArchived))
+                <form method="POST" action="{{ route('student.archive', $student->id) }}" accept-charset="UTF-8"
                     style="display:inline">
                     {{ csrf_field() }}
     
-                    <x-button type="submit" variant="danger" title="Deletar {{$student->name}}" onclick="deleteConfirm(event)">
-                        <div class="text-gray-100 dark:text-gray-200 px-2">
-                            {{ __('Deletar') }}
+                    <x-button type="submit" variant="primary" title="Arquivar {{$student->name}}" 
+                        onclick="warningConfirm(event, 'Essa ação irá arquivar o item selecionado!', 'warning', 'Arquivar')">
+                        <div class="text-gray-100 px-2">
+                            {{ __('Arquivar') }}
                         </div>
                     </x-button>
                 </form>

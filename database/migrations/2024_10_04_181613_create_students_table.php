@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->date('date_of_birth');
-            $table->unsignedBigInteger('diagnostic_id')->nullable(); // Permitir null
-            $table->foreign('diagnostic_id')->references('id')->on('diagnostics')->onDelete('set null'); // Mudar para SET NULL
+            $table->string('diagnostic');
             $table->string('student_id');
             $table->string('school')->nullable();
             $table->string('class_school')->nullable();

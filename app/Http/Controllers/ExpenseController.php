@@ -125,9 +125,6 @@ class ExpenseController extends Controller
         $data['price'] = (float) $precoDecimal;
 
         $expense = Expense::findOrFail($id);
-        
-        // $name = $request->name;
-        // $diagnostic->name = $name;
 
         $input = $expense->update($data);
         if ($input) {
@@ -157,5 +154,9 @@ class ExpenseController extends Controller
             session()->flash('error', 'Erro na exclusão do Gasto');
             return redirect()->route('expense.index');
         }
+    }
+    public function generatePdf() 
+    {
+        
     }
 }

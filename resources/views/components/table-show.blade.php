@@ -20,15 +20,15 @@ route('dashboard')
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-xl font-bold leading-tight">{{ $title }} </h1>
 
-                    @if(isset($actionRoute) && !isset($isTrash))
+                    @if(isset($actionRoute) && !isset($isArchived))
                         <x-button href="{{route($actionRoute . '.index')}}" variant="primary">
-                            <p class="text-white">
+                            <p class="text-gray-100">
                                 Voltar
                             </p>
                         </x-button>
                     @else
-                        <x-button href="{{route($actionRoute . '.trash')}}" variant="primary">
-                            <p class="text-white">
+                        <x-button href="{{route($actionRoute . '.deposit')}}" variant="primary">
+                            <p class="text-gray-100">
                                 Voltar
                             </p>
                         </x-button>
@@ -59,8 +59,6 @@ route('dashboard')
                                                     {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                                 @elseif ($item[1] == "date_of_birth")
                                                     {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
-                                                @elseif ($item[1] == "diagnostic_id")    
-                                                    {{$elementShow->diagnostic->name ?? 'Sem Diagnóstico'}}
                                                 @else
                                                     {{ data_get($elementShow, $item[1]) ?? 'Campo não Registrado'}}
                                                 @endif
@@ -84,8 +82,6 @@ route('dashboard')
                                                     {{ 'R$ ' . number_format($elementShow->{$item[1]}, 2, ',', '.') }}
                                                 @elseif ($item[1] == "date_of_birth")
                                                     {{ \Carbon\Carbon::parse($elementShow->{$item[1]})->format('d/m/Y') }}
-                                                @elseif ($item[1] == "diagnostic_id")    
-                                                    {{$elementShow->diagnostic->name ?? 'Sem Diagnóstico'}}
                                                 @else
                                                     {{ data_get($elementShow, $item[1]) ?? 'Campo não Registrado'}}
                                                 @endif
@@ -125,7 +121,7 @@ route('dashboard')
                     </div>
 
                     <div>
-                        @if(isset($actionRoute) && !isset($isTrash) && !isset($notEditDelete))
+                        @if(isset($actionRoute) && !isset($isArchived) && !isset($notEditDelete))
                             <div class="py-2 flex items-center justify-between mt-4">
                                 <x-button
                                     href="{{route($actionRoute . '.edit', $elementShow->id)}}"
@@ -142,7 +138,7 @@ route('dashboard')
                                     {{ csrf_field() }}
 
                                     <x-button type="submit" variant="danger" title="Deletar {{$title}}"
-                                        onclick="deleteConfirm(event)">
+                                        onclick="warningConfirm(event, 'Essa ação é irreversível!', 'warning', 'Deletar')">
                                         <div class="text-gray-100 dark:text-gray-200 px-2">
                                             {{ __('Deletar') }}
                                         </div>

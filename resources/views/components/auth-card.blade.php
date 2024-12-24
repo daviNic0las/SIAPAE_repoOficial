@@ -1,6 +1,6 @@
 <main class="flex flex-col items-center flex-1 px-4 pt-6 sm:justify-center">
     <div style="margin: -5px">
-        <a href="/">
+        <a href="/" class="flex flex-col items-center">
             <x-application-logo-light
             x-show="!isDarkMode" 
             class="h-logo-login" /> 
@@ -8,8 +8,8 @@
             x-show="isDarkMode" 
             class="h-logo-login" />
 
-            <h1 class="ml-8 display-1 text-xl">
-                <strong class="dark:text-gray-300">Login SIAPAE</strong>
+            <h1 class="ml-2 display-1 text-xl">
+                <strong class="dark:text-gray-300">{{$title ?? 'Login SIAPAE'}}</strong>
             </h1>
         </a>
     </div>

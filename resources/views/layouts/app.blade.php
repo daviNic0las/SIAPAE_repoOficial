@@ -33,7 +33,6 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js" defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
 
     <script src="{{ asset('js/script.js') }}" defer></script>
 </head>

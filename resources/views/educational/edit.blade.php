@@ -86,9 +86,9 @@
                 <x-form.select idSelect="professor_signature" valueName="professor_signature" full>
                     <option value="">Nome:</option>
     
-                    @foreach ($users as $user)
-                        <option value="{{$user->name}}" {{old('professor_signature', $pedagogical->professor_signature) == $user->name ? 'selected' : ''}}>
-                            {{$user->name}}
+                    @foreach ($professors as $professor)
+                        <option value="{{$professor->name}}" {{old('professor_signature', $pedagogical->professor_signature) == $professor->name ? 'selected' : ''}}>
+                            {{$professor->name}}
                         </option>
                     @endforeach
                 </x-form.select>
@@ -110,13 +110,13 @@
 
         <div class="grid grid-cols-2 mb-3">
             <div>
-                <x-form.label for="signature"> Assinatura </x-form.label>
+                <x-form.label for="signature"> Assinatura do Professor Responsável </x-form.label>
                 <x-form.select idSelect="signature" valueName="signature" full>
                     <option value="">Nome:</option>
                         
-                    @foreach ($users as $user)
-                        <option value="{{$user->name}}" {{old('signature', $pedagogical->signature) == $user->name ? 'selected' : ''}}>
-                            {{$user->name}}
+                    @foreach ($professors as $professor)
+                        <option value="{{$professor->name}}" {{old('signature', $pedagogical->signature) == $professor->name ? 'selected' : ''}}>
+                            {{$professor->name}}
                         </option>
                     @endforeach
                 </x-form.select>

@@ -1,12 +1,12 @@
 <x-app-layout>
 
     <x-table-show 
-        :title="'Atendimento do ' . $attendance->student->name" 
+        :title="'Atendimento do ' . $attendance->student->name . ' - ' . $attendance->date" 
         :elementShow="$attendance" 
         :labelsVariables="[
             ['Nome do aluno', 'student.name'],
             ['Data do Relatório', 'date'],
-            ['Assinatura', 'signature'],
+            ['Assinatura do Professor Responsável', 'signature'],
             ['Eixo educacional trabalhado', 'educational_axis'],
             ['Avanços', 'advances'],
             ['Dificuldades', 'difficulties'],
@@ -37,7 +37,8 @@
                     {{ method_field('DELETE') }}
                     {{ csrf_field() }}
     
-                    <x-button type="submit" variant="danger" title="Deletar {{$attendance->student->name}}" onclick="deleteConfirm(event)">
+                    <x-button type="submit" variant="danger" title="Deletar {{$attendance->student->name}}" 
+                        onclick="warningConfirm(event, 'Essa ação é irreversível!', 'warning', 'Deletar')">
                         <div class="text-gray-100 dark:text-gray-200 px-2">
                             {{ __('Deletar') }}
                         </div>

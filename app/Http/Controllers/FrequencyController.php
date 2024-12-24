@@ -16,14 +16,17 @@ class FrequencyController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('name', 'asc')->get();
+        $professors = User::where('position', 'professor(a)')
+        ->where('state_user', 'alive')
+        ->orderBy('name', 'asc')
+        ->get();
 
         $class_apae = request('class_apae');
         $turn_apae = request('turn_apae');
         $monthYear = request('monthYear');
 
         if ($class_apae && $turn_apae && $monthYear) {
-            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')->
                 select('frequencies.*')->
                 where('students.class_apae', $class_apae)->
                 where('students.turn_apae', $turn_apae)->
@@ -31,9 +34,9 @@ class FrequencyController extends Controller
                 with('student')->
                 orderBy('students.name', 'asc')->
                 paginate(15);
-            
+
         } elseif ($class_apae && $monthYear) {
-            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')->
                 select('frequencies.*')->
                 where('students.class_apae', $class_apae)->
                 where('frequencies.month_year', $monthYear)->
@@ -41,7 +44,7 @@ class FrequencyController extends Controller
                 orderBy('students.name', 'asc')->
                 paginate(15);
         } elseif ($turn_apae && $monthYear) {
-            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')->
                 select('frequencies.*')->
                 where('students.turn_apae', $turn_apae)->
                 where('frequencies.month_year', $monthYear)->
@@ -49,7 +52,7 @@ class FrequencyController extends Controller
                 orderBy('students.name', 'asc')->
                 paginate(15);
         } elseif ($monthYear) {
-            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')->
                 select('frequencies.*')->
                 where('frequencies.month_year', $monthYear)->
                 with('student')->
@@ -76,7 +79,7 @@ class FrequencyController extends Controller
             } else {
             }
 
-            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
+            $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')->
                 select('frequencies.*')->
                 where('students.class_apae', $class_apae)->
                 where('students.turn_apae', $turn_apae)->
@@ -89,19 +92,35 @@ class FrequencyController extends Controller
                 //Caso seja sabado (6) ou domingo (0), substitua a pesquisa apenas pelo mês/ano
                 $class_apae = '';
                 $turn_apae = '';
-                $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')-> 
-                select('frequencies.*')->
-                where('frequencies.month_year', $monthYear)->
-                with('student')->
-                orderBy('students.name', 'asc')->
-                paginate(15);
+                $frequencies = Frequency::join('students', 'frequencies.student_id', '=', 'students.id')->
+                    select('frequencies.*')->
+                    where('frequencies.month_year', $monthYear)->
+                    with('student')->
+                    orderBy('students.name', 'asc')->
+                    paginate(15);
             }
         }
 
-        //Gambiarra: Peguei a observação e assinatura do primeiro elemento que aparecer na tabela
-        $primaryElement = $frequencies[0];
-        $observation = $primaryElement['observation'] ?? null;
-        $signature = $primaryElement['signature'] ?? null;
+        //Para funcionar a gambiarra já que cada aluno tem a sua observação e assinatura na coluna
+        $observation = null;
+        $signature = null;
+
+        // Loop através dos elementos para encontrar as observações e assinaturas
+        for ($i = 0; $i < count($frequencies) - 1; $i++) {
+            $currentElement = $frequencies[$i];
+            $nextElement = $frequencies[$i + 1] ?? null;
+
+            // Verifica se as observações do elemento atual e o próximo são iguais
+            if ($currentElement['observation'] == $nextElement['observation']) {
+                $observation = $currentElement['observation'] ?? null;
+                $signature = $nextElement['signature'] ?? null;
+                break;  // Encontrou uma correspondência, podemos sair do loop
+            }
+        }
+        if(!$frequencies[1]) {
+            $observation = $frequencies[0]['observation'] ?? null;
+            $signature = $frequencies[0]['signature'] ?? null;
+        }
 
         // Para contar a quantidade de dias do mês pesquisado ou atual (caso não haja valor no input) 
         list($month, $year) = explode('/', $monthYear);
@@ -114,7 +133,7 @@ class FrequencyController extends Controller
             $days[] = str_pad($i, 2, '0', STR_PAD_LEFT);
         }
 
-        return view('frequencyF.home', compact('frequencies', 'users', 'class_apae', 'turn_apae', 'monthYear', 'days', 'numberDaysInMonth', 'observation', 'signature'));
+        return view('frequencyF.home', compact('frequencies', 'professors', 'class_apae', 'turn_apae', 'monthYear', 'days', 'numberDaysInMonth', 'observation', 'signature'));
     }
 
     /**
@@ -180,8 +199,11 @@ class FrequencyController extends Controller
         $frequencies = json_decode($request->input('frequencies'), true);
         $observation = $request->input('observation');
         $signature = $request->input('signature');
+        $class_apae = null;
+        $turn_apae = null;
+        $monthYear = null;
 
-        DB::transaction(function () use ($frequencies, $observation, $signature) {
+        DB::transaction(function () use ($frequencies, $observation, $signature, &$class_apae, &$turn_apae, &$monthYear) {
             foreach ($frequencies['data'] as $frequencyData) {
                 $frequency = Frequency::find($frequencyData['id']);
                 if ($frequency) {
@@ -189,23 +211,30 @@ class FrequencyController extends Controller
                         'observation' => $observation, // Atualize conforme necessário
                         'signature' => $signature, // Assinatura comum para todos
                     ]);
-                if (!$updated) {
-                    throw new \Exception("Falha ao atualizar a frequência com ID {$frequencyData['id']}");
+                    if (!$updated) {
+                        throw new \Exception("Falha ao atualizar a frequência com ID {$frequencyData['id']}");
+                    }
+                } else {
+                    throw new \Exception("Frequência com ID {$frequencyData['id']} não encontrada");
                 }
-            } else {
-                throw new \Exception("Frequência com ID {$frequencyData['id']} não encontrada");
+                $class_apae = $frequency->student->class_apae;
+                $turn_apae = $frequency->student->turn_apae;
+                $monthYear = $frequency->month_year;
             }
-        }
         });
         // Se a transação for bem-sucedida, retornamos com uma mensagem de sucesso
         session()->flash('success', 'Observações atualizadas com sucesso!');
-        return redirect()->route('frequency.index');
-    } 
+        return redirect()->route('frequency.index', compact('class_apae', 'turn_apae', 'monthYear'));
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Frequency $frequency)
     {
         //
+    }
+    public function generatePdf($id) 
+    {
+        
     }
 }

@@ -33,17 +33,12 @@
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.dropdown title="{{ __('Registers') }}" :active="Str::startsWith(request()->route()->uri(), ['attendance', 'diagnostic'])">
+    <x-sidebar.link title="{{__('Attendance Register')}}" href="{{route('attendance.index')}}"
+        :isActive="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit', 'attendance.show')">
         <x-slot name="icon">
             <x-icons.register class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
-
-        <x-sidebar.sublink title="{{__('Attendance')}}" href="{{route('attendance.index')}}"
-            :active="request()->routeIs('attendance.index', 'attendance.create', 'attendance.edit', 'attendance.show')" />
-
-        <x-sidebar.sublink title="{{__('Diagnostic')}}" href="{{route('diagnostic.index')}}"
-            :active="request()->routeIs('diagnostic.index', 'diagnostic.create', 'diagnostic.edit')" />
-    </x-sidebar.dropdown>
+    </x-sidebar.link>
 
     <x-sidebar.dropdown title="{{ __('Reports') }}" :active="Str::startsWith(request()->route()->uri(), ['educational', 'regional'])">
         <x-slot name="icon">
