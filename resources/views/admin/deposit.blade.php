@@ -6,7 +6,7 @@
                 {{ __('Lista dos Usuários Arquivados') }}
             </h2>
             <x-button href="{{route('admin.index')}}" class="justify-center gap-2" variant="edit" bg="bg-gray-100 dark:bg-dark-eval-0">
-                <x-icons.person class="w-6 h-6 dark:text-gray-300 -ml-1" aria-hidden="true" />
+                <x-heroicon-o-user aria-hidden="true" class="w-5 h-5" />
 
                 <span>{{ __('Voltar') }}</span>
             </x-button>
@@ -24,7 +24,8 @@
         :search="$search"
         withShow
         actionRoute="admin"
-        actionsDeposit>
+        actionsDeposit
+        actionsDepositWithDelete>
     </x-table>
     
 </x-app-layout> 

@@ -221,56 +221,71 @@ passo 4: vá no perfil e no campo de redefinir senha, troque para uma senha pess
                                     @endforeach
 
                                     @if(isset($actionRoute))
-                                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-center"
+                                        <td class="border border-gray-300 dark:border-gray-600 py-2"
                                             onclick="event.stopPropagation();">
 
-                                            @if (isset($actionsDeposit))
-                                            <form action="{{route($actionRoute . '.restore', $row->id)}}" method="POST"
-                                                onclick="warningConfirm(event, 'Quer restaurar esse Registro?', 'question', 'Restaurar')">
-                                                @csrf
-                                                <x-button title="Restaurar esse {{$title}}" variant="restore" size="sm">
-                                                    <x-icons.restore />
+                                            <div class="flex align-center justify-center gap-x-1">
+                                                
+                                                @if (isset($actionsDeposit))
+                                                <form action="{{route($actionRoute . '.restore', $row->id)}}" method="POST"
+                                                    onclick="warningConfirm(event, 'Quer restaurar esse Registro?', 'question', 'Restaurar')">
+                                                    @csrf
+                                                    <x-button title="Restaurar esse {{$title}}" variant="restore" size="sm">
+                                                        <x-icons.restore />
+                                                    </x-button>
+                                                </form>
+                                                @if (isset($actionsDepositWithDelete))
+                                                <form method="POST" action="{{ route($actionRoute . '.destroy', $row->id) }}"
+                                                    accept-charet="UTF-8" style="display:inline">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+    
+                                                    <x-button variant="trash" title="Deletar {{$title}}" size="sm"
+                                                        onclick="warningConfirm(event, 'Essa ação é irreversível!', 'warning', 'Deletar')">
+                                                        <x-icons.trash />
+                                                    </x-button>
+                                                </form>
+                                                @endif
+    
+                                                @else
+                                                <x-button href="{{route($actionRoute . '.edit', $row->id)}}" title="Editar {{$title}}" variant="edit" size="sm">
+                                                    <x-icons.edit />
                                                 </x-button>
-                                            </form>
-
-                                            @else
-                                            <x-button href="{{route($actionRoute . '.edit', $row->id)}}" title="Editar {{$title}}" variant="edit" size="sm">
-                                                <x-icons.edit />
-                                            </x-button>
-
-                                            @if (!isset($archiveInsteadDestroy))
-                                            <form method="POST" action="{{ route($actionRoute . '.destroy', $row->id) }}"
-                                                accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-
-                                                <x-button variant="trash" title="Deletar {{$title}}" size="sm"
-                                                    onclick="warningConfirm(event, 'Essa ação é irreversível!', 'warning', 'Deletar')">
-                                                    <x-icons.trash />
-                                                </x-button>
-                                            </form>
-                                            @else
-                                            <form method="POST" action="{{ route($actionRoute . '.archive', $row->id) }}"
-                                                accept-charset="UTF-8" style="display:inline" >
-                                                {{ csrf_field() }}
-                                                @php
-                                                    if(isset($notArchiveAdmin)) {
-                                                        $hidden = null;
-                                                        if($row['access_level'] == 'admin') {
-                                                            $hidden = "hidden";
-                                                        } 
-                                                    }
-                                                @endphp
-
-                                                <x-button variant="edit" title="Arquivar {{$title}}" size="sm" class="{{isset($notArchiveAdmin) ? $hidden : ''}}"
-                                                    onclick="warningConfirm(event, 'Essa ação irá arquivar o item selecionado!', 'warning', 'Arquivar')">
-                                                    <x-icons.archive />
-                                                </x-button>
-                                            </form>
-                                            @endif
-                                            @endif
-                                        </td>
-                                    @endif
+    
+                                                @if (!isset($archiveInsteadDestroy))
+                                                <form method="POST" action="{{ route($actionRoute . '.destroy', $row->id) }}"
+                                                    accept-charet="UTF-8" style="display:inline">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+    
+                                                    <x-button variant="trash" title="Deletar {{$title}}" size="sm"
+                                                        onclick="warningConfirm(event, 'Essa ação é irreversível!', 'warning', 'Deletar')">
+                                                        <x-icons.trash />
+                                                    </x-button>
+                                                </form>
+                                                @else
+                                                <form method="POST" action="{{ route($actionRoute . '.archive', $row->id) }}"
+                                                    accept-charset="UTF-8" style="display:inline" >
+                                                    {{ csrf_field() }}
+                                                    @php
+                                                        if(isset($notArchiveAdmin)) {
+                                                            $hidden = null;
+                                                            if($row['access_level'] == 'admin') {
+                                                                $hidden = "hidden";
+                                                            } 
+                                                        }
+                                                    @endphp
+    
+                                                    <x-button variant="edit" title="Arquivar {{$title}}" size="sm" class="{{isset($notArchiveAdmin) ? $hidden : ''}}"
+                                                        onclick="warningConfirm(event, 'Essa ação irá arquivar o item selecionado!', 'warning', 'Arquivar')">
+                                                        <x-icons.archive />
+                                                    </x-button>
+                                                </form>
+                                                @endif
+                                                @endif
+                                            </td>
+                                        @endif
+                                        </div>
                                 </tr>
                             @empty
                                 <tr class="text-center ">

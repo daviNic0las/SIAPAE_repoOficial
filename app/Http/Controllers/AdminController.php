@@ -175,4 +175,16 @@ class AdminController extends Controller
             return redirect()->route('admin.edit');
         }
     }
+    public function destroy($id)
+    {
+        $input = User::destroy($id);
+
+        if ($input) {
+            session()->flash('success', 'Usuário excluído com sucesso!');
+            return redirect()->route('admin.deposit');
+        } else {
+            session()->flash('error', 'Erro na exclusão do Usuário');
+            return redirect()->route('admin.deposit');
+        }
+    }
 }

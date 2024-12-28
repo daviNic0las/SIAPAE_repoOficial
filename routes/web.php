@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/archive/{id}', [AdminController::class, 'archive'])->name('admin.archive');
         Route::get('/admin/deposit', [AdminController::class, 'deposit'])->name('admin.deposit');
         Route::post('/admin/restore/{id}', [AdminController::class, 'restore'])->name('admin.restore');
-        Route::resource('admin', AdminController::class)->except('destroy');
+        Route::resource('admin', AdminController::class);
     });
 });
 
