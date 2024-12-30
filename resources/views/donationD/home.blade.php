@@ -19,14 +19,14 @@
     @endif
 
     <x-table 
+    iteration="true"
     title="Doação" 
     :headers="['Nome', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']" 
     :rows="$donations"
     onlyHead 
     withSearchSelect
     :years="$years"
-    :year="$year"
-    iteration="true">
+    :year="$year">
 
         @forelse ($donations as $donation)
             <tr data-id="{{$donation->id}}" id="tabela-gastos">

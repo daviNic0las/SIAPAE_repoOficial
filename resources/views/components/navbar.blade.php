@@ -82,6 +82,17 @@
                 >
                     {{ __('Profile') }}
                 </x-dropdown-link>
+                <hr class="border-gray-300 dark:border-gray-600 mx-2" />
+                <!-- Admin Part -->
+                @can('admin-view')
+                <!-- Profile -->
+                <x-dropdown-link
+                    :href="route('admin.index')"
+                >
+                    {{ __('Admin') }}
+                </x-dropdown-link>
+                <hr class="border-gray-300 dark:border-gray-600 mx-2" />
+                @endcan
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

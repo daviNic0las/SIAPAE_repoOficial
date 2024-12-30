@@ -20,7 +20,7 @@ class AttendanceController extends Controller
         $date_range = request('date_range'); 
 
         if ($date_range) { 
-            $dates = explode(' até ', $date_range); 
+            $dates = explode(' à ', $date_range); 
             $start_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[0]))->format('Y-m-d'); 
             $end_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[1]))->format('Y-m-d'); 
             
@@ -47,8 +47,11 @@ class AttendanceController extends Controller
         $students = Student::where('state_student', 'alive')
         ->orderBy('name', 'asc')
         ->get();
-        $users = User::orderBy('name', 'asc')->get();
-        return view('attendance.create', compact('users', 'students'));
+        $professors = User::orderBy('name', 'asc')
+        ->where('position', 'professor(a)') 
+        ->where('state_user', 'alive') 
+        ->get();
+        return view('attendance.create', compact('students', 'professors'));
     }
 
     /**
@@ -96,9 +99,11 @@ class AttendanceController extends Controller
         $students = Student::where('state_student', 'alive')
         ->orderBy('name', 'asc')
         ->get();
-        $users = User::orderBy('name', 'asc')->get();
+        $professors = User::orderBy('name', 'asc')
+        ->where('position', 'professor(a)')
+        ->get();
 
-        return view('attendance.edit', compact('attendance', 'students', 'users'));
+        return view('attendance.edit', compact('attendance', 'students', 'professors'));
     }
 
     /**

@@ -61,7 +61,7 @@
             </div>
             <div>
                 <x-anamnesis.label sizeFont="sm" for="diagnostic">Diagnóstico</x-anamnesis.label>
-                <x-anamnesis.input id="diagnostic" name="date_of_birth" value="{{old('date_of_birth', $medHistory->student->diagnostic->name)}}" placeholder="Diagnóstico do Aluno" readonly />
+                <x-anamnesis.input id="diagnostic" name="date_of_birth" value="{{old('date_of_birth', $medHistory->student->diagnostic)}}" placeholder="Diagnóstico do Aluno" readonly />
             </div>
             <div>
                 <x-anamnesis.label sizeFont="sm" for="appraisal">Laudo/Especialista</x-anamnesis.label>

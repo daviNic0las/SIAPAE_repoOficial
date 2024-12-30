@@ -8,7 +8,7 @@
             ['Subtítulo', 'subtitle'],
             ['Texto do Relatório', 'text'],
             ['Data do Relatório', 'date'],
-            ['Assinatura', 'signature'],
+            ['Assinatura da Cordenadora Responsável', 'signature'],
         ]" 
         actionRoute="regional">
     </x-table-show>

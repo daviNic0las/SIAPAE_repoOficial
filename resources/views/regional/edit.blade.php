@@ -4,13 +4,13 @@
         title="Relatório Regional" 
         :elementEdit="$regional" 
         :labelsVariablesTypes="[
-            ['Data do Relatório', 'date', 'date'],
             ['Título do Relatório', 'title', 'text'],
             ['Subtítulo', 'subtitle', 'text'],
             ['Texto do Relatório', 'text', 'textarea'],
-            ['Assinatura', 'signature', 'select'],
+            ['Data do Relatório', 'date', 'date'],
+            ['Assinatura da Cordenadora Responsável', 'signature', 'select'],
         ]" 
-        :selectsWithName="$users"
+        :selectsWithName="$coordinators"
         actionRoute="regional">
     </x-table-edit>
 

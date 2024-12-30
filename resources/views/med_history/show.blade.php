@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <x-anamnesis.label sizeFont="sm" isShow>Diagnóstico</x-anamnesis.label>
-                    <x-form.p_show sizeFont="sm"> {{$medHistory->student->diagnostic->name}} </x-form.p_show>
+                    <x-form.p_show sizeFont="sm"> {{$medHistory->student->diagnostic}} </x-form.p_show>
                 </div>
                 <div>
                     <x-anamnesis.label sizeFont="sm" isShow for="appraisal">Laudo/Especialista</x-anamnesis.label>
@@ -940,7 +940,8 @@
                     {{ method_field('DELETE') }}
                     {{ csrf_field() }}
     
-                    <x-button type="submit" variant="danger" title="Deletar {{$medHistory->student->name}}" onclick="deleteConfirm(event)">
+                    <x-button type="submit" variant="danger" title="Deletar {{$medHistory->student->name}}" 
+                        onclick="warningConfirm(event, 'Essa ação é irreversível!', 'warning', 'Deletar')">
                         <div class="text-gray-100 dark:text-gray-200 px-2">
                             {{ __('Deletar') }}
                         </div>

@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const elements = document.querySelectorAll(selector);
         if (elements.length > 0) {
             mask.mask(elements);
-        } 
+        }
     }
 
-    applyMask('.date-range', new Inputmask("99/99/9999 até 99/99/9999"));
+    applyMask('.date-range', new Inputmask("99/99/9999 à 99/99/9999"));
     applyMask('.date', new Inputmask("99/99/9999"));
     applyMask('.monthYear', new Inputmask("99/9999"));
     applyMask('.cellphone', new Inputmask("(99) 99999-9999"));
@@ -23,7 +23,39 @@ document.addEventListener("DOMContentLoaded", function () {
     applyMask('#fiscal', new Inputmask("999.999.999"));
 });
 
-window.PerfectScrollbar = PerfectScrollbar;
+var customLocale = {
+    firstDayOfWeek: 1,
+    weekAbbreviation: "Sem",
+    rangeSeparator: " à ",
+    scrollTitle: "Role para aumentar",
+    toggleTitle: "Clique para alternar",
+    weekdays: {
+        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+    },
+    months: {
+        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    },
+};
+
+var customLocale = {
+    firstDayOfWeek: 1,
+    weekAbbreviation: "Sem",
+    rangeSeparator: " à ",
+    scrollTitle: "Role para aumentar",
+    toggleTitle: "Clique para alternar",
+    weekdays: {
+        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+    },
+    months: {
+        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    },
+};
+
+window.PerfectScrollbar = PerfectScrollbar
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('mainState', () => {
@@ -92,16 +124,16 @@ document.addEventListener('alpine:init', () => {
                 flatpickr(".date", {
                     dateFormat: "d/m/Y",
                     allowInput: true,
-                    locale: "pt",
+                    locale: customLocale,
                     minDate: "01/01/1960",
                     maxDate: "today",
                 });
 
                 // Aplicar o Flatpickr com a opção de intervalo de datas 
                 flatpickr(".date-range", {
-                    mode: "range", 
+                    mode: "range",
                     dateFormat: "d/m/Y",
-                    locale: "pt",
+                    locale: customLocale,
                     allowInput: true,
                     minDate: "01/01/1960",
                     maxDate: "today",

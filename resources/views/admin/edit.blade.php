@@ -1,10 +1,11 @@
 <x-guest-layout>
-    <x-auth-card title="Register SIAPAE">
+    <x-auth-card title="Update SIAPAE">
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
         <!-- route('register')  -->
-        <form method="POST" action="{{route('admin.store')}}">
+        <form method="POST" action="{{route('admin.update', $user->id)}}">
             @csrf
+            @method('PUT')
 
             <div class="grid gap-3">
                 <!-- Name -->
@@ -17,7 +18,7 @@
                         </x-slot>
 
                         <x-form.input withicon id="name" class="block w-full text-gray-800 dark:text-gray-300"
-                            type="text" name="name" :value="old('name')" required autofocus
+                            type="text" name="name" value="{{old('name', $user->name)}}" required autofocus
                             placeholder="{{ __('Name') }}" />
                     </x-form.input-with-icon-wrapper>
                 </div>
@@ -32,7 +33,7 @@
                         </x-slot>
 
                         <x-form.input withicon id="email" class="block w-full text-gray-800 dark:text-gray-300"
-                            type="email" name="email" :value="old('email')" required placeholder="{{ __('Email') }}" />
+                            type="email" name="email" value="{{old('email', $user->email)}}" required placeholder="{{ __('Email') }}" />
                     </x-form.input-with-icon-wrapper>
                 </div>
 
@@ -47,7 +48,7 @@
 
                         <x-form.input withicon id="password" class="block w-full text-gray-800 dark:text-gray-300"
                             type="password" name="password" required autocomplete="new-password"
-                            placeholder="{{ __('Password') }}" />
+                            placeholder="{{ __('A Senha não pode ser Adquirida') }}" value="{{old('password')}}"/>
                         <i class="icon fas fa-eye -mt-3" onclick="togglePassword()" style="cursor: pointer;"></i>
                     </x-form.input-with-icon-wrapper>
                 </div>
@@ -57,8 +58,8 @@
 
                     <x-form.select idSelect="position" valueName="position" full>
                         <option value="">Profissões:</option>
-                        <option value="Cordenador(a)" {{old('position') == 'Cordenador(a)' ? 'selected' : ''}}>Cordenador(a)</option>
-                        <option value="Professor(a)" {{old('position') == 'Professor(a)' ? 'selected' : ''}}>Professor(a)</option>
+                        <option value="Cordenador(a)" {{old('position', $user->position) == 'Cordenador(a)' ? 'selected' : ''}}>Cordenador(a)</option>
+                        <option value="Professor(a)" {{old('position', $user->position) == 'Professor(a)' ? 'selected' : ''}}>Professor(a)</option>
                     </x-form.select>
                 </div>
                 <!-- Confirm Password -->
@@ -78,9 +79,9 @@
 
                 <div>
                     <x-button class="justify-center w-full gap-2">
-                        <x-heroicon-o-user-add class="w-6 h-6" aria-hidden="true" />
+                        <x-heroicon-o-user class="w-6 h-6" aria-hidden="true" />
 
-                        <span>{{ __('Registrar') }}</span>
+                        <span>{{ __('Update') }}</span>
                     </x-button>
                 </div>
 

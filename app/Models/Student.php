@@ -15,7 +15,7 @@ class Student extends Model
     protected $fillable = [
         'name',
         'date_of_birth',
-        'diagnostic_id',
+        'diagnostic',
         'student_id',
         'school',
         'class_school',
@@ -30,13 +30,7 @@ class Student extends Model
     protected $dispatchesEvents = [ 
         'created' => StudentCreated::class, 
     ];
-
-    public function diagnostic(): BelongsTo
-    {
-        return $this->belongsTo(Diagnostic::class, 'diagnostic_id')->withDefault([ 
-        'name' => 'Diagnóstico não encontrado'
-    ]); // Permitir valor default caso null
-    }
+    
     public function donations(): HasMany
     {
         return $this->hasMany(Donation::class, 'student_id');

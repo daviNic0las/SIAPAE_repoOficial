@@ -9,10 +9,10 @@
             ['Eixo educacional trabalhado', 'educational_axis', 'text'],
             ['Avanços', 'advances', 'textarea'],
             ['Dificuldades', 'difficulties', 'textarea'],
-            ['Assinatura', 'signature', 'select'],
+            ['Assinatura do Professor Responsável', 'signature', 'select'],
         ]" 
         :selects="$students"
-        :selectsWithName="$users"
+        :selectsWithName="$professors"
         actionRoute="attendance">
     </x-table-edit>
 

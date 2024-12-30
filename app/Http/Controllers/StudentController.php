@@ -23,12 +23,10 @@ class StudentController extends Controller
             $students = Student::where([
                 ['name', 'like', '%' . $search . '%']
             ])->where('state_student', 'alive')
-            ->with('diagnostic')
             ->orderBy('name', 'asc')
             ->paginate(15);
         } else {
-            $students = Student::with('diagnostic')
-            ->where('state_student', 'alive')
+            $students = Student::where('state_student', 'alive')
             ->orderBy('name', 'asc')
             ->paginate(15);
         }
@@ -38,8 +36,7 @@ class StudentController extends Controller
 
     public function create()
     {
-        $diagnostics = Diagnostic::all();
-        return view('student.create', compact('diagnostics'));
+        return view('student.create');
     }
 
     public function store(StudentRequest $request)
@@ -70,7 +67,7 @@ class StudentController extends Controller
     }
     public function show($id)
     {
-        $student = Student::with('diagnostic')->findOrFail($id);
+        $student = Student::findOrFail($id);
         
         $medHistory = null;
          
@@ -79,16 +76,16 @@ class StudentController extends Controller
             $medHistory = MedHistory::where('student_id', $id)->first();
         }
 
-        $isTrash = null;
-        if($student['state_student'] == 'trash') {
-            $isTrash = true; 
+        $isArchived = null;
+        if($student['state_student'] == 'archived') {
+            $isArchived = true; 
         }
 
         $date_range = request('date_range'); 
         $scrollBack = null;
 
         if ($date_range) { 
-            $dates = explode(' até ', $date_range); 
+            $dates = explode(' à ', $date_range); 
             $start_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[0]))->format('Y-m-d'); 
             $end_date = \Carbon\Carbon::createFromFormat('d/m/Y', trim($dates[1]))->format('Y-m-d'); 
             
@@ -107,7 +104,7 @@ class StudentController extends Controller
             ->paginate(15); 
         }
 
-        return view('student.show', compact('student', 'medHistory', 'attendances', 'date_range', 'scrollBack', 'isTrash'));
+        return view('student.show', compact('student', 'medHistory', 'attendances', 'date_range', 'scrollBack', 'isArchived'));
     }
     public function edit($id)
     {
@@ -116,8 +113,7 @@ class StudentController extends Controller
         //Convert data to string
         $student['date_of_birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $student['date_of_birth'])->format('d/m/Y');
 
-        $diagnostics = Diagnostic::orderBy('name', 'asc')->get();
-        return view('student.edit', compact('student', 'diagnostics'));
+        return view('student.edit', compact('student'));
     }
 
     public function update(StudentRequest $request, $id)

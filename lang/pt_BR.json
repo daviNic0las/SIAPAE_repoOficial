@@ -152,7 +152,9 @@
 
   "Forbidden!": "Acesso Proibido!",
 
+  "Update": "Atualizar",
   "Anamnesis": "Anamnese",
+  "Back": "Voltar",
   "Expense Control": "Controle de Gastos",
   "Dates and Information": "Datas e Informações",
   "Donation Control": "Controle de Doações",
@@ -163,7 +165,7 @@
   "Pedagogic": "Pedagógico",
   "Students": "Alunos",
   "Events": "Eventos",
-  "Registers": "Registros",
+  "Attendance Register": "Reg. de Atendimento",
   "Reports": "Relatórios",
   "Reunions Records": "Atas de Reuniões",
   "Partnes": "Sócios",

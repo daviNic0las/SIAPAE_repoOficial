@@ -48,8 +48,12 @@ class EducationalController extends Controller
         $students = Student::where('state_student', 'alive')
         ->orderBy('name', 'asc')
         ->get();
-        $users = User::orderBy('name', 'asc')->get();
-        return view("educational.create", compact('students', 'users'));
+        $professors = User::orderBy('name', 'asc')
+        ->where('position', 'professor(a)')  
+        ->where('state_user', 'alive')
+        ->get();
+
+        return view("educational.create", compact('students', 'professors'));
     }
 
     /**
@@ -92,12 +96,14 @@ class EducationalController extends Controller
         $students = Student::where('state_student', 'alive')
         ->orderBy('name', 'asc')
         ->get();
-        $users = User::orderBy('name', 'asc')->get();
+        $professors = User::orderBy('name', 'asc')
+        ->where('position', 'professor(a)')  
+        ->get();
 
         //Convert data to string
         $pedagogical['date_pedagogical'] = Carbon::createFromFormat('Y-m-d', $pedagogical['date_pedagogical'])->format('d/m/Y');
 
-        return view('educational.edit', compact('pedagogical', 'students', 'users')); 
+        return view('educational.edit', compact('pedagogical', 'students', 'professors')); 
     }
 
     /**
