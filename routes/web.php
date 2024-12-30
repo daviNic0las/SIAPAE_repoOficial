@@ -55,7 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/trash', [StudentApiController::class, 'trash'])->name('student.trash');
     Route::post('/student/restore/{id}', [StudentApiController::class, 'restore'])->name('student.restore');
     Route::resource('student', StudentController::class)->except('destroy');
-    // Route::delete('/student/{id}', [StudentController::class, 'destroyDefinitive'])->name('student.destroyDefinitive');
     Route::post('/studentapi/{id}', [StudentApiController::class, 'destroy'])->name('student.destroy');
     
     Route::post('/frequencies/multiple-details', [FrequencyController::class, 'updateDetails'])->name('frequency_details.update');

@@ -31,11 +31,11 @@
             @method('delete')
 
             <h2 class="text-lg font-medium">
-                {{ __('Are you sure you want to delete your account?') }}
+                {{ __('Você tem certeza que quer deletar sua conta?') }}
             </h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                {{ __('Depois que sua conta for excluída, todos os seus recursos e dados serão excluídos permanentemente. Antes de excluir sua conta, baixe todos os dados ou informações que deseje manter. Para prossegui insira sua senha:') }}
             </p>
 
             <div class="mt-6 space-y-6">
@@ -50,7 +50,7 @@
                     name="password"
                     type="password"
                     class="block w-3/4"
-                    placeholder="Password"
+                    placeholder="Senha"
                 />
 
                 <x-form.error :messages="$errors->userDeletion->get('password')" />
